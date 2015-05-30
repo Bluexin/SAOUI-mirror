@@ -13,19 +13,19 @@ import java.util.stream.Collectors;
 @SideOnly(Side.CLIENT)
 public class SAOFriendsGUI extends SAOListGUI {
 
-	public SAOFriendsGUI(Minecraft mc, SAOParentGUI gui, int xPos, int yPos, int w, int h) {
-		super(gui, xPos, yPos, w, h);
-		init(mc);
-	}
+    public SAOFriendsGUI(Minecraft mc, SAOParentGUI gui, int xPos, int yPos, int w, int h) {
+        super(gui, xPos, yPos, w, h);
+        init(mc);
+    }
 
-	private void init(Minecraft mc) {
-		final List<EntityPlayer> list = SAOMod.listOnlinePlayers(mc);
-		
-		if (list.contains(mc.thePlayer)) {
-			list.remove(mc.thePlayer);
-		}
+    private void init(Minecraft mc) {
+        final List<EntityPlayer> list = SAOMod.listOnlinePlayers(mc);
 
-		elements.addAll(list.stream().map(player -> new SAOFriendGUI(this, 0, 0, SAOMod.getName(player))).collect(Collectors.toList()));
-	}
+        if (list.contains(mc.thePlayer)) {
+            list.remove(mc.thePlayer);
+        }
+
+        elements.addAll(list.stream().map(player -> new SAOFriendGUI(this, 0, 0, SAOMod.getName(player))).collect(Collectors.toList()));
+    }
 
 }
