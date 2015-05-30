@@ -267,7 +267,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             final Container container = inventory.slots;
             final ItemStack stack = slot.getStack();
 
-            System.out.println(action + " " + data);
+            //System.out.println(action + " " + data);
 
             if (stack != null) {
                 if (action == SAOAction.LEFT_RELEASED) {
@@ -365,7 +365,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
     }
 
     private void updateInfo(String caption, String text) {
-        System.out.println(caption + " : " + text);
+        //System.out.println(caption + " : " + text);
 
         if (info != null) {
             if (infoCaption == null) {

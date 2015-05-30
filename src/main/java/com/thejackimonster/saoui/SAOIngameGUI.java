@@ -337,12 +337,13 @@ public class SAOIngameGUI extends GuiIngame {
         SAOGL.glColor(1, 1, 1, 1);
         SAOGL.glBindTexture(SAOResources.gui);
 
-        SAOGL.glTexturedRect(2, 2, zLevel, 0, 0, 10, 15);
-        SAOGL.glTexturedRect(13, 2, zLevel, 10, 0, 5, 15);
+        //SAOGL.glTexturedRect(2, 2, zLevel, 0, 0, 10, 15); // I'll leave these old ones in there
+        //SAOGL.glTexturedRect(13, 2, zLevel, 10, 0, 5, 15);
+        SAOGL.glTexturedRect(2, 2, zLevel, 0, 0, 16, 15);
 
         final int usernameBoxes = 1 + (maxNameWidth + 4) / 5;
 
-        SAOGL.glTexturedRect(18, 2, zLevel, usernameBoxes * 5, 15, 15, 0, 5, 15);
+        SAOGL.glTexturedRect(18, 2, zLevel, usernameBoxes * 5, 15, 16, 0, 5, 15);
         SAOGL.glString(fontRenderer, username, 18, 3 + (15 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF);
 
         SAOGL.glBindTexture(SAOResources.gui);
@@ -355,7 +356,7 @@ public class SAOIngameGUI extends GuiIngame {
         final int offsetUsername = 18 + usernameBoxes * 5;
         final int healthBarWidth = 225;
 
-        SAOGL.glTexturedRect(offsetUsername, 2, zLevel, 20, 0, healthBarWidth, 15);
+        SAOGL.glTexturedRect(offsetUsername, 2, zLevel, 21, 0, healthBarWidth, 15);
 
         final int healthWidth = 216;
         final int healthHeight = 9;
