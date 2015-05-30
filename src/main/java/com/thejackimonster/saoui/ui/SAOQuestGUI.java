@@ -14,7 +14,7 @@ public class SAOQuestGUI extends SAOButtonGUI {
 
 	private final Achievement achievement;
 
-	public SAOQuestGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, Achievement ach0) {
+	private SAOQuestGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, Achievement ach0) {
 		super(gui, SAOID.QUEST, xPos, yPos, w, h, ach0.getStatName().getFormattedText(), SAOIcon.QUEST);
 		achievement = ach0;
 	}

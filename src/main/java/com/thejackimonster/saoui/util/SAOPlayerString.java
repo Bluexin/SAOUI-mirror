@@ -67,7 +67,7 @@ public final class SAOPlayerString implements SAOString {
 		return builder.toString();
 	}
 
-	private static final float attr(double attributeValue) {
+	private static float attr(double attributeValue) {
 		return (float) ((int) (attributeValue * 1000)) / 1000;
 	}
 

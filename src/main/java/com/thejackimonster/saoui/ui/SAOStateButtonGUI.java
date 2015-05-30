@@ -15,12 +15,12 @@ public class SAOStateButtonGUI extends SAOButtonGUI {
 
 	private final SAOStateHandler state;
 
-	public SAOStateButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, int h, String string, SAOIcon saoIcon, SAOStateHandler handler) {
+	SAOStateButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, int h, String string, SAOIcon saoIcon, SAOStateHandler handler) {
 		super(gui, saoID, xPos, yPos, w, h, string, saoIcon);
 		state = handler;
 	}
 
-	public SAOStateButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, String string, SAOIcon saoIcon, SAOStateHandler handler) {
+	private SAOStateButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, String string, SAOIcon saoIcon, SAOStateHandler handler) {
 		this(gui, saoID, xPos, yPos, w, 20, string, saoIcon, handler);
 	}
 

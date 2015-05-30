@@ -26,8 +26,8 @@ public final class SAOColor {
 
 	public static final int DEAD_COLOR = 0xC94141FF;
 
-	public static final int multiplyAlpha(int rgba, float alpha) {
-		final int value = (int) (((rgba >> 0) & 0xFF) * alpha);
+	public static int multiplyAlpha(int rgba, float alpha) {
+		final int value = (int) (((rgba) & 0xFF) * alpha);
 		
 		return (rgba & 0xFFFFFF00) | (value & 0xFF);
 	}
@@ -39,7 +39,7 @@ public final class SAOColor {
 			(((((rgba0 >> 24) & 0xFF) + ((rgba1 >> 24) & 0xFF)) / 2) << 24) | 
 			(((((rgba0 >> 16) & 0xFF) + ((rgba1 >> 16) & 0xFF)) / 2) << 16) | 
 			(((((rgba0 >> 8) & 0xFF) + ((rgba1 >> 8) & 0xFF)) / 2) << 8) |
-			(((((rgba0 >> 0) & 0xFF) + ((rgba1 >> 0) & 0xFF)) / 2) << 0)
+			(((((rgba0) & 0xFF) + ((rgba1) & 0xFF)) / 2))
 		);
 	}
 

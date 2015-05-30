@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class SAORenderBase extends RenderPlayer {
+class SAORenderBase extends RenderPlayer {
 
 	private static final int HEALTH_COUNT = 32;
 	private static final double HEALTH_ANGLE = 0.35F;
@@ -216,7 +216,7 @@ public class SAORenderBase extends RenderPlayer {
 		SAOGL.glCullFace(true);
 	}
 
-	private final void doSpawnDeathParticles(Minecraft mc, Entity entity) {
+	private void doSpawnDeathParticles(Minecraft mc, Entity entity) {
 		final World world = entity.worldObj;
 		
 		if (world != null) {
@@ -245,7 +245,7 @@ public class SAORenderBase extends RenderPlayer {
 		}
 	}
 
-	private final void useColor(Minecraft mc, Entity entity, float time) {
+	private void useColor(Minecraft mc, Entity entity, float time) {
 		if (entity instanceof EntityLivingBase) {
 			SAOHealthStep.getStep(mc, (EntityLivingBase) entity, time).glColor((EntityLivingBase) entity);
 		} else {
@@ -253,7 +253,7 @@ public class SAORenderBase extends RenderPlayer {
 		}
 	}
 
-	private final float getHealthFactor(Minecraft mc, Entity entity, float time) {
+	private float getHealthFactor(Minecraft mc, Entity entity, float time) {
 		final float normalFactor = SAOMod.getHealth(mc, entity, time) / SAOMod.getMaxHealth(entity);
 		final float delta = 1.0F - normalFactor;
 		

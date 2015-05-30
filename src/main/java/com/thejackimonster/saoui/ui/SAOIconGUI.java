@@ -19,7 +19,7 @@ public class SAOIconGUI extends SAOElementGUI {
 
 	private final SAOID id;
 
-	public SAOIcon icon;
+	private SAOIcon icon;
 	public boolean highlight;
 	public int bgColor, disabledMask;
 
@@ -57,19 +57,19 @@ public class SAOIconGUI extends SAOElementGUI {
 		}
 	}
 
-	protected int getColor(int hoverState, boolean bg) {
+	private int getColor(int hoverState, boolean bg) {
 		if (icon == SAOIcon.CONFIRM) {
 			if (bg) {
 				return hoverState == 1? SAOColor.CONFIRM_COLOR : hoverState == 2? SAOColor.CONFIRM_COLOR_LIGHT : SAOColor.CONFIRM_COLOR & disabledMask;
 			} else {
-				return hoverState > 0? SAOColor.HOVER_FONT_COLOR : SAOColor.HOVER_FONT_COLOR & disabledMask;
+				return hoverState > 0? SAOColor.HOVER_FONT_COLOR : disabledMask;
 			}
 		} else
 		if (icon == SAOIcon.CANCEL) {
 			if (bg) {
 				return hoverState == 1? SAOColor.CANCEL_COLOR : hoverState == 2? SAOColor.CANCEL_COLOR_LIGHT : SAOColor.CANCEL_COLOR & disabledMask;
 			} else {
-				return hoverState > 0? SAOColor.HOVER_FONT_COLOR : SAOColor.HOVER_FONT_COLOR & disabledMask;
+				return hoverState > 0? SAOColor.HOVER_FONT_COLOR : disabledMask;
 			}
 		} else {
 			if (bg) {
@@ -92,7 +92,7 @@ public class SAOIconGUI extends SAOElementGUI {
 		}
 	}
 
-	public int hoverState(int cursorX, int cursorY) {
+	private int hoverState(int cursorX, int cursorY) {
 		if ((highlight) || (mouseOver(cursorX, cursorY))) {
 			return 2;
 		} else

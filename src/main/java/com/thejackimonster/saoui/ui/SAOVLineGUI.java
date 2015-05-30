@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SAOVLineGUI extends SAOElementGUI {
 
-	public int lineWidth;
+	private int lineWidth;
 
 	public SAOVLineGUI(SAOParentGUI gui, int xPos, int yPos, int size) {
 		super(gui, xPos, yPos, size, 2);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class SAONewChatGUI extends GuiNewChat {
+class SAONewChatGUI extends GuiNewChat {
 
 	private static final String[] kills = {
 		"death.fell.assist",
@@ -49,7 +49,7 @@ public class SAONewChatGUI extends GuiNewChat {
 	public SAONewChatGUI(SAOIngameGUI gui, Minecraft mc, GuiNewChat chat) {
 		super(mc);
 		parent = gui;
-		input = new ArrayList<String>();
+		input = new ArrayList<>();
 		minecraft = mc;
 		oldChat = chat;
 	}
@@ -105,7 +105,7 @@ public class SAONewChatGUI extends GuiNewChat {
 		oldChat.printChatMessageWithOptionalDeletion(chat, flag);
 	}
 
-	protected static final boolean reformat(final String string, final String format, final List<String> output) {
+	static boolean reformat(final String string, final String format, final List<String> output) {
 		int formatIndex = 0;
 		int stringIndex = 0;
 		

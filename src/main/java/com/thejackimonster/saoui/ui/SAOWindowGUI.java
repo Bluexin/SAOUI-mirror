@@ -1,9 +1,6 @@
 package com.thejackimonster.saoui.ui;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 
 import com.thejackimonster.saoui.util.SAOAlign;
 import com.thejackimonster.saoui.util.SAOColor;
@@ -19,7 +16,7 @@ public class SAOWindowGUI extends SAOMenuGUI {
 
 	private final SAOLabelGUI titleLable;
 
-	public SAOWindowGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, String title) {
+	SAOWindowGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, String title) {
 		super(gui, xPos, yPos, w, h);
 		elements.add(titleLable = new SAOLabelGUI(this, 0, 0, title, SAOAlign.CENTER));
 		
@@ -36,7 +33,7 @@ public class SAOWindowGUI extends SAOMenuGUI {
 		return titleLable.caption;
 	}
 
-	protected int getSize() {
+	int getSize() {
 		return Math.max(super.getSize(), 20) + 20;
 	}
 
@@ -87,7 +84,7 @@ public class SAOWindowGUI extends SAOMenuGUI {
 		return super.getY(relative) + (relative? 0 : height / 2);
 	}
 
-	protected int getBoxSize(boolean bottom) {
+	int getBoxSize(boolean bottom) {
 		return 20;
 	}
 

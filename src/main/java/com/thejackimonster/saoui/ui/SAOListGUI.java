@@ -10,13 +10,14 @@ import net.minecraft.client.Minecraft;
 public class SAOListGUI extends SAOMenuGUI {
 
 	private float scrolledValue;
-	public int scrollValue;
-	public int size, minSize;
+	private int scrollValue;
+	private int size;
+	private int minSize;
 
 	private int lastDragY, dragY;
 	private boolean dragging;
 
-	public SAOListGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, int minH) {
+	private SAOListGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, int minH) {
 		super(gui, xPos, yPos, w, h);
 		fullArrow = false;
 		scrollValue = 0;
@@ -28,15 +29,15 @@ public class SAOListGUI extends SAOMenuGUI {
 		this(gui, xPos, yPos, w, h, 0);
 	}
 
-	protected int getOffset(int index) {
+	int getOffset(int index) {
 		return Math.round(super.getOffset(index) - scrolledValue);
 	}
 
-	protected int getSize() {
+	int getSize() {
 		return Math.max(Math.min(size, super.getOffset(elements.size())), minSize);
 	}
 
-	protected void update(Minecraft mc, int index, SAOElementGUI element) {
+	void update(Minecraft mc, int index, SAOElementGUI element) {
 		super.update(mc, index, element);
 		
 		final int elementY = element.getY(false);
@@ -121,7 +122,7 @@ public class SAOListGUI extends SAOMenuGUI {
 		return super.mouseWheel(mc, cursorX, cursorY, delta);
 	}
 
-	protected int scroll(int delta) {
+	private int scroll(int delta) {
 		final int value = scrollValue;
 		scrollValue = Math.min(Math.max(scrollValue - delta, 0), super.getOffset(elements.size()) - getSize());
 		return Math.abs(value - scrollValue);

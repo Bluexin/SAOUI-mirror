@@ -1,7 +1,5 @@
 package com.thejackimonster.saoui.util;
 
-import com.thejackimonster.saoui.SAOMod;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,7 +35,7 @@ public enum SAOCommand {
 		return (PREFIX + name() + SUFFIX).toLowerCase();
 	}
 
-	public static final SAOCommand getCommand(String data) {
+	public static SAOCommand getCommand(String data) {
 		if (data.startsWith(PREFIX.toLowerCase())) {
 			final int nextData = data.indexOf(SUFFIX, PREFIX.length());
 			final String id = data.substring(PREFIX.length(), nextData).toUpperCase();

@@ -35,17 +35,17 @@ public enum SAOIcon {
 	SPRINTING,
 	SNEAKING;
 
-	public static final int SRC_SIZE = 16;
+	private static final int SRC_SIZE = 16;
 
-	public final int getSrcX() {
+	private int getSrcX() {
 		return (index() % 16) * SRC_SIZE;
 	}
 
-	public final int getSrcY() {
+	private int getSrcY() {
 		return (index() / 16) * SRC_SIZE;
 	}
 
-	private final int index() {
+	private int index() {
 		return (ordinal() - 1);
 	}
 

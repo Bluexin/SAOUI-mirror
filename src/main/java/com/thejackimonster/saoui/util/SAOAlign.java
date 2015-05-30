@@ -8,33 +8,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public enum SAOAlign {
 
-	CENTER(new SAOPositioner() {
+	CENTER((element, relative, width) -> element.getX(relative) + (element.width - width) / 2),
 
-		public int getX(SAOElementGUI element, boolean relative, int width) {
-			return element.getX(relative) + (element.width - width) / 2;
-		}
+	LEFT((element, relative, width) -> element.getX(relative)),
 
-	}),
-
-	LEFT(new SAOPositioner() {
-
-		public int getX(SAOElementGUI element, boolean relative, int width) {
-			return element.getX(relative);
-		}
-
-	}),
-
-	RIGHT(new SAOPositioner() {
-
-		public int getX(SAOElementGUI element, boolean relative, int width) {
-			return element.getX(relative) + (element.width - width);
-		}
-
-	});
+	RIGHT((element, relative, width) -> element.getX(relative) + (element.width - width));
 
 	private final SAOPositioner positioner;
 
-	private SAOAlign(SAOPositioner pos) {
+	SAOAlign(SAOPositioner pos) {
 		positioner = pos;
 	}
 
@@ -44,7 +26,7 @@ public enum SAOAlign {
 
 	private interface SAOPositioner {
 
-		public int getX(SAOElementGUI element, boolean relative, int width);
+		int getX(SAOElementGUI element, boolean relative, int width);
 
 	}
 

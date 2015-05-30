@@ -1,9 +1,6 @@
 package com.thejackimonster.saoui.ui;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 
 import com.thejackimonster.saoui.util.SAOColor;
 import com.thejackimonster.saoui.util.SAOGL;

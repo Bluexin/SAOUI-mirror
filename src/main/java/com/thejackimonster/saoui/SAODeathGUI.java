@@ -3,9 +3,6 @@ package com.thejackimonster.saoui;
 import java.io.IOException;
 
 import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,7 +10,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.thejackimonster.saoui.ui.SAOAlertGUI;
 import com.thejackimonster.saoui.ui.SAOElementGUI;
 import com.thejackimonster.saoui.ui.SAOScreenGUI;
-import com.thejackimonster.saoui.ui.SAOWindowGUI;
 import com.thejackimonster.saoui.util.SAOAction;
 import com.thejackimonster.saoui.util.SAOColor;
 import com.thejackimonster.saoui.util.SAOCursorStatus;

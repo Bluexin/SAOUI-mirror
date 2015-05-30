@@ -22,7 +22,7 @@ public enum SAOOption {
 	public final String name;
 	public boolean value;
 
-	private SAOOption(String optionName, boolean defaultValue) {
+	SAOOption(String optionName, boolean defaultValue) {
 		name = optionName;
 		value = defaultValue;
 	}

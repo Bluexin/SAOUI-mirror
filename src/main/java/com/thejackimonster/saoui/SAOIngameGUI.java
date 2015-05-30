@@ -39,7 +39,7 @@ public class SAOIngameGUI extends GuiIngame {
 	public SAOIngameGUI(Minecraft mc) {
 		super(mc);
 		chatLine = new SAONewChatGUI(this, mc, persistantChatGUI);
-		messages = new ArrayDeque<String[]>();
+		messages = new ArrayDeque<>();
 		receivedMessage = new SAOIconGUI(null, SAOID.MESSAGE, 0, 0, SAOIcon.MESSAGE_RECEIVED);
 		openedMessage = false;
 		
@@ -256,7 +256,7 @@ public class SAOIngameGUI extends GuiIngame {
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                this.func_175179_f().drawString(this.field_175200_y, (float)(-this.func_175179_f().getStringWidth(this.field_175200_y) / 2), 5.0F, 16777215 | l, true);
+                this.func_175179_f().drawString(this.field_175200_y, (float) (-this.func_175179_f().getStringWidth(this.field_175200_y) / 2), 5.0F, 16777215 | l, true);
                 GlStateManager.popMatrix();
                 
                 SAOGL.glBlend(false);
@@ -527,7 +527,7 @@ public class SAOIngameGUI extends GuiIngame {
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 				
-				SAOGL.glString(name, x, y, 0xFFFFFF00 | (alpha << 0), true);
+				SAOGL.glString(name, x, y, 0xFFFFFF00 | (alpha), true);
 				
 				GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
@@ -550,23 +550,13 @@ public class SAOIngameGUI extends GuiIngame {
 	}
 
 	public boolean backgroundClicked(int cursorX, int cursorY, int button) {
-		if (SAOOption.DEFAULT_UI.value) {
-			return false;
-		}
-		
-		if ((receivedMessage.mouseOver(cursorX, cursorY, button)) && (receivedMessage.mouseReleased(mc, cursorX, cursorY, button))) {
-			return openMessage();
-		} else {
-			return false;
-		}
+		return !SAOOption.DEFAULT_UI.value && (receivedMessage.mouseOver(cursorX, cursorY, button)) && (receivedMessage.mouseReleased(mc, cursorX, cursorY, button)) && openMessage();
+
 	}
 
 	public boolean viewMessageAuto() {
-		if (messages.size() == 0) {
-			return false;
-		}
-		
-		return openMessage();
+		return messages.size() != 0 && openMessage();
+
 	}
 
 	private boolean openMessage() {

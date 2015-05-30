@@ -16,7 +16,7 @@ public class SAOSound {
 	public static final String ORB_DROPDOWN = "sao.orb.dropdown";
 	public static final String PARTICLES_DEATH = "sao.particles.death";
 
-	private static final ResourceLocation getResource(String name) {
+	private static ResourceLocation getResource(String name) {
 		return new ResourceLocation(SAOMod.MODID, name);
 	}
 
@@ -46,7 +46,7 @@ public class SAOSound {
 		}
 	}
 
-	public static void play(SoundHandler handler, String name, float x, float y, float z) {
+	private static void play(SoundHandler handler, String name, float x, float y, float z) {
 		if ((SAOOption.SOUND_EFFECTS.value) && (handler != null)) {
 			handler.playSound(PositionedSoundRecord.create(getResource(name), x, y, z));
 		}

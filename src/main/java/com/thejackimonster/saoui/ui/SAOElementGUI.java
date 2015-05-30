@@ -1,11 +1,7 @@
 package com.thejackimonster.saoui.ui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.util.Point;
 
 import com.thejackimonster.saoui.SAOSound;
 import com.thejackimonster.saoui.util.SAOAction;
@@ -29,7 +25,7 @@ public abstract class SAOElementGUI implements SAOParentGUI {
 
 	private boolean removed;
 
-	public SAOElementGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
+	SAOElementGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
 		parent = gui;
 		x = xPos;
 		y = yPos;
@@ -78,7 +74,7 @@ public abstract class SAOElementGUI implements SAOParentGUI {
 		return false;
 	}
 
-	public void mouseMoved(Minecraft mc, int cursorX, int cursorY) {}
+	void mouseMoved(Minecraft mc, int cursorX, int cursorY) {}
 
 	public boolean mouseReleased(Minecraft mc, int cursorX, int cursorY, int button) {
 		return false;
@@ -120,7 +116,7 @@ public abstract class SAOElementGUI implements SAOParentGUI {
 		}
 	}
 
-	public void remove() {
+	void remove() {
 		removed = true;
 	}
 

@@ -2,11 +2,7 @@ package com.thejackimonster.saoui.ui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 
 import com.thejackimonster.saoui.util.SAOColor;
 import com.thejackimonster.saoui.util.SAOGL;
@@ -25,12 +21,12 @@ public class SAOSlotGUI extends SAOButtonGUI {
 
 	private Slot buttonSlot;
 
-	public SAOSlotGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, Slot slot) {
+	private SAOSlotGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, Slot slot) {
 		super(gui, SAOID.SLOT, xPos, yPos, w, h, getCaption(slot), getIcon(slot));
 		buttonSlot = slot;
 	}
 
-	public SAOSlotGUI(SAOParentGUI gui, int xPos, int yPos, int w, Slot slot) {
+	private SAOSlotGUI(SAOParentGUI gui, int xPos, int yPos, int w, Slot slot) {
 		this(gui, xPos, yPos, w, 20, slot);
 	}
 
@@ -48,7 +44,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
 			final ItemStack stack = getStack();
 			
 			if (stack != null) {
-				final String sizeString = new StringBuilder("x").append(stack.stackSize).toString();
+				final String sizeString = "x" + stack.stackSize;
 				
 				SAOGL.glString(sizeString, left + width + 2, top + height - 16, SAOColor.multiplyAlpha(getColor(hoverState(cursorX, cursorY), false), visibility), true);
 			}
@@ -68,7 +64,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
 		}
 	}
 
-	public boolean isEmpty() {
+	private boolean isEmpty() {
 		return (!buttonSlot.getHasStack()) || (buttonSlot.getStack() == null);
 	}
 
@@ -88,7 +84,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
 		}
 	}
 
-	protected int getColor(int hoverState, boolean bg) {
+	int getColor(int hoverState, boolean bg) {
 		final int color = super.getColor(hoverState, bg);
 		
 		if ((highlight) && (hoverState != 2)) {
@@ -110,7 +106,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
 		return super.mouseReleased(mc, cursorX, cursorY, button) || (button == 1) || (button == 2);
 	}
 
-	protected static final SAOIcon getIcon(ItemStack stack) {
+	static SAOIcon getIcon(ItemStack stack) {
 		if (stack != null) {
 			if (SAOInventory.WEAPONS.isFine(stack, false)) {
 				return SAOIcon.EQUIPMENT;
@@ -128,7 +124,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
 		}
 	}
 
-	protected static final SAOIcon getIcon(Slot slot) {
+	private static SAOIcon getIcon(Slot slot) {
 		if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
 			return getIcon(slot.getStack());
 		} else {
@@ -136,7 +132,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
 		}
 	}
 
-	protected static final String getCaption(Slot slot) {
+	private static String getCaption(Slot slot) {
 		if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
 			return slot.getStack().getDisplayName();
 		} else {

@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 @SideOnly(Side.CLIENT)
 public class SAOMenuGUI extends SAOContainerGUI {
 
-	public boolean fullArrow;
+	boolean fullArrow;
 	public boolean innerMenu;
 
 	public SAOMenuGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
@@ -21,7 +21,7 @@ public class SAOMenuGUI extends SAOContainerGUI {
 		innerMenu = false;
 	}
 
-	protected int getOffset(int index) {
+	int getOffset(int index) {
 		int start = 0;
 		int offset = 0;
 		
@@ -32,7 +32,7 @@ public class SAOMenuGUI extends SAOContainerGUI {
 		return offset;
 	}
 
-	protected int getOffsetSize(SAOElementGUI element) {
+	int getOffsetSize(SAOElementGUI element) {
 		return element.height;
 	}
 
@@ -40,21 +40,17 @@ public class SAOMenuGUI extends SAOContainerGUI {
 		height = getSize();
 		
 		if (width <= 0) {
-			for (final SAOElementGUI element : elements) {
-				if (element.width > width) {
-					width = element.width;
-				}
-			}
+			elements.stream().filter(element -> element.width > width).forEach(element -> width = element.width);
 		}
 		
 		super.update(mc);
 	}
 
-	protected int getSize() {
+	int getSize() {
 		return getOffset(elements.size());
 	}
 
-	protected void update(Minecraft mc, int index, SAOElementGUI element) {
+	void update(Minecraft mc, int index, SAOElementGUI element) {
 		element.y = getOffset(index);
 		element.width = width - element.x;
 		

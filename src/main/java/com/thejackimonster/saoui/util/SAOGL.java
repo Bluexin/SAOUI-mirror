@@ -16,11 +16,11 @@ public final class SAOGL {
 
 	private SAOGL() {}
 
-	public static final Minecraft glMinecraft() {
+	private static Minecraft glMinecraft() {
 		return Minecraft.getMinecraft();
 	}
 
-	public static final FontRenderer glFont() {
+	private static FontRenderer glFont() {
 		final Minecraft mc = glMinecraft();
 		
 		if (mc != null) {
@@ -30,7 +30,7 @@ public final class SAOGL {
 		}
 	}
 
-	public static final TextureManager glTextureManager() {
+	private static TextureManager glTextureManager() {
 		final Minecraft mc = glMinecraft();
 		
 		if (mc != null) {
@@ -40,47 +40,47 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void glColor(float red, float green, float blue, float alpha) {
+	public static void glColor(float red, float green, float blue, float alpha) {
 		 GlStateManager.color(red, green, blue, alpha);
 	}
 
-	public static final void glColorRGBA(int rgba) {
+	public static void glColorRGBA(int rgba) {
 		final float red = (float) ((rgba >> 24) & 0xFF) / 0xFF;
 		final float green = (float) ((rgba >> 16) & 0xFF) / 0xFF;
 		final float blue = (float) ((rgba >> 8) & 0xFF) / 0xFF;
-		final float alpha = (float) ((rgba >> 0) & 0xFF) / 0xFF;
+		final float alpha = (float) ((rgba) & 0xFF) / 0xFF;
 		
 		glColor(red, green, blue, alpha);
 	}
 
-	public static final int glFontColor(int rgba) {
-		final int alpha = (rgba >> 0) & 0xFF;
+	private static int glFontColor(int rgba) {
+		final int alpha = (rgba) & 0xFF;
 		final int red = (rgba >> 24) & 0xFF;
 		final int blue = (rgba >> 8) & 0xFF;
 		final int green = (rgba >> 16) & 0xFF;
 		
-		return (alpha << 24) | (red << 16) | (blue << 8) | (green << 0);
+		return (alpha << 24) | (red << 16) | (blue << 8) | (green);
 	}
 
-	public static final void glString(FontRenderer font, String string, int x, int y, int argb, boolean shadow) {
+	private static void glString(FontRenderer font, String string, int x, int y, int argb, boolean shadow) {
 		if (font != null) {
 			font.drawString(string, x, y, glFontColor(argb), shadow);
 		}
 	}
 
-	public static final void glString(FontRenderer font, String string, int x, int y, int argb) {
+	public static void glString(FontRenderer font, String string, int x, int y, int argb) {
 		glString(font, string, x, y, argb, false);
 	}
 
-	public static final void glString(String string, int x, int y, int argb, boolean shadow) {
+	public static void glString(String string, int x, int y, int argb, boolean shadow) {
 		glString(glFont(), string, x, y, argb, shadow);
 	}
 
-	public static final void glString(String string, int x, int y, int argb) {
+	public static void glString(String string, int x, int y, int argb) {
 		glString(string, x, y, argb, false);
 	}
 
-	public static final int glStringWidth(FontRenderer font, String string) {
+	private static int glStringWidth(FontRenderer font, String string) {
 		if (font != null) {
 			return font.getStringWidth(string);
 		} else {
@@ -88,11 +88,11 @@ public final class SAOGL {
 		}
 	}
 
-	public static final int glStringWidth(String string) {
+	public static int glStringWidth(String string) {
 		return glStringWidth(glFont(), string);
 	}
 
-	public static final int glStringHeight(FontRenderer font) {
+	private static int glStringHeight(FontRenderer font) {
 		if (font != null) {
 			return font.FONT_HEIGHT;
 		} else {
@@ -100,55 +100,55 @@ public final class SAOGL {
 		}
 	}
 
-	public static final int glStringHeight() {
+	public static int glStringHeight() {
 		return glStringHeight(glFont());
 	}
 
-	public static final void glBindTexture(TextureManager textureManager, ResourceLocation location) {
+	private static void glBindTexture(TextureManager textureManager, ResourceLocation location) {
 		if (textureManager != null) {
 			textureManager.bindTexture(location);
 		}
 	}
 
-	public static final void glBindTexture(ResourceLocation location) {
+	public static void glBindTexture(ResourceLocation location) {
 		glBindTexture(glTextureManager(), location);
 	}
 
-	public static final void glTexturedRect(int x, int y, float z, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
+	public static void glTexturedRect(int x, int y, float z, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
 		float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getWorldRenderer().startDrawingQuads();
-        tessellator.getWorldRenderer().addVertexWithUV((double)(x + 0), (double)(y + height), (double)z, (double)((float)(srcX + 0) * f), (double)((float)(srcY + srcHeight) * f1));
+        tessellator.getWorldRenderer().addVertexWithUV((double)(x), (double)(y + height), (double)z, (double)((float)(srcX) * f), (double)((float)(srcY + srcHeight) * f1));
         tessellator.getWorldRenderer().addVertexWithUV((double)(x + width), (double)(y + height), (double)z, (double)((float)(srcX + srcWidth) * f), (double)((float)(srcY + srcHeight) * f1));
-        tessellator.getWorldRenderer().addVertexWithUV((double)(x + width), (double)(y + 0), (double)z, (double)((float)(srcX + srcWidth) * f), (double)((float)(srcY + 0) * f1));
-        tessellator.getWorldRenderer().addVertexWithUV((double)(x + 0), (double)(y + 0), (double)z, (double)((float)(srcX + 0) * f), (double)((float)(srcY + 0) * f1));
+        tessellator.getWorldRenderer().addVertexWithUV((double)(x + width), (double)(y), (double)z, (double)((float)(srcX + srcWidth) * f), (double)((float)(srcY) * f1));
+        tessellator.getWorldRenderer().addVertexWithUV((double)(x), (double)(y), (double)z, (double)((float)(srcX) * f), (double)((float)(srcY) * f1));
         tessellator.draw();
 	}
 
-	public static final void glTexturedRect(int x, int y, float z, int srcX, int srcY, int width, int height) {
+	public static void glTexturedRect(int x, int y, float z, int srcX, int srcY, int width, int height) {
 		glTexturedRect(x, y, z, width, height, srcX, srcY, width, height);
 	}
 
-	public static final void glTexturedRect(int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
+	public static void glTexturedRect(int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
 		glTexturedRect(x, y, 0, width, height, srcX, srcY, srcWidth, srcHeight);
 	}
 
-	public static final void glTexturedRect(int x, int y, int srcX, int srcY, int width, int height) {
+	public static void glTexturedRect(int x, int y, int srcX, int srcY, int width, int height) {
 		glTexturedRect(x, y, 0, srcX, srcY, width, height);
 	}
 
-	public static final void glRect(int x, int y, int width, int height) {
+	public static void glRect(int x, int y, int width, int height) {
 		Tessellator tessellator = Tessellator.getInstance();
         tessellator.getWorldRenderer().startDrawingQuads();
-        tessellator.getWorldRenderer().addVertex((double)(x + 0), (double)(y + height), 0.0D);
+        tessellator.getWorldRenderer().addVertex((double)(x), (double)(y + height), 0.0D);
         tessellator.getWorldRenderer().addVertex((double)(x + width), (double)(y + height), 0.0D);
-        tessellator.getWorldRenderer().addVertex((double)(x + width), (double)(y + 0), 0.0D);
-        tessellator.getWorldRenderer().addVertex((double)(x + 0), (double)(y + 0), 0.0D);
+        tessellator.getWorldRenderer().addVertex((double)(x + width), (double)(y), 0.0D);
+        tessellator.getWorldRenderer().addVertex((double)(x), (double)(y), 0.0D);
         tessellator.draw();
 	}
 
-	public static final void glAlpha(boolean flag) {
+	public static void glAlpha(boolean flag) {
 		if (flag) {
 			GlStateManager.enableAlpha();
 		} else {
@@ -156,11 +156,11 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void alphaFunc(int src, int dst) {
+	public static void alphaFunc(int src, int dst) {
 		GlStateManager.alphaFunc(src, dst);
 	}
 
-	public static final void glBlend(boolean flag) {
+	public static void glBlend(boolean flag) {
 		if (flag) {
 			GlStateManager.enableBlend();
 		} else {
@@ -168,15 +168,15 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void blendFunc(int src, int dst) {
+	public static void blendFunc(int src, int dst) {
 		GlStateManager.blendFunc(src, dst);
 	}
 
-	public static final void tryBlendFuncSeparate(int a, int b, int c, int d) {
+	public static void tryBlendFuncSeparate(int a, int b, int c, int d) {
 		GlStateManager.tryBlendFuncSeparate(a, b, c, d);
 	}
 
-	public static final void glDepth(boolean flag) {
+	public static void glDepth(boolean flag) {
 		if (flag) {
 			GlStateManager.enableDepth();
 		} else {
@@ -184,11 +184,11 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void depthMask(boolean flag) {
+	public static void depthMask(boolean flag) {
 		GlStateManager.depthMask(flag);
 	}
 
-	public static final void glDepthTest(boolean flag) {
+	public static void glDepthTest(boolean flag) {
 		if (flag) {
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		} else {
@@ -196,7 +196,7 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void glRescaleNormal(boolean flag) {
+	public static void glRescaleNormal(boolean flag) {
 		if (flag) {
 			GlStateManager.enableRescaleNormal();
 		} else {
@@ -204,7 +204,7 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void glTexture2D(boolean flag) {
+	public static void glTexture2D(boolean flag) {
 		if (flag) {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		} else {
@@ -212,7 +212,7 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void glCullFace(boolean flag) {
+	public static void glCullFace(boolean flag) {
 		if (flag) {
 			GlStateManager.enableCull();
 		} else {
@@ -220,11 +220,11 @@ public final class SAOGL {
 		}
 	}
 
-	public static final void glStartUI(Minecraft mc) {
+	public static void glStartUI(Minecraft mc) {
 		mc.mcProfiler.startSection(SAOMod.MODID + "[ '" + SAOMod.NAME + "' ]");
 	}
 
-	public static final void glEndUI(Minecraft mc) {
+	public static void glEndUI(Minecraft mc) {
 		mc.mcProfiler.endSection();
 	}
 

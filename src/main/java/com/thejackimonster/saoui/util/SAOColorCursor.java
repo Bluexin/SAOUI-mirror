@@ -1,6 +1,5 @@
 package com.thejackimonster.saoui.util;
 
-import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

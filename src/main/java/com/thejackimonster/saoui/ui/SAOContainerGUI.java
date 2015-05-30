@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thejackimonster.saoui.util.SAOAction;
-import com.thejackimonster.saoui.util.SAOColor;
-import com.thejackimonster.saoui.util.SAOGL;
 import com.thejackimonster.saoui.util.SAOParentGUI;
-import com.thejackimonster.saoui.util.SAOResources;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,9 +15,9 @@ public class SAOContainerGUI extends SAOElementGUI {
 
 	public final List<SAOElementGUI> elements;
 
-	public SAOContainerGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
+	SAOContainerGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
 		super(gui, xPos, yPos, w, h);
-		elements = new ArrayList<SAOElementGUI>();
+		elements = new ArrayList<>();
 	}
 
 	public void update(Minecraft mc) {
@@ -35,7 +32,7 @@ public class SAOContainerGUI extends SAOElementGUI {
 		}
 	}
 
-	protected void update(Minecraft mc, int index, SAOElementGUI element) {
+	void update(Minecraft mc, int index, SAOElementGUI element) {
 		if (element.removed()) {
 			elements.remove(index);
 			return;

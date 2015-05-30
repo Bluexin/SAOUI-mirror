@@ -1,9 +1,6 @@
 package com.thejackimonster.saoui;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
-import net.minecraftforge.client.event.sound.SoundEvent;
-import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -15,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
 
 @SideOnly(Side.CLIENT)
-public class SAOEventHandler {
+class SAOEventHandler {
 
 	@SubscribeEvent
 	public void livingAttack(LivingAttackEvent e) {

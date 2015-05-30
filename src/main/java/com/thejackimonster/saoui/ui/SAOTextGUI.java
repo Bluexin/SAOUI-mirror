@@ -9,7 +9,6 @@ import com.thejackimonster.saoui.SAOJ8String;
 import com.thejackimonster.saoui.util.SAOColor;
 import com.thejackimonster.saoui.util.SAOGL;
 import com.thejackimonster.saoui.util.SAOParentGUI;
-import com.thejackimonster.saoui.util.SAOResources;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SAOTextGUI extends SAOElementGUI {
 
-	public String[] lines;
+	private String[] lines;
 	public int fontColor;
 
 	public SAOTextGUI(SAOParentGUI gui, int xPos, int yPos, String... strings) {
@@ -35,9 +34,9 @@ public class SAOTextGUI extends SAOElementGUI {
 	}
 
 	public void update(Minecraft mc) {
-		for (int i = 0; i < lines.length; i++) {
-			final int strWidth = SAOGL.glStringWidth(lines[i]) + 16;
-			
+		for (String line : lines) {
+			final int strWidth = SAOGL.glStringWidth(line) + 16;
+
 			if (strWidth > width) {
 				width = strWidth;
 			}
@@ -71,7 +70,7 @@ public class SAOTextGUI extends SAOElementGUI {
 		return SAOJ8String.join("\n", lines);
 	}
 
-	private static final String[] toLines(String text, int width) {
+	private static String[] toLines(String text, int width) {
 		if (width <= 0) {
 			return text.split("\n");
 		} else {
@@ -81,7 +80,7 @@ public class SAOTextGUI extends SAOElementGUI {
 				return rawLines;
 			}
 			
-			final List<String> lines = new ArrayList<String>();
+			final List<String> lines = new ArrayList<>();
 			
 			String cut = "";
 			String line = rawLines[0];

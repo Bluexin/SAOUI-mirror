@@ -1,78 +1,27 @@
 package com.thejackimonster.saoui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.lwjgl.input.Keyboard;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import com.thejackimonster.saoui.ui.*;
+import com.thejackimonster.saoui.util.*;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Team;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.AchievementList;
-import net.minecraft.stats.StatBasic;
-import net.minecraft.stats.StatFileWriter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 
-import com.thejackimonster.saoui.ui.SAOButtonGUI;
-import com.thejackimonster.saoui.ui.SAOCharacterViewGUI;
-import com.thejackimonster.saoui.ui.SAOContainerGUI;
-import com.thejackimonster.saoui.ui.SAOElementGUI;
-import com.thejackimonster.saoui.ui.SAOFriendGUI;
-import com.thejackimonster.saoui.ui.SAOFriendsGUI;
-import com.thejackimonster.saoui.ui.SAOIconGUI;
-import com.thejackimonster.saoui.ui.SAOInventoryGUI;
-import com.thejackimonster.saoui.ui.SAOLabelGUI;
-import com.thejackimonster.saoui.ui.SAOListGUI;
-import com.thejackimonster.saoui.ui.SAOMenuGUI;
-import com.thejackimonster.saoui.ui.SAOPanelGUI;
-import com.thejackimonster.saoui.ui.SAOPartyGUI;
-import com.thejackimonster.saoui.ui.SAOQuestGUI;
-import com.thejackimonster.saoui.ui.SAOScreenGUI;
-import com.thejackimonster.saoui.ui.SAOSlotGUI;
-import com.thejackimonster.saoui.ui.SAOStateButtonGUI;
-import com.thejackimonster.saoui.ui.SAOTextGUI;
-import com.thejackimonster.saoui.ui.SAOVLineGUI;
-import com.thejackimonster.saoui.ui.SAOWindowGUI;
-import com.thejackimonster.saoui.util.SAOAction;
-import com.thejackimonster.saoui.util.SAOActionHandler;
-import com.thejackimonster.saoui.util.SAOAlign;
-import com.thejackimonster.saoui.util.SAOColor;
-import com.thejackimonster.saoui.util.SAOCommand;
-import com.thejackimonster.saoui.util.SAOID;
-import com.thejackimonster.saoui.util.SAOIcon;
-import com.thejackimonster.saoui.util.SAOInventory;
-import com.thejackimonster.saoui.util.SAOJString;
-import com.thejackimonster.saoui.util.SAOOption;
-import com.thejackimonster.saoui.util.SAOParentGUI;
-import com.thejackimonster.saoui.util.SAOSkill;
-import com.thejackimonster.saoui.util.SAOStateHandler;
-import com.thejackimonster.saoui.util.SAOString;
-import com.thejackimonster.saoui.util.SAOSub;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 @SideOnly(Side.CLIENT)
 public class SAOIngameMenuGUI extends SAOScreenGUI {
@@ -94,7 +43,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
 	public SAOIngameMenuGUI(GuiInventory vanillaGUI) {
 		super();
-		menus = new ArrayList<Entry<SAOID, SAOMenuGUI>>();
+		menus = new ArrayList<>();
 		parentInv = vanillaGUI;
 		info = null;
 	}
@@ -242,7 +191,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 		if ((id == SAOID.MESSAGE_BOX) && (element.parent instanceof SAOMenuGUI) && (((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI)) {
 			final String username = ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption;
 			
-			final String format = I18n.format("commands.message.usage", new Object[0]);
+			final String format = I18n.format("commands.message.usage");
 			final String cmd = format.substring(0, format.indexOf(' '));
 			
 			final String message = SAOJ8String.join(" ", cmd, username, "");
@@ -302,20 +251,16 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 			final String title = isLeader? SAOMod._PARTY_DISSOLVING_TITLE : SAOMod._PARTY_LEAVING_TITLE;
 			final String text = isLeader? SAOMod._PARTY_DISSOLVING_TEXT : SAOMod._PARTY_LEAVING_TEXT;
 			
-			mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(title, text, new SAOActionHandler() {
+			mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(title, text, (element1, action1, data1) -> {
+                final SAOID id1 = element1.ID();
 
-				public void actionPerformed(SAOElementGUI element, SAOAction action, int data) {
-					final SAOID id = element.ID();
-					
-					if (id == SAOID.CONFIRM) {
-						SAOMod.dissolveParty(mc);
-					}
-					
-					mc.displayGuiScreen(null);
-					mc.setIngameFocus();
-				}
+                if (id1 == SAOID.CONFIRM) {
+                    SAOMod.dissolveParty(mc);
+                }
 
-			}));
+                mc.displayGuiScreen(null);
+                mc.setIngameFocus();
+            }));
 		} else
 		if ((id == SAOID.SLOT) && (element instanceof SAOSlotGUI) && (element.parent instanceof SAOInventoryGUI)) {
 			final SAOSlotGUI slot = (SAOSlotGUI) element;
@@ -511,23 +456,19 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 			
 			menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTIONS, 0, 0, "Option", SAOIcon.OPTION));
 			menu.elements.add(new SAOButtonGUI(menu, SAOID.HELP, 0, 0, "Help", SAOIcon.HELP));
-			menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.value? "Logout" : "", SAOIcon.LOGOUT, new SAOStateHandler() {
-			
-				public boolean isStateEnabled(Minecraft mc, SAOStateButtonGUI button) {
-					if (SAOOption.LOGOUT.value) {
-						if (button.caption.length() == 0) {
-							button.caption = "Logout";
-						}
-					} else {
-						if (button.caption.length() > 0) {
-							button.caption = "";
-						}
-					}
-					
-					return button.enabled;
-				}
-			
-			}));
+			menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.value? "Logout" : "", SAOIcon.LOGOUT, (mc1, button) -> {
+                if (SAOOption.LOGOUT.value) {
+                    if (button.caption.length() == 0) {
+                        button.caption = "Logout";
+                    }
+                } else {
+                    if (button.caption.length() > 0) {
+                        button.caption = "";
+                    }
+                }
+
+                return button.enabled;
+            }));
 		} else
 		if (id == SAOID.OPTIONS) {
 			menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 130, 100);
@@ -573,13 +514,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 				final String name = SAOMod.getName(player);
 				final boolean member = SAOMod.isPartyMember(name);
 				
-				final SAOButtonGUI button = new SAOStateButtonGUI(menu, SAOID.INVITE_PLAYER, 0, 0, name, SAOIcon.INVITE, new SAOStateHandler() {
-				
-					public boolean isStateEnabled(Minecraft mc, SAOStateButtonGUI button) {
-						return !SAOMod.isPartyMember(button.caption);
-					}
-				
-				});
+				final SAOButtonGUI button = new SAOStateButtonGUI(menu, SAOID.INVITE_PLAYER, 0, 0, name, SAOIcon.INVITE, (mc1, button1) -> !SAOMod.isPartyMember(button1.caption));
 				
 				button.enabled = !member;
 				menu.elements.add(button);

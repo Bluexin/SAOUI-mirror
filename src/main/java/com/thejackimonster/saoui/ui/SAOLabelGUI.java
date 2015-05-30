@@ -15,7 +15,7 @@ public class SAOLabelGUI extends SAOElementGUI {
 
 	public String caption;
 	public int fontColor;
-	public SAOAlign align;
+	private SAOAlign align;
 
 	public SAOLabelGUI(SAOParentGUI gui, int xPos, int yPos, int width, String string, SAOAlign saoAlign) {
 		super(gui, xPos, yPos, width, 20);
@@ -39,7 +39,7 @@ public class SAOLabelGUI extends SAOElementGUI {
 		}
 	}
 
-	public int getOffsetX() {
+	private int getOffsetX() {
 		if (align == SAOAlign.LEFT) {
 			return 8;
 		} else

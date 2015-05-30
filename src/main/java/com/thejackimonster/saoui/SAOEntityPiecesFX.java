@@ -5,15 +5,14 @@ import org.lwjgl.opengl.GL11;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
-public class SAOEntityPiecesFX extends EntityFX {
+class SAOEntityPiecesFX extends EntityFX {
 
-	float smokeParticleScale;
+	private float smokeParticleScale;
     private static final String __OBFID = "CL_00000924";
 
     public SAOEntityPiecesFX(World p_i1225_1_, double p_i1225_2_, double p_i1225_4_, double p_i1225_6_, float p_i1225_8_, float p_i1225_10_, float p_i1225_12_)
@@ -21,7 +20,7 @@ public class SAOEntityPiecesFX extends EntityFX {
         this(p_i1225_1_, p_i1225_2_, p_i1225_4_, p_i1225_6_, p_i1225_8_, p_i1225_10_, p_i1225_12_, 1.0F);
     }
 
-    public SAOEntityPiecesFX(World p_i1226_1_, double p_i1226_2_, double p_i1226_4_, double p_i1226_6_, float p_i1226_8_, float p_i1226_10_, float p_i1226_12_, float p_i1226_14_)
+    private SAOEntityPiecesFX(World p_i1226_1_, double p_i1226_2_, double p_i1226_4_, double p_i1226_6_, float p_i1226_8_, float p_i1226_10_, float p_i1226_12_, float p_i1226_14_)
     {
         super(p_i1226_1_, p_i1226_2_, p_i1226_4_, p_i1226_6_, 0.0D, 0.0D, 0.0D);
         this.motionX *= 0.10000000149011612D;

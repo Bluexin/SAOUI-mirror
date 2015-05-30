@@ -1,7 +1,6 @@
 package com.thejackimonster.saoui;
 
 import com.thejackimonster.saoui.ui.SAOConfirmGUI;
-import com.thejackimonster.saoui.ui.SAOElementGUI;
 import com.thejackimonster.saoui.ui.SAOScreenGUI;
 import com.thejackimonster.saoui.ui.SAOWindowGUI;
 import com.thejackimonster.saoui.util.*;
@@ -45,9 +44,7 @@ public class SAOMod implements Runnable {
 	public static final String MODID = "saoui";
 
 	public static final String NAME = "Sword Art Online UI";
-	public static final String VERSION = "1.5";
-
-	public static final String AUTHOR_AND_DEVELOPER = "TheJackiMonster";
+	public static final String VERSION = "1.0";
 
 	private static final double MAX_RANGE = 256.0D;
 	private static final float HEALTH_ANIMATION_FACTOR = 0.075F;
@@ -105,29 +102,29 @@ public class SAOMod implements Runnable {
 		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 		
-		friendRequests = new ArrayList<SAOFriendRequest>();
+		friendRequests = new ArrayList<>();
 		
-		DEBUG = config.get(config.CATEGORY_GENERAL, "debug", DEBUG).getBoolean();
+		DEBUG = config.get(Configuration.CATEGORY_GENERAL, "debug", DEBUG).getBoolean();
 		
-		_FRIEND_REQUEST_TITLE = config.get(config.CATEGORY_GENERAL, "friend.request.title", SAOResources.FRIEND_REQUEST_TITLE).getString();
-		_FRIEND_REQUEST_TEXT = config.get(config.CATEGORY_GENERAL, "friend.request.text", SAOResources.FRIEND_REQUEST_TEXT).getString();
+		_FRIEND_REQUEST_TITLE = config.get(Configuration.CATEGORY_GENERAL, "friend.request.title", SAOResources.FRIEND_REQUEST_TITLE).getString();
+		_FRIEND_REQUEST_TEXT = config.get(Configuration.CATEGORY_GENERAL, "friend.request.text", SAOResources.FRIEND_REQUEST_TEXT).getString();
 		
-		_PARTY_INVITATION_TITLE = config.get(config.CATEGORY_GENERAL, "party.invitation.title", SAOResources.PARTY_INVITATION_TITLE).getString();
-		_PARTY_INVITATION_TEXT = config.get(config.CATEGORY_GENERAL, "party.invitation.text", SAOResources.PARTY_INVITATION_TEXT).getString();
+		_PARTY_INVITATION_TITLE = config.get(Configuration.CATEGORY_GENERAL, "party.invitation.title", SAOResources.PARTY_INVITATION_TITLE).getString();
+		_PARTY_INVITATION_TEXT = config.get(Configuration.CATEGORY_GENERAL, "party.invitation.text", SAOResources.PARTY_INVITATION_TEXT).getString();
 		
-		_PARTY_DISSOLVING_TITLE = config.get(config.CATEGORY_GENERAL, "party.dissolving.title", SAOResources.PARTY_DISSOLVING_TITLE).getString();
-		_PARTY_DISSOLVING_TEXT = config.get(config.CATEGORY_GENERAL, "party.dissolving.text", SAOResources.PARTY_DISSOLVING_TEXT).getString();
+		_PARTY_DISSOLVING_TITLE = config.get(Configuration.CATEGORY_GENERAL, "party.dissolving.title", SAOResources.PARTY_DISSOLVING_TITLE).getString();
+		_PARTY_DISSOLVING_TEXT = config.get(Configuration.CATEGORY_GENERAL, "party.dissolving.text", SAOResources.PARTY_DISSOLVING_TEXT).getString();
 		
-		_PARTY_LEAVING_TITLE = config.get(config.CATEGORY_GENERAL, "party.leaving.title", SAOResources.PARTY_LEAVING_TITLE).getString();
-		_PARTY_LEAVING_TEXT = config.get(config.CATEGORY_GENERAL, "party.leaving.text", SAOResources.PARTY_LEAVING_TEXT).getString();
+		_PARTY_LEAVING_TITLE = config.get(Configuration.CATEGORY_GENERAL, "party.leaving.title", SAOResources.PARTY_LEAVING_TITLE).getString();
+		_PARTY_LEAVING_TEXT = config.get(Configuration.CATEGORY_GENERAL, "party.leaving.text", SAOResources.PARTY_LEAVING_TEXT).getString();
 		
-		_MESSAGE_TITLE = config.get(config.CATEGORY_GENERAL, "message.title", SAOResources.MESSAGE_TITLE).getString();
-		_MESSAGE_FROM = config.get(config.CATEGORY_GENERAL, "message.from", SAOResources.MESSAGE_FROM).getString();
+		_MESSAGE_TITLE = config.get(Configuration.CATEGORY_GENERAL, "message.title", SAOResources.MESSAGE_TITLE).getString();
+		_MESSAGE_FROM = config.get(Configuration.CATEGORY_GENERAL, "message.from", SAOResources.MESSAGE_FROM).getString();
 		
-		_DEAD_ALERT = config.get(config.CATEGORY_GENERAL, "dead.alert", SAOResources.DEAD_ALERT).getString();
+		_DEAD_ALERT = config.get(Configuration.CATEGORY_GENERAL, "dead.alert", SAOResources.DEAD_ALERT).getString();
 		
 		for (final SAOOption option : SAOOption.values()) {
-			option.value = config.get(config.CATEGORY_GENERAL, "option." + option.name().toLowerCase(), option.value).getBoolean();
+			option.value = config.get(Configuration.CATEGORY_GENERAL, "option." + option.name().toLowerCase(), option.value).getBoolean();
 		}
 		
 		config.save();
@@ -162,10 +159,9 @@ public class SAOMod implements Runnable {
 					try {
 						for (final Field field : manager.getClass().getDeclaredFields()) {
 							if (Map.class.isAssignableFrom(field.getType())) {
-								final Field playerRenderMapField = field;
-								playerRenderMapField.setAccessible(true);
+								field.setAccessible(true);
 								
-								final Map playerRenderMap = (Map) playerRenderMapField.get(manager);
+								final Map playerRenderMap = (Map) field.get(manager);
 								
 								for (final Object entry : playerRenderMap.entrySet()) {
 									final Object value = ((Entry) entry).getValue();
@@ -198,13 +194,13 @@ public class SAOMod implements Runnable {
 		}
 		
 		if (healthSmooth == null) {
-			healthSmooth = new HashMap<UUID, Float>();
+			healthSmooth = new HashMap<>();
 		} else {
 			healthSmooth.clear();
 		}
 		
 		if (colorStates == null) {
-			colorStates = new HashMap<UUID, SAOColorCursor>();
+			colorStates = new HashMap<>();
 		} else {
 			colorStates.clear();
 		}
@@ -213,7 +209,7 @@ public class SAOMod implements Runnable {
 		(mcModThread = new Thread(this)).start();
 	}
 
-	private static final boolean sleep(long time) {
+	private static boolean sleep(long time) {
 		try {
 			Thread.sleep(time);
 			return true;
@@ -352,8 +348,8 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final List<EntityPlayer> listOnlinePlayers(Minecraft mc, boolean search, double range) {
-		final List<EntityPlayer> players = new ArrayList<EntityPlayer>();
+	private static List<EntityPlayer> listOnlinePlayers(Minecraft mc, boolean search, double range) {
+		final List<EntityPlayer> players = new ArrayList<>();
 		
 		if (mc.thePlayer == null) {
 			return players;
@@ -395,7 +391,7 @@ public class SAOMod implements Runnable {
         return players;
 	}
 
-	public static final List<EntityPlayer> listOnlinePlayers(Minecraft mc) {
+	public static List<EntityPlayer> listOnlinePlayers(Minecraft mc) {
 		return listOnlinePlayers(mc, true, mc.gameSettings.renderDistanceChunks * 16.0D);
 	}
 
@@ -411,7 +407,7 @@ public class SAOMod implements Runnable {
 		return null;
 	}
 
-	public static final boolean[] isOnline(Minecraft mc, String[] names) {
+	public static boolean[] isOnline(Minecraft mc, String[] names) {
 		final List<EntityPlayer> players = listOnlinePlayers(mc);
 		final boolean[] online = new boolean[names.length];
 		
@@ -427,16 +423,16 @@ public class SAOMod implements Runnable {
 		return online;
 	}
 
-	public static final boolean isOnline(Minecraft mc, String name) {
+	public static boolean isOnline(Minecraft mc, String name) {
 		return isOnline(mc, new String[] { name })[0];
 	}
 
-	public static final void sendSAOCommand(Minecraft mc, SAOCommand command, String username, String... args) {
+	private static void sendSAOCommand(Minecraft mc, SAOCommand command, String username, String... args) {
 		if ((mc.thePlayer == null) || (!SAOOption.CLIENT_CHAT_PACKETS.value)) {
 			return;
 		}
 		
-		final String format = I18n.format("commands.message.usage", new Object[0]);
+		final String format = I18n.format("commands.message.usage");
 		final String cmd = format.substring(0, format.indexOf(' '));
 		
 		final String message = SAOJ8String.join(" ", cmd, username, String.valueOf(command), SAOJ8String.join(" ", args));
@@ -444,7 +440,7 @@ public class SAOMod implements Runnable {
 		mc.thePlayer.sendChatMessage(message);
 	}
 
-	public static final void receiveSAOCommand(final Minecraft mc, SAOCommand command, final String username, final String... args) {
+	public static void receiveSAOCommand(final Minecraft mc, SAOCommand command, final String username, final String... args) {
 		if ((mc.thePlayer == null) || (!SAOOption.CLIENT_CHAT_PACKETS.value)) {
 			return;
 		}
@@ -456,33 +452,29 @@ public class SAOMod implements Runnable {
 				
 				final String text = String.format(_PARTY_INVITATION_TEXT, username);
 				
-				mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(_PARTY_INVITATION_TITLE, text, new SAOActionHandler() {
+				mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(_PARTY_INVITATION_TITLE, text, (element, action, data) -> {
+                    final SAOID id = element.ID();
 
-					public void actionPerformed(SAOElementGUI element, SAOAction action, int data) {
-						final SAOID id = element.ID();
-						
-						if (id == SAOID.CONFIRM) {
-							party = args.length > 0? args : null;
-							
-							if (party != null) {
-								partyTicks = 1000;
-							}
-							
-							sendSAOCommand(mc, SAOCommand.CONFIRM_INVITE_PARTY, username);
-						} else {
-							sendSAOCommand(mc, SAOCommand.CANCEL_INVITE_PARTY, username);
-						}
-						
-						mc.displayGuiScreen(keepScreen);
-						
-						if (ingameFocus) {
-							mc.setIngameFocus();
-						} else {
-							mc.setIngameNotInFocus();
-						}
-					}
+                    if (id == SAOID.CONFIRM) {
+                        party = args.length > 0? args : null;
 
-				}));
+                        if (party != null) {
+                            partyTicks = 1000;
+                        }
+
+                        sendSAOCommand(mc, SAOCommand.CONFIRM_INVITE_PARTY, username);
+                    } else {
+                        sendSAOCommand(mc, SAOCommand.CANCEL_INVITE_PARTY, username);
+                    }
+
+                    mc.displayGuiScreen(keepScreen);
+
+                    if (ingameFocus) {
+                        mc.setIngameFocus();
+                    } else {
+                        mc.setIngameNotInFocus();
+                    }
+                }));
 				
 				if (ingameFocus) {
 					mc.setIngameNotInFocus();
@@ -530,27 +522,23 @@ public class SAOMod implements Runnable {
 				
 				final String text = String.format(_FRIEND_REQUEST_TEXT, username);
 				
-				mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(_FRIEND_REQUEST_TITLE, text, new SAOActionHandler() {
+				mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(_FRIEND_REQUEST_TITLE, text, (element, action, data) -> {
+                    final SAOID id = element.ID();
 
-					public void actionPerformed(SAOElementGUI element, SAOAction action, int data) {
-						final SAOID id = element.ID();
-						
-						if ((id == SAOID.CONFIRM) && ((isFriend(username)) || (addFriends(username)))) {
-							sendSAOCommand(mc, SAOCommand.ACCEPT_ADD_FRIEND, username);
-						} else {
-							sendSAOCommand(mc, SAOCommand.CANCEL_ADD_FRIEND, username);
-						}
-						
-						mc.displayGuiScreen(keepScreen);
-						
-						if (ingameFocus) {
-							mc.setIngameFocus();
-						} else {
-							mc.setIngameNotInFocus();
-						}
-					}
+                    if ((id == SAOID.CONFIRM) && ((isFriend(username)) || (addFriends(username)))) {
+                        sendSAOCommand(mc, SAOCommand.ACCEPT_ADD_FRIEND, username);
+                    } else {
+                        sendSAOCommand(mc, SAOCommand.CANCEL_ADD_FRIEND, username);
+                    }
 
-				}));
+                    mc.displayGuiScreen(keepScreen);
+
+                    if (ingameFocus) {
+                        mc.setIngameFocus();
+                    } else {
+                        mc.setIngameNotInFocus();
+                    }
+                }));
 				
 				if (ingameFocus) {
 					mc.setIngameNotInFocus();
@@ -595,7 +583,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	private static final String[] loadFriends() {
+	private static String[] loadFriends() {
 		try {
 			final FileInputStream stream = new FileInputStream(friendsFile);
 			final String[] friends;
@@ -625,7 +613,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final String[] listFriends() {
+	public static String[] listFriends() {
 		if (friends == null) {
 			friends = loadFriends();
 		}
@@ -633,7 +621,7 @@ public class SAOMod implements Runnable {
 		return friends;
 	}
 
-	public static final void addFriendRequest(Minecraft mc, String... names) {
+	public static void addFriendRequest(Minecraft mc, String... names) {
 		synchronized (friendRequests) {
 			for (final String name : names) {
 				if ((!friendRequests.contains(name)) && (!isFriend(name))) {
@@ -644,23 +632,23 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final boolean addFriends(String... names) {
+	private static boolean addFriends(String... names) {
 		friends = listFriends();
 		final String[] newNames = new String[names.length];
 		int index = 0;
-		
-		for (int i = 0; i < names.length; i++) {
+
+		for (String name : names) {
 			boolean found = false;
-			
-			for (int j = 0; j < friends.length; j++) {
-				if (friends[j].equals(names[i])) {
+
+			for (String friend : friends) {
+				if (friend.equals(name)) {
 					found = true;
 					break;
 				}
 			}
-			
+
 			if (!found) {
-				newNames[index++] = names[i];
+				newNames[index++] = name;
 			}
 		}
 		
@@ -673,7 +661,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final boolean isFriend(String name) {
+	private static boolean isFriend(String name) {
 		for (final String friend : listFriends()) {
 			if (name.equals(friend)) {
 				return true;
@@ -683,11 +671,11 @@ public class SAOMod implements Runnable {
 		return false;
 	}
 
-	public static final boolean isFriend(EntityPlayer player) {
+	public static boolean isFriend(EntityPlayer player) {
 		return isFriend(getName(player));
 	}
 
-	private static final boolean addRawFriends(String[] names) {
+	private static boolean addRawFriends(String[] names) {
 		friends = listFriends();
 		
 		final String[] resized = new String[friends.length + names.length];
@@ -703,7 +691,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	private static final boolean writeFriends(String[] friends) {
+	private static boolean writeFriends(String[] friends) {
 		final String[] data = friends == null? new String[0] : friends;
 		
 		synchronized (friendsFile) {
@@ -735,11 +723,11 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final String[] listPartyMembers() {
+	public static String[] listPartyMembers() {
 		return party;
 	}
 
-	public static final boolean isPartyMember(String username) {
+	public static boolean isPartyMember(String username) {
 		if (party != null) {
 			for (final String member : party) {
 				if (member.equals(username)) {
@@ -751,11 +739,11 @@ public class SAOMod implements Runnable {
 		return false;
 	}
 
-	public static final boolean isPartyLeader(String username) {
+	public static boolean isPartyLeader(String username) {
 		return (party != null) && (party[0].equals(username));
 	}
 
-	private static final void addParty(Minecraft mc, String username) {
+	private static void addParty(Minecraft mc, String username) {
 		if ((party != null) && (!isPartyMember(username))) {
 			final String[] resized = new String[party.length + 1];
 			
@@ -768,7 +756,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	private static final void removeParty(Minecraft mc, String username) {
+	private static void removeParty(Minecraft mc, String username) {
 		if (isPartyMember(username)) {
 			final String[] resized = new String[party.length - 1];
 			int index = 0;
@@ -788,7 +776,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	private static final void updateParty(Minecraft mc) {
+	private static void updateParty(Minecraft mc) {
 		if (party != null) {
 			final String memberString = SAOJ8String.join(" ", party);
 			
@@ -800,7 +788,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final boolean createParty(Minecraft mc, double range) {
+	public static boolean createParty(Minecraft mc, double range) {
 		final List<EntityPlayer> found = listOnlinePlayers(mc, true, range);
 		
 		if (found.contains(mc.thePlayer)) {
@@ -824,13 +812,13 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final void inviteParty(Minecraft mc, String username) {
+	public static void inviteParty(Minecraft mc, String username) {
 		if ((party != null) && (!isPartyMember(username))) {
 			sendSAOCommand(mc, SAOCommand.INVITE_PARTY, username, party[0]);
 		}
 	}
 
-	public static final void dissolveParty(Minecraft mc) {
+	public static void dissolveParty(Minecraft mc) {
 		if (party != null) {
 			if (party[0].equals(getName(mc))) {
 				for (int i = 1; i < party.length; i++) {
@@ -845,15 +833,15 @@ public class SAOMod implements Runnable {
 		party = null;
 	}
 
-	public static final String getName(EntityPlayer player) {
+	public static String getName(EntityPlayer player) {
 		return player == null? "" : player.getName();
 	}
 
-	public static final String getName(Minecraft mc) {
+	public static String getName(Minecraft mc) {
 		return getName(mc.thePlayer);
 	}
 
-	public static final String unformatName(String name) {
+	public static String unformatName(String name) {
 		int index = name.indexOf("§");
 		
 		while (index != -1) {
@@ -869,7 +857,7 @@ public class SAOMod implements Runnable {
 		return name;
 	}
 
-	public static final SAOWindowGUI getWindow(Minecraft mc) {
+	private static SAOWindowGUI getWindow(Minecraft mc) {
 		if ((mc.currentScreen != null) && (mc.currentScreen instanceof SAOWindowViewGUI)) {
 			return ((SAOWindowViewGUI) mc.currentScreen).getWindow();
 		} else {
@@ -877,7 +865,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final float getHealth(final Minecraft mc, final Entity entity, final float time) {
+	public static float getHealth(final Minecraft mc, final Entity entity, final float time) {
 		if (SAOOption.SMOOTH_HEALTH.value) {
 			final float healthReal;
 			final UUID uuid = entity.getUniqueID();
@@ -917,8 +905,8 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	private static final int gameFPS(Minecraft mc) {
-		final List<String> output = new ArrayList<String>();
+	private static int gameFPS(Minecraft mc) {
+		final List<String> output = new ArrayList<>();
 		
 		if (SAONewChatGUI.reformat(mc.debug, "%s fps, %s chunk updates", output)) {
 			try {
@@ -931,7 +919,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	private static final float gameTimeDelay(Minecraft mc, float time) {
+	private static float gameTimeDelay(Minecraft mc, float time) {
 		if (time >= 0F) {
 			return time;
 		} else {
@@ -939,11 +927,11 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final float getMaxHealth(final Entity entity) {
+	public static float getMaxHealth(final Entity entity) {
 		return entity instanceof EntityLivingBase? ((EntityLivingBase) entity).getMaxHealth() : 1F;
 	}
 
-	public static final SAOColorState getColorState(final EntityPlayer entity) {
+	public static SAOColorState getColorState(final EntityPlayer entity) {
 		final UUID uuid = entity.getUniqueID();
 		
 		if (!colorStates.containsKey(uuid)) {
@@ -953,7 +941,7 @@ public class SAOMod implements Runnable {
 		return colorStates.get(uuid).get();
 	}
 
-	public static final void onDamagePlayer(final EntityPlayer entity) {
+	public static void onDamagePlayer(final EntityPlayer entity) {
 		final UUID uuid = entity.getUniqueID();
 		
 		if (colorStates.containsKey(uuid)) {
@@ -963,7 +951,7 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final void onKillPlayer(final EntityPlayer entity) {
+	public static void onKillPlayer(final EntityPlayer entity) {
 		final UUID uuid = entity.getUniqueID();
 		
 		if (colorStates.containsKey(uuid)) {
@@ -973,11 +961,11 @@ public class SAOMod implements Runnable {
 		}
 	}
 
-	public static final void setOption(SAOOption option) {
-		config.get(config.CATEGORY_GENERAL, "option." + option.name().toLowerCase(), option.value).set(option.value);
+	public static void setOption(SAOOption option) {
+		config.get(Configuration.CATEGORY_GENERAL, "option." + option.name().toLowerCase(), option.value).set(option.value);
 	}
 
-	public static final void saveAllOptions() {
+	public static void saveAllOptions() {
 		config.save();
 	}
 

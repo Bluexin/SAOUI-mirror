@@ -1,17 +1,11 @@
 package com.thejackimonster.saoui.util;
 
-import java.util.Collection;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemSword;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
 
-import com.google.common.collect.Multimap;
 import com.thejackimonster.saoui.SAOMod;
 import com.thejackimonster.saoui.ui.SAOCharacterViewGUI;
 import com.thejackimonster.saoui.ui.SAOElementGUI;
@@ -32,7 +26,7 @@ public final class SAOSub {
 
 	private SAOSub() {}
 
-	public static final SAOMenuGUI resetSub(Minecraft mc, SAOMenuGUI sub) {
+	private static SAOMenuGUI resetSub(Minecraft mc, SAOMenuGUI sub) {
 		sub.elements.clear();
 		
 		sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, SAOMod.getName(mc), SAOAlign.CENTER));
@@ -41,11 +35,11 @@ public final class SAOSub {
 		return sub;
 	}
 
-	public static final SAOMenuGUI createSub(Minecraft mc, SAOElementGUI element, int x, int y) {
+	private static SAOMenuGUI createSub(Minecraft mc, SAOElementGUI element, int x, int y) {
 		return resetSub(mc, new SAOPanelGUI(element, x, y, 175, 240));
 	}
 
-	public static final SAOMenuGUI createSocialSub(Minecraft mc, SAOElementGUI element, int x, int y) {
+	public static SAOMenuGUI createSocialSub(Minecraft mc, SAOElementGUI element, int x, int y) {
 		final SAOMenuGUI sub = createSub(mc, element, x, y);
 		final String[] party = SAOMod.listPartyMembers();
 		
@@ -56,23 +50,23 @@ public final class SAOSub {
 		}
 	}
 
-	public static final SAOMenuGUI createNavigationSub(Minecraft mc, SAOElementGUI element, int x, int y) {
+	public static SAOMenuGUI createNavigationSub(Minecraft mc, SAOElementGUI element, int x, int y) {
 		return setQuestsSub(mc, createSub(mc, element, x, y), mc.thePlayer);
 	}
 
-	public static final SAOMenuGUI createMainProfileSub(Minecraft mc, SAOElementGUI element, int x, int y) {
+	public static SAOMenuGUI createMainProfileSub(Minecraft mc, SAOElementGUI element, int x, int y) {
 		return resetProfileSub(mc, new SAOPanelGUI(element, x, y, 175, 240), mc.thePlayer);
 	}
 
-	public static final SAOMenuGUI resetFriendsSub(Minecraft mc, SAOMenuGUI sub) {
+	public static SAOMenuGUI resetFriendsSub(Minecraft mc, SAOMenuGUI sub) {
 		return setFriendsSub(mc, resetSub(mc, sub));
 	}
 
-	public static final SAOMenuGUI resetPartySub(Minecraft mc, SAOMenuGUI sub) {
+	public static SAOMenuGUI resetPartySub(Minecraft mc, SAOMenuGUI sub) {
 		return setPartySub(mc, resetSub(mc, sub));
 	}
 
-	public static final SAOMenuGUI resetProfileSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
+	public static SAOMenuGUI resetProfileSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
 		sub.elements.clear();
 		
 		sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, SAOMod.getName(player), SAOAlign.CENTER));
@@ -81,7 +75,7 @@ public final class SAOSub {
 		return setProfileSub(mc, sub, player);
 	}
 
-	public static final SAOMenuGUI resetCheckPositionSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player, int zoom, String title) {
+	public static SAOMenuGUI resetCheckPositionSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player, int zoom, String title) {
 		sub.elements.clear();
 		
 		sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, SAOMod.getName(player), SAOAlign.CENTER));
@@ -90,7 +84,7 @@ public final class SAOSub {
 		return setCheckPositionSub(mc, sub, player, zoom, title);
 	}
 
-	public static final SAOMenuGUI resetQuestsSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
+	public static SAOMenuGUI resetQuestsSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
 		sub.elements.clear();
 		
 		sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, SAOMod.getName(player), SAOAlign.CENTER));
@@ -99,7 +93,7 @@ public final class SAOSub {
 		return setQuestsSub(mc, sub, player);
 	}
 
-	public static final SAOMenuGUI setEmptySub(Minecraft mc, SAOMenuGUI sub) {
+	private static SAOMenuGUI setEmptySub(Minecraft mc, SAOMenuGUI sub) {
 		sub.elements.add(new SAOTextGUI(sub, 0, 0, new String[4]));
 		
 		final SAOIconGUI icon = new SAOIconGUI(sub, SAOID.NONE, sub.width / 2 - 10, 0, SAOIcon.NONE);
@@ -113,7 +107,7 @@ public final class SAOSub {
 		return sub;
 	}
 
-	public static final SAOMenuGUI setFriendsSub(Minecraft mc, SAOMenuGUI sub) {
+	private static SAOMenuGUI setFriendsSub(Minecraft mc, SAOMenuGUI sub) {
 		final String[] friends = SAOMod.listFriends();
 		final boolean[] online = SAOMod.isOnline(mc, friends);
 		
@@ -143,7 +137,7 @@ public final class SAOSub {
 		return sub;
 	}
 
-	public static final SAOMenuGUI setPartySub(Minecraft mc, SAOMenuGUI sub) {
+	private static SAOMenuGUI setPartySub(Minecraft mc, SAOMenuGUI sub) {
 		final String[] party = SAOMod.listPartyMembers();
 		
 		if (party != null) {
@@ -165,7 +159,7 @@ public final class SAOSub {
 		return sub;
 	}
 
-	public static final SAOMenuGUI setProfileSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
+	private static SAOMenuGUI setProfileSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
 		if (player != null) {
 			sub.elements.add(new SAOCharacterViewGUI(sub, 0, 0, sub.width, 150, player));
 		} else {
@@ -175,7 +169,7 @@ public final class SAOSub {
 		return sub;
 	}
 
-	public static final SAOMenuGUI setCheckPositionSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player, int zoom, String title) {
+	private static SAOMenuGUI setCheckPositionSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player, int zoom, String title) {
 		if (player != null) {
 			final SAOMapGUI map = new SAOMapGUI(sub, 0, 0, 4, player);
 			map.zoom = zoom;
@@ -192,7 +186,7 @@ public final class SAOSub {
 		return sub;
 	}
 
-	public static final SAOMenuGUI setQuestsSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
+	private static SAOMenuGUI setQuestsSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
 		sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, "-Quest List-", SAOAlign.CENTER));
 		
 		final SAOMenuGUI questList = new SAOMenuGUI(sub, 0, 0, sub.width, 150);
@@ -201,22 +195,20 @@ public final class SAOSub {
 		final StatFileWriter stats = mc.thePlayer.getStatFileWriter();
 		
 		if (stats != null) {
-			for (final Object obj0 : AchievementList.achievementList) {
-				if (obj0 instanceof Achievement) {
-					final Achievement ach0 = (Achievement) obj0;
-					
-					if ((ach0.isAchievement()) && (!stats.hasAchievementUnlocked(ach0)) && (stats.canUnlockAchievement(ach0))) {
-						questList.elements.add(new SAOQuestGUI(questList, 0, 0, questList.width, ach0));
-					}
+			AchievementList.achievementList.stream().filter(obj0 -> obj0 instanceof Achievement).forEach(obj0 -> {
+				final Achievement ach0 = (Achievement) obj0;
+
+				if ((ach0.isAchievement()) && (!stats.hasAchievementUnlocked(ach0)) && (stats.canUnlockAchievement(ach0))) {
+					questList.elements.add(new SAOQuestGUI(questList, 0, 0, questList.width, ach0));
 				}
-			}
+			});
 		}
 		
 		sub.elements.add(questList);
 		return sub;
 	}
 
-	public static final SAOPanelGUI addInfo(SAOMenuGUI sub) {
+	public static SAOPanelGUI addInfo(SAOMenuGUI sub) {
 		final SAOPanelGUI info = new SAOPanelGUI(sub, 0, 0, sub.width, 0);
 		info.bgColor = SAOColor.DEFAULT_BOX_COLOR;
 		info.innerMenu = true;
@@ -225,17 +217,17 @@ public final class SAOSub {
 		return info;
 	}
 
-	public static final SAOString[] addProfileContent(Minecraft mc) {
+	public static SAOString[] addProfileContent(Minecraft mc) {
 		return addProfileContent(mc.thePlayer);
 	}
 
-	public static final SAOString[] addProfileContent(EntityPlayer player) {
+	public static SAOString[] addProfileContent(EntityPlayer player) {
 		return new SAOString[] {
 			new SAOJString("Profile"), new SAOPlayerString(player)
 		};
 	}
 
-	public static final SAOString[] addPositionContent(EntityPlayer player, EntityPlayer search) {
+	public static SAOString[] addPositionContent(EntityPlayer player, EntityPlayer search) {
 		final StringBuilder floor = new StringBuilder("Floor ");
 		final StringBuilder builder = new StringBuilder();
 		

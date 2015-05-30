@@ -3,7 +3,6 @@ package com.thejackimonster.saoui.ui;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
@@ -18,15 +17,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SAOMapGUI extends SAOElementGUI {
 
-	public static final int MAP_SIZE = 16;
-	public static final int MAP_DATA_SIZE = (MAP_SIZE * 2 + 1);
+	private static final int MAP_SIZE = 16;
+	private static final int MAP_DATA_SIZE = (MAP_SIZE * 2 + 1);
 
 	private final EntityPlayer character;
 	private int[][] map;
 	private long medium;
 	private int min, max;
 
-	public int scan;
+	private int scan;
 	public int zoom;
 
 	public SAOMapGUI(SAOParentGUI gui, int xPos, int yPos, int size, EntityPlayer player) {
@@ -37,7 +36,7 @@ public class SAOMapGUI extends SAOElementGUI {
 		zoom = 1;
 	}
 
-	public final void scanMap() {
+	private void scanMap() {
 		if ((character != null) && (character.worldObj != null)) {
 			int i, j;
 			

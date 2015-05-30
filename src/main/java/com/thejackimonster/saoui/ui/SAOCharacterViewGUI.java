@@ -1,22 +1,10 @@
 package com.thejackimonster.saoui.ui;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
+import com.thejackimonster.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-
-import com.thejackimonster.saoui.util.SAOColor;
-import com.thejackimonster.saoui.util.SAOGL;
-import com.thejackimonster.saoui.util.SAOOption;
-import com.thejackimonster.saoui.util.SAOParentGUI;
-import com.thejackimonster.saoui.util.SAOResources;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -111,7 +99,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 		return super.mousePressed(mc, cursorX, cursorY, button);
 	}
 
-	public static final void drawCharacter(EntityPlayer character, int x, int y, int size, int cursorX, int cursorY) {
+	private static void drawCharacter(EntityPlayer character, int x, int y, int size, int cursorX, int cursorY) {
 		final float mouseX = (float) x - cursorX;
 		final float mouseY = (float) y - size * 1.67F - cursorY;
 		

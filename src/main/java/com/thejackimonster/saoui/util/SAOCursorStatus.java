@@ -4,6 +4,6 @@ public enum SAOCursorStatus {
 
 	SHOW,
 	DEFAULT,
-	HIDDEN;
+	HIDDEN
 
 }

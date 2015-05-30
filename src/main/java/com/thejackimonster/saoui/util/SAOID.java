@@ -1,7 +1,5 @@
 package com.thejackimonster.saoui.util;
 
-import org.apache.commons.lang3.text.translate.NumericEntityUnescaper.OPTION;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -53,15 +51,15 @@ public enum SAOID {
 
 	ALERT(false);
 
-	public final SAOID parent;
+	private final SAOID parent;
 	public final boolean menuFlag;
 
-	private SAOID(SAOID parentID, boolean menu) {
+	SAOID(SAOID parentID, boolean menu) {
 		parent = parentID;
 		menuFlag = menu;
 	}
 
-	private SAOID(boolean menu) {
+	SAOID(boolean menu) {
 		this(null, menu);
 	}
 

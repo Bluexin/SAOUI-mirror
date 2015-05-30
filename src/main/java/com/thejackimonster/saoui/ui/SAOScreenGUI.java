@@ -17,28 +17,27 @@ import com.thejackimonster.saoui.util.SAOResources;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 @SideOnly(Side.CLIENT)
 public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 
-	public static final float ROTATION_FACTOR = 0.25F;
-	public static SAOCursorStatus CURSOR_STATUS = SAOCursorStatus.SHOW;
+	private static final float ROTATION_FACTOR = 0.25F;
+	protected static SAOCursorStatus CURSOR_STATUS = SAOCursorStatus.SHOW;
 
 	private int mouseX, mouseY;
 
 	private int mouseDown;
 	private float mouseDownValue;
 
-	public final List<SAOElementGUI> elements;
+	protected final List<SAOElementGUI> elements;
 
 	private float[] rotationYaw, rotationPitch;
 	private boolean grabbed;
 
-	public SAOScreenGUI() {
+	protected SAOScreenGUI() {
 		super();
-		elements = new ArrayList<SAOElementGUI>();
+		elements = new ArrayList<>();
 		grabbed = false;
 	}
 
@@ -60,11 +59,11 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 		}
 	}
 
-	private final int getCursorX() {
+	private int getCursorX() {
 		return SAOOption.CURSOR_MOVEMENT.value? (width / 2 - mouseX) / 2 : 0;
 	}
 
-	private final int getCursorY() {
+	private int getCursorY() {
 		return SAOOption.CURSOR_MOVEMENT.value? (height / 2 - mouseY) / 2 : 0;
 	}
 
@@ -190,7 +189,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 
 	protected void mouseReleased(int cursorX, int cursorY, int button) {
 		super.mouseReleased(cursorX, cursorY, button);
-		mouseDown &= ((0x1 << button) ^ -1);
+		mouseDown &= (~(0x1 << button));
 		
 		for (int i = elements.size() - 1; i >= 0; i--) {
 			if (i >= elements.size()) {
@@ -214,7 +213,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 		}
 	}
 
-	protected void mouseWheel(int cursorX, int cursorY, int delta) {
+	private void mouseWheel(int cursorX, int cursorY, int delta) {
 		for (int i = elements.size() - 1; i >= 0; i--) {
 			if (i >= elements.size()) {
 				continue;
@@ -258,7 +257,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 		close();
 	}
 
-	public void close() {
+	protected void close() {
 		for (int i = elements.size() - 1; i >= 0; i--) {
 			if (i >= elements.size()) {
 				continue;

@@ -1,7 +1,5 @@
 package com.thejackimonster.saoui.ui;
 
-import net.minecraft.client.Minecraft;
-
 import com.thejackimonster.saoui.util.SAOAction;
 import com.thejackimonster.saoui.util.SAOActionHandler;
 import com.thejackimonster.saoui.util.SAOID;

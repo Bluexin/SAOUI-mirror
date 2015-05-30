@@ -1,21 +1,14 @@
 package com.thejackimonster.saoui.util;
 
 import com.thejackimonster.saoui.SAOMod;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -30,7 +23,7 @@ public enum SAOColorState {
 
 	private final int color;
 
-	private SAOColorState(int argb) {
+	SAOColorState(int argb) {
 		color = argb;
 	}
 
@@ -38,7 +31,7 @@ public enum SAOColorState {
 		SAOGL.glColorRGBA(color);
 	}
 
-	public static final SAOColorState getColorState(Minecraft mc, Entity entity, float time) {
+	public static SAOColorState getColorState(Minecraft mc, Entity entity, float time) {
 		if (entity instanceof EntityPlayer) {
 			return getPlayerColorState(mc, (EntityPlayer) entity, time);
 		} else
@@ -63,7 +56,7 @@ public enum SAOColorState {
 		}
 	}
 
-	private static final SAOColorState getPlayerColorState(Minecraft mc, EntityPlayer player, float time) {
+	private static SAOColorState getPlayerColorState(Minecraft mc, EntityPlayer player, float time) {
 		/*if (SAOMod.getName(player).equals(SAOMod.AUTHOR_AND_DEVELOPER)) {
 			return GAMEMASTER;
 		} else {*/

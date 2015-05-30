@@ -18,12 +18,12 @@ public class SAOFriendGUI extends SAOButtonGUI {
 
 	private EntityPlayer friend;
 
-	public SAOFriendGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, String name) {
+	private SAOFriendGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, String name) {
 		super(gui, SAOID.FRIEND, xPos, yPos, w, h, name, SAOIcon.NONE);
 		enabled = false;
 	}
 
-	public SAOFriendGUI(SAOParentGUI gui, int xPos, int yPos, int w, String name) {
+	private SAOFriendGUI(SAOParentGUI gui, int xPos, int yPos, int w, String name) {
 		this(gui, xPos, yPos, w, 20, name);
 	}
 
@@ -46,7 +46,7 @@ public class SAOFriendGUI extends SAOButtonGUI {
 		super.update(mc);
 	}
 
-	public final EntityPlayer getPlayer(Minecraft mc) {
+	private EntityPlayer getPlayer(Minecraft mc) {
 		if ((friend == null) || (friend.isDead) || (!friend.isEntityAlive())) {
 			friend = findPlayer(mc);
 		}
@@ -54,7 +54,7 @@ public class SAOFriendGUI extends SAOButtonGUI {
 		return friend;
 	}
 
-	public final EntityPlayer findPlayer(Minecraft mc) {
+	private EntityPlayer findPlayer(Minecraft mc) {
 		final List<EntityPlayer> players = SAOMod.listOnlinePlayers(mc);
 		
 		for (final EntityPlayer player : players) {

@@ -13,7 +13,7 @@ public enum SAOSkill {
 	public final SAOIcon icon;
 	public final SAOID id;
 
-	private SAOSkill(SAOIcon saoIcon, SAOID saoId) {
+	SAOSkill(SAOIcon saoIcon, SAOID saoId) {
 		icon = saoIcon;
 		id = saoId;
 	}

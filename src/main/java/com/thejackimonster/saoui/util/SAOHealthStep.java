@@ -6,7 +6,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 
 @SideOnly(Side.CLIENT)
 public enum SAOHealthStep {
@@ -21,12 +20,12 @@ public enum SAOHealthStep {
 	private final float healthLimit;
 	private final int color;
 
-	private SAOHealthStep(float limit, int argb) {
+	SAOHealthStep(float limit, int argb) {
 		healthLimit = limit;
 		color = argb;
 	}
 
-	public final float getLimit() {
+	private float getLimit() {
 		return healthLimit;
 	}
 
@@ -48,7 +47,7 @@ public enum SAOHealthStep {
 		//}
 	}
 
-	public static final SAOHealthStep getStep(Minecraft mc, EntityLivingBase entity, float time) {
+	public static SAOHealthStep getStep(Minecraft mc, EntityLivingBase entity, float time) {
 		final float value = SAOMod.getHealth(mc, entity, time) / SAOMod.getMaxHealth(entity);
 		SAOHealthStep step = first();
 		
@@ -59,11 +58,11 @@ public enum SAOHealthStep {
 		return step;
 	}
 
-	private static final SAOHealthStep first() {
+	private static SAOHealthStep first() {
 		return values()[0];
 	}
 
-	private static final SAOHealthStep next(SAOHealthStep step) {
+	private static SAOHealthStep next(SAOHealthStep step) {
 		return values()[step.ordinal() + 1];
 	}
 

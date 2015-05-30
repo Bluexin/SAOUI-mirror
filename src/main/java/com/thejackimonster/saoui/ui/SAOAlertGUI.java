@@ -1,20 +1,14 @@
 package com.thejackimonster.saoui.ui;
 
+import com.thejackimonster.saoui.util.*;
 import net.minecraft.client.Minecraft;
-
-import com.thejackimonster.saoui.util.SAOColor;
-import com.thejackimonster.saoui.util.SAOGL;
-import com.thejackimonster.saoui.util.SAOID;
-import com.thejackimonster.saoui.util.SAOIcon;
-import com.thejackimonster.saoui.util.SAOParentGUI;
-import com.thejackimonster.saoui.util.SAOResources;
 
 public class SAOAlertGUI extends SAOElementGUI {
 
-	public String caption;
-	public int alertColor;
+	private String caption;
+	private int alertColor;
 
-	public SAOAlertGUI(SAOParentGUI gui, int xPos, int yPos, int w, String string, int color) {
+	private SAOAlertGUI(SAOParentGUI gui, int xPos, int yPos, int w, String string, int color) {
 		super(gui, xPos, yPos, w, 32);
 		caption = string;
 		alertColor = color;
@@ -24,7 +18,7 @@ public class SAOAlertGUI extends SAOElementGUI {
 		this(gui, xPos, yPos, autoWidth(string), string, color);
 	}
 
-	private static final int autoWidth(String string) {
+	private static int autoWidth(String string) {
 		final int defValue = SAOGL.glStringWidth(string);
 		
 		return Math.max(0, defValue - 20);

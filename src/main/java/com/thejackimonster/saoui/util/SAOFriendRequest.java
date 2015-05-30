@@ -6,7 +6,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public final class SAOFriendRequest {
 
-	public final String friendName;
+	private final String friendName;
 	public int ticks;
 
 	public SAOFriendRequest(String name, int maxTicks) {
@@ -14,7 +14,7 @@ public final class SAOFriendRequest {
 		ticks = maxTicks;
 	}
 
-	public final boolean equals(SAOFriendRequest request) {
+	private boolean equals(SAOFriendRequest request) {
 		return equals(request == null? (String) null : request.friendName);
 	}
 

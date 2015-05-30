@@ -77,7 +77,7 @@ public class SAOInventoryGUI extends SAOListGUI {
 		slots.detectAndSendChanges();
 	}
 
-	private final boolean equipped(int number) {
+	private boolean equipped(int number) {
 		final boolean state;
 		
 		if (filter.equals(SAOInventory.EQUIPMENT)) {

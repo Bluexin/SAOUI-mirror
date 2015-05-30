@@ -21,7 +21,7 @@ public class SAOButtonGUI extends SAOElementGUI {
 	public SAOIcon icon;
 	public boolean highlight;
 
-	public SAOButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, int h, String string, SAOIcon saoIcon) {
+	SAOButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, int h, String string, SAOIcon saoIcon) {
 		super(gui, xPos, yPos, w, h);
 		id = saoID;
 		caption = string;
@@ -29,7 +29,7 @@ public class SAOButtonGUI extends SAOElementGUI {
 		highlight = false;
 	}
 
-	public SAOButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, String string, SAOIcon saoIcon) {
+	private SAOButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, int w, String string, SAOIcon saoIcon) {
 		this(gui, saoID, xPos, yPos, w, 20, string, saoIcon);
 	}
 
@@ -79,15 +79,15 @@ public class SAOButtonGUI extends SAOElementGUI {
 		return (button == 0);
 	}
 
-	protected int getColor(int hoverState, boolean bg) {
+	int getColor(int hoverState, boolean bg) {
 		if (bg) {
-			return hoverState == 1? SAOColor.DEFAULT_COLOR : hoverState >= 2? SAOColor.HOVER_COLOR : SAOColor.DEFAULT_COLOR & SAOColor.DISABLED_MASK;
+			return hoverState == 1? SAOColor.DEFAULT_COLOR : hoverState >= 2? SAOColor.HOVER_COLOR : SAOColor.DISABLED_MASK;
 		} else {
 			return hoverState == 1? SAOColor.DEFAULT_FONT_COLOR : hoverState >= 2? SAOColor.HOVER_FONT_COLOR : SAOColor.DEFAULT_FONT_COLOR & SAOColor.DISABLED_MASK;
 		}
 	}
 
-	public int hoverState(int cursorX, int cursorY) {
+	int hoverState(int cursorX, int cursorY) {
 		if (mouseOver(cursorX, cursorY)) {
 			return 2;
 		} else

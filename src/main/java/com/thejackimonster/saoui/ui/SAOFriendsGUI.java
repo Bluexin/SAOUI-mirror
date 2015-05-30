@@ -1,16 +1,14 @@
 package com.thejackimonster.saoui.ui;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.config.Configuration;
-
 import com.thejackimonster.saoui.SAOMod;
 import com.thejackimonster.saoui.util.SAOParentGUI;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SideOnly(Side.CLIENT)
 public class SAOFriendsGUI extends SAOListGUI {
@@ -26,10 +24,8 @@ public class SAOFriendsGUI extends SAOListGUI {
 		if (list.contains(mc.thePlayer)) {
 			list.remove(mc.thePlayer);
 		}
-		
-		for (final EntityPlayer player : list) {
-			elements.add(new SAOFriendGUI(this, 0, 0, SAOMod.getName(player)));
-		}
+
+		elements.addAll(list.stream().map(player -> new SAOFriendGUI(this, 0, 0, SAOMod.getName(player))).collect(Collectors.toList()));
 	}
 
 }
