@@ -354,7 +354,7 @@ public class SAOIngameGUI extends GuiIngame {
         mc.mcProfiler.startSection("healthBar");
 
         final int offsetUsername = 18 + usernameBoxes * 5;
-        final int healthBarWidth = 225;
+        final int healthBarWidth = 234;
 
         SAOGL.glTexturedRect(offsetUsername, 2, zLevel, 21, 0, healthBarWidth, 15);
 
