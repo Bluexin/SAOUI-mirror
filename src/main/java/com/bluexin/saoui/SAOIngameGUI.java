@@ -18,6 +18,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
@@ -377,13 +378,15 @@ public class SAOIngameGUI extends GuiIngame {
                     }
                 }
             }
-        } else { // TODO: finish this
+        } else {
             int h = healthValue <= 12? 12 - healthValue: 0;
-            int stepOne = (int) (healthValue / 3.0F - 3);
-            int stepTwo = (int) (healthValue / 3.0F * 2.0F - 3);
-            int stepThree = healthValue - 3;
+            int o = healthHeight;
+            int stepOne = (int) (healthWidth / 3.0F - 3);
+            int stepTwo = (int) (healthWidth / 3.0F * 2.0F - 3);
+            int stepThree = healthWidth - 3;
             for (int i = 0; i < healthValue; i++) {
-                SAOGL.glTexturedRect(offsetUsername + 4 + i, 6, zLevel, h, 236, 1, healthHeight);
+                SAOGL.glTexturedRect(offsetUsername + 4 + i, 6 + (healthHeight - o), zLevel, h, 236 + (healthHeight - o), 1, o);
+                if (healthValue < healthWidth && i >= healthValue - 3) o--;
 
                 if (healthValue <= 12) {
                     h++;
@@ -396,14 +399,23 @@ public class SAOIngameGUI extends GuiIngame {
                     }
                 }
             }
+
+            if (healthValue >= stepTwo && healthValue < stepThree)
+                SAOGL.glTexturedRect(offsetUsername + healthValue, 6, zLevel, 11, 245, 7, 4);
+            if (healthValue >= stepOne && healthValue < stepTwo + 4)
+                SAOGL.glTexturedRect(offsetUsername + healthValue, 6, zLevel, 4, 245, 7, 4);
+            if (healthValue < stepOne + 4 && healthValue > 0) {
+                SAOGL.glTexturedRect(offsetUsername + healthValue + 2, 6, zLevel, 0, 245, 4, 4);
+                for (int i = 0; i < healthValue - 2; i++) SAOGL.glTexturedRect(offsetUsername + i  + 4, 6, zLevel, 0, 245, 4, 4);
+            }
+
             final int foodValue = (int) (SAOMod.getHungerFract(mc.thePlayer) * healthWidth);
             h = foodValue < 12? 12 - foodValue: 0;
-            stepOne = (int) (foodValue / 3.0F - 3);
-            stepTwo = (int) (foodValue/ 3.0F * 2.0F - 3);
-            stepThree = foodValue - 3;
+            o = healthHeight;
             SAOGL.glColorRGBA(0x8EE1E8);
             for (int i = 0; i < foodValue; i++) {
-                SAOGL.glTexturedRect(offsetUsername + 4 + i, 9, zLevel, h, 240, 1, healthHeight);
+                SAOGL.glTexturedRect(offsetUsername + i + 4, 9, zLevel, h, 240, 1, o);
+                if (foodValue < healthWidth && i >= foodValue - 3) o--;
 
                 if (foodValue <= 12) {
                     h++;
@@ -415,6 +427,15 @@ public class SAOIngameGUI extends GuiIngame {
                         break;
                     }
                 }
+            }
+
+            if (foodValue >= stepTwo && foodValue < stepThree)
+                SAOGL.glTexturedRect(offsetUsername + foodValue, 9, zLevel, 11, 249, 7, 4);
+            if (foodValue >= stepOne && foodValue < stepTwo + 4)
+                SAOGL.glTexturedRect(offsetUsername + foodValue, 9, zLevel, 4, 249, 7, 4);
+            if (foodValue < stepOne + 4 && foodValue > 0) {
+                SAOGL.glTexturedRect(offsetUsername + foodValue + 2, 9, zLevel, 0, 249, 4, 4);
+                for (int i = 0; i < foodValue - 2; i++) SAOGL.glTexturedRect(offsetUsername + i  + 4, 9, zLevel, 0, 249, 4, 4);
             }
         }
 
@@ -522,7 +543,7 @@ public class SAOIngameGUI extends GuiIngame {
 
         final int offsetHealth = offsetUsername + 113 + (healthBoxes + 2) * 5;
 
-        final String levelStr = "LV: " + String.valueOf((int) mc.thePlayer.experienceLevel);
+        final String levelStr = StatCollector.translateToLocal("displayLvShort") + ": " + String.valueOf(mc.thePlayer.experienceLevel);
         final int levelStrWidth = fontRenderer.getStringWidth(levelStr);
 
         final int levelBoxes = (levelStrWidth + 4) / 5;
