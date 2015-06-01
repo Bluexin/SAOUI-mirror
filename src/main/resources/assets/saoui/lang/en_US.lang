@@ -24,7 +24,7 @@ guiWeapons=Weapons
 guiEquipped=Equipped
 guiAccessory=Accessory
 guiProfile=Profile
-guiEquipments=Equipments
+guiEquipment=Equipment
 guiItems=Items
 
 
@@ -47,3 +47,7 @@ guiOptions=Options..
 guiOption=Option
 guiHelp=Help
 guiLogout=Logout
+
+# Display
+displayLvShort=LV
+displayLvLong=Level

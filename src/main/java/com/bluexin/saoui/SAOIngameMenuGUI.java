@@ -14,6 +14,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -401,9 +402,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         if (id == SAOID.PROFILE) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.EQUIPMENT, 0, 0, "Equipment", SAOIcon.EQUIPMENT));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.ITEMS, 0, 0, "Items", SAOIcon.ITEMS));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.SKILLS, 0, 0, "Skills", SAOIcon.SKILLS));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.EQUIPMENT, 0, 0, StatCollector.translateToLocal("guiEquipment"), SAOIcon.EQUIPMENT));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.ITEMS, 0, 0, StatCollector.translateToLocal("guiItems"), SAOIcon.ITEMS));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.SKILLS, 0, 0, StatCollector.translateToLocal("guiSkills"), SAOIcon.SKILLS));
 
             sub = SAOSub.createMainProfileSub(mc, element, -189, menuOffsetY);
             info = SAOSub.addInfo(sub);
@@ -417,9 +418,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.SOCIAL) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.GUILD, 0, 0, "Guild", SAOIcon.GUILD));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.PARTY, 0, 0, "Party", SAOIcon.PARTY));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.FRIENDS, 0, 0, "Friend", SAOIcon.FRIEND));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.GUILD, 0, 0, StatCollector.translateToLocal("guiGuild"), SAOIcon.GUILD));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.PARTY, 0, 0, StatCollector.translateToLocal("guiParty"), SAOIcon.PARTY));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.FRIENDS, 0, 0, StatCollector.translateToLocal("guiFriends"), SAOIcon.FRIEND));
 
             sub = SAOSub.createSocialSub(mc, element, -189, menuOffsetY);
             info = SAOSub.addInfo(sub);
@@ -429,9 +430,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.NAVIGATION) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.QUESTS, 0, 0, "Quest", SAOIcon.QUEST));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.FIELD_MAP, 0, 0, "Field Map", SAOIcon.FIELD_MAP));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.DUNGEON_MAP, 0, 0, "Dungeon Map", SAOIcon.DUNGEON_MAP));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.QUESTS, 0, 0, StatCollector.translateToLocal("guiQuest"), SAOIcon.QUEST));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.FIELD_MAP, 0, 0, StatCollector.translateToLocal("guiFieldMap"), SAOIcon.FIELD_MAP));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.DUNGEON_MAP, 0, 0, StatCollector.translateToLocal("guiDungMap"), SAOIcon.DUNGEON_MAP));
 
             sub = SAOSub.createNavigationSub(mc, element, -189, menuOffsetY);
             info = SAOSub.addInfo(sub);
@@ -441,9 +442,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.SETTINGS) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTIONS, 0, 0, "Option", SAOIcon.OPTION));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.HELP, 0, 0, "Help", SAOIcon.HELP));
-            menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.value ? "Logout" : "", SAOIcon.LOGOUT, (mc1, button) -> {
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTIONS, 0, 0, StatCollector.translateToLocal("guiOption"), SAOIcon.OPTION));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.HELP, 0, 0, StatCollector.translateToLocal("guiHelp"), SAOIcon.HELP));
+            menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.value ? StatCollector.translateToLocal("guiLogout") : "", SAOIcon.LOGOUT, (mc1, button) -> {
                 if (SAOOption.LOGOUT.value) {
                     if (button.caption.length() == 0) {
                         button.caption = "Logout";
