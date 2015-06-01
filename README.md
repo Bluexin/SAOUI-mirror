@@ -10,4 +10,5 @@ Planned:
  * fix the bugs mentioned in forum threads
  * localization
  * flower-ish render for the crystal above an entity's head
+ * admin-style ui for creative mode (<a href="http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2371404-sword-art-online-ui-mod-continuation-by-mmmgames?comment=110">Link</a>)
  * make the ui open on drag down? (low priority)

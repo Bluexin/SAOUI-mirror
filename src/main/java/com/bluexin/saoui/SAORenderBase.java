@@ -267,4 +267,8 @@ class SAORenderBase extends RenderPlayer {
         return normalFactor + (delta * delta / 2) * normalFactor;
     }
 
+    @Override
+    public void renderName(Entity entity, double x, double y, double z) {
+        if (entity instanceof EntityLivingBase) super.renderName(entity, x, y, z);
+    }
 }

@@ -389,7 +389,6 @@ public class SAOIngameGUI extends GuiIngame {
                     h++;
                     if (h > 12) break;
                 } else if ((i >= stepOne && i <= stepOne + 3) || (i >= stepTwo && i <= stepTwo + 3) || (i >= stepThree)) {
-                    //System.out.print("i" + i + "h" + h);
                     h++;
 
                     if (h > 12) {
@@ -410,7 +409,6 @@ public class SAOIngameGUI extends GuiIngame {
                     h++;
                     if (h > 12) break;
                 } else if ((i >= stepOne && i <= stepOne + 3) || (i >= stepTwo && i <= stepTwo + 3) || (i >= stepThree)) {
-                    //System.out.print("i" + i + "h" + h);
                     h++;
 
                     if (h > 12) {
