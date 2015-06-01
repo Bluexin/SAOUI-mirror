@@ -359,7 +359,7 @@ public class SAOIngameGUI extends GuiIngame {
         SAOGL.glTexturedRect(offsetUsername, 2, zLevel, 21, 0, healthBarWidth, 15);
 
         final int healthWidth = 216;
-        final int healthHeight = SAOOption.ORIGINAL_UI.value? 9 : 3;
+        final int healthHeight = SAOOption.ORIGINAL_UI.value? 9 : 4;
 
         final int healthValue = (int) (SAOMod.getHealth(mc, mc.thePlayer, time) / SAOMod.getMaxHealth(mc.thePlayer) * healthWidth);
         SAOHealthStep.getStep(mc, mc.thePlayer, time).glColor();
@@ -378,42 +378,42 @@ public class SAOIngameGUI extends GuiIngame {
                 }
             }
         } else { // TODO: finish this
-            int h = healthValue <= 41? 41 - healthValue: 0;
-            int stepOne = (int) (healthValue / 3.0F - 14);
-            int stepTwo = (int) (healthValue / 3.0F * 2.0F - 14);
-            int stepThree = healthValue - 10;
+            int h = healthValue <= 12? 12 - healthValue: 0;
+            int stepOne = (int) (healthValue / 3.0F - 3);
+            int stepTwo = (int) (healthValue / 3.0F * 2.0F - 3);
+            int stepThree = healthValue - 3;
             for (int i = 0; i < healthValue; i++) {
                 SAOGL.glTexturedRect(offsetUsername + 4 + i, 6, zLevel, h, 236, 1, healthHeight);
 
-                if (healthValue <= 41) {
+                if (healthValue <= 12) {
                     h++;
-                    if (h > 41) break;
-                } else if ((i >= stepOne && i < stepOne + 13) || (i >= stepTwo && i < stepTwo + 13) || (i >= stepThree)) {
-                    System.out.print("i" + i + "h" + h);
+                    if (h > 12) break;
+                } else if ((i >= stepOne && i <= stepOne + 3) || (i >= stepTwo && i <= stepTwo + 3) || (i >= stepThree)) {
+                    //System.out.print("i" + i + "h" + h);
                     h++;
 
-                    if (h > 41) {
+                    if (h > 12) {
                         break;
                     }
                 }
             }
             final int foodValue = (int) (SAOMod.getHungerFract(mc.thePlayer) * healthWidth);
-            h = foodValue < 41? 41 - (foodValue - 41): 0;
-            stepOne = (int) (foodValue / 3.0F - 14);
-            stepTwo = (int) (foodValue/ 3.0F * 2.0F - 10);
-            stepThree = foodValue - 11;
+            h = foodValue < 12? 12 - foodValue: 0;
+            stepOne = (int) (foodValue / 3.0F - 3);
+            stepTwo = (int) (foodValue/ 3.0F * 2.0F - 3);
+            stepThree = foodValue - 3;
             SAOGL.glColorRGBA(0x8EE1E8);
             for (int i = 0; i < foodValue; i++) {
-                SAOGL.glTexturedRect(offsetUsername + 4 + i, 9, zLevel, h, 239, 1, healthHeight + 1);
+                SAOGL.glTexturedRect(offsetUsername + 4 + i, 9, zLevel, h, 240, 1, healthHeight);
 
-                if (foodValue <= 41) {
+                if (foodValue <= 12) {
                     h++;
-                    if (h > 41) break;
-                }else if ((i >= stepOne && i < stepOne + 13) || (i >= stepTwo && i < stepTwo + 13) || (i >= stepThree)) {
-                    System.out.print("i" + i + "h" + h);
+                    if (h > 12) break;
+                } else if ((i >= stepOne && i <= stepOne + 3) || (i >= stepTwo && i <= stepTwo + 3) || (i >= stepThree)) {
+                    //System.out.print("i" + i + "h" + h);
                     h++;
 
-                    if (h > 41) {
+                    if (h > 12) {
                         break;
                     }
                 }
