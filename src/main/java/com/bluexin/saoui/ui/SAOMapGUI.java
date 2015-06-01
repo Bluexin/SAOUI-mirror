@@ -1,9 +1,6 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.util.SAOColor;
-import com.bluexin.saoui.util.SAOGL;
-import com.bluexin.saoui.util.SAOParentGUI;
-import com.bluexin.saoui.util.SAOResources;
+import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -187,7 +184,7 @@ public class SAOMapGUI extends SAOElementGUI {
                 SAOGL.glTexture2D(true);
                 SAOGL.glBlend(true);
 
-                SAOGL.glBindTexture(SAOResources.gui);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
                 if (mc.thePlayer != character) {
                     SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.CANCEL_COLOR, visibility));

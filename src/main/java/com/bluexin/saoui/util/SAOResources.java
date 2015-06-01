@@ -9,9 +9,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public final class SAOResources {
 
     public static final ResourceLocation gui = new ResourceLocation(SAOMod.MODID, "textures/gui.png");
+    public static final ResourceLocation guiCustom = new ResourceLocation(SAOMod.MODID, "textures/guiCustom.png");
     public static final ResourceLocation icons = new ResourceLocation(SAOMod.MODID, "textures/icons.png");
     public static final ResourceLocation effects = new ResourceLocation(SAOMod.MODID, "textures/gui.png");
+    public static final ResourceLocation effectsCustom = new ResourceLocation(SAOMod.MODID, "textures/guiCustom.png");
     public static final ResourceLocation entities = new ResourceLocation(SAOMod.MODID, "textures/entities.png");
+    public static final ResourceLocation entitiesCustom = new ResourceLocation(SAOMod.MODID, "textures/entitiesCustom.png");
 
     private SAOResources() {
     }

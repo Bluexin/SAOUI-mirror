@@ -148,7 +148,8 @@ class SAORenderBase extends RenderPlayer {
             SAOGL.glBlend(true);
             SAOGL.tryBlendFuncSeparate(770, 771, 1, 0);
 
-            SAOGL.glBindTexture(SAOResources.entities);
+
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.entities: SAOResources.entitiesCustom);
 
             Tessellator tessellator = Tessellator.getInstance();
 
@@ -171,7 +172,7 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderHealthBar(Minecraft mc, Entity entity, double x, double y, double z, float f0, float f1) {
-        SAOGL.glBindTexture(SAOResources.entities);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.entities: SAOResources.entitiesCustom);
 
         Tessellator tessellator = Tessellator.getInstance();
 

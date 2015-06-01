@@ -6,6 +6,7 @@ I used his version 1.5 (for minecraft 1.8) as base (for version 1.0)
 
 Planned:
  * fix bug about profile info rendering in every tab
+ * fix rendering bug with water on entity death
  * fix the bugs mentioned in forum threads
  * localization
  * flower-ish render for the crystal above an entity's head

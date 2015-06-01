@@ -144,7 +144,7 @@ public class SAOIngameGUI extends GuiIngame {
 
         mc.mcProfiler.startSection("inventorySlots");
 
-        SAOGL.glBindTexture(SAOResources.gui);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
         SAOGL.glColor(1, 1, 1, 1);
 
         final InventoryPlayer inv = mc.thePlayer.inventory;
@@ -335,7 +335,7 @@ public class SAOIngameGUI extends GuiIngame {
         mc.mcProfiler.startSection("username");
 
         SAOGL.glColor(1, 1, 1, 1);
-        SAOGL.glBindTexture(SAOResources.gui);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
         //SAOGL.glTexturedRect(2, 2, zLevel, 0, 0, 10, 15); // I'll leave these old ones in there
         //SAOGL.glTexturedRect(13, 2, zLevel, 10, 0, 5, 15);
@@ -346,7 +346,7 @@ public class SAOIngameGUI extends GuiIngame {
         SAOGL.glTexturedRect(18, 2, zLevel, usernameBoxes * 5, 15, 16, 0, 5, 15);
         SAOGL.glString(fontRenderer, username, 18, 3 + (15 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF);
 
-        SAOGL.glBindTexture(SAOResources.gui);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
         SAOGL.glColor(1, 1, 1, 1);
 
         mc.mcProfiler.endSection();
@@ -361,15 +361,15 @@ public class SAOIngameGUI extends GuiIngame {
         final int healthWidth = 216;
         final int healthHeight = SAOOption.ORIGINAL_UI.value? 9 : 3;
 
-        final int value = (int) (SAOMod.getHealth(mc, mc.thePlayer, time) / SAOMod.getMaxHealth(mc.thePlayer) * healthWidth);
+        final int healthValue = (int) (SAOMod.getHealth(mc, mc.thePlayer, time) / SAOMod.getMaxHealth(mc.thePlayer) * healthWidth);
         SAOHealthStep.getStep(mc, mc.thePlayer, time).glColor();
 
         if (SAOOption.ORIGINAL_UI.value) {
             int h = healthHeight;
-            for (int i = 0; i < value; i++) {
+            for (int i = 0; i < healthValue; i++) {
                 SAOGL.glTexturedRect(offsetUsername + 1 + i, 5, zLevel, (healthHeight - h), 15, 1, h);
 
-                if (((i >= 105) && (i <= 110)) || (i >= value - h)) {
+                if (((i >= 105) && (i <= 110)) || (i >= healthValue - h)) {
                     h--;
 
                     if (h <= 0) {
@@ -378,14 +378,42 @@ public class SAOIngameGUI extends GuiIngame {
                 }
             }
         } else { // TODO: finish this
-            int h = healthHeight;
-            for (int i = 0; i < value; i++) {
-                SAOGL.glTexturedRect(offsetUsername + 1 + i, 5, zLevel, (healthHeight - h), 15, 1, h);
+            int h = healthValue <= 41? 41 - healthValue: 0;
+            int stepOne = (int) (healthValue / 3.0F - 14);
+            int stepTwo = (int) (healthValue / 3.0F * 2.0F - 14);
+            int stepThree = healthValue - 10;
+            for (int i = 0; i < healthValue; i++) {
+                SAOGL.glTexturedRect(offsetUsername + 4 + i, 6, zLevel, h, 236, 1, healthHeight);
 
-                if (((i >= 105) && (i <= 110)) || (i >= value - h)) {
-                    h--;
+                if (healthValue <= 41) {
+                    h++;
+                    if (h > 41) break;
+                } else if ((i >= stepOne && i < stepOne + 13) || (i >= stepTwo && i < stepTwo + 13) || (i >= stepThree)) {
+                    System.out.print("i" + i + "h" + h);
+                    h++;
 
-                    if (h <= 0) {
+                    if (h > 41) {
+                        break;
+                    }
+                }
+            }
+            final int foodValue = (int) (SAOMod.getHungerFract(mc.thePlayer) * healthWidth);
+            h = foodValue < 41? 41 - (foodValue - 41): 0;
+            stepOne = (int) (foodValue / 3.0F - 14);
+            stepTwo = (int) (foodValue/ 3.0F * 2.0F - 10);
+            stepThree = foodValue - 11;
+            SAOGL.glColorRGBA(0x8EE1E8);
+            for (int i = 0; i < foodValue; i++) {
+                SAOGL.glTexturedRect(offsetUsername + 4 + i, 9, zLevel, h, 239, 1, healthHeight + 1);
+
+                if (foodValue <= 41) {
+                    h++;
+                    if (h > 41) break;
+                }else if ((i >= stepOne && i < stepOne + 13) || (i >= stepTwo && i < stepTwo + 13) || (i >= stepThree)) {
+                    System.out.print("i" + i + "h" + h);
+                    h++;
+
+                    if (h > 41) {
                         break;
                     }
                 }
@@ -412,7 +440,7 @@ public class SAOIngameGUI extends GuiIngame {
         final int offsetForEffects = offsetUsername + healthBarWidth - 4;
         final List<SAOEffect> effects = SAOEffect.getEffects(mc.thePlayer);
 
-        SAOGL.glBindTexture(SAOResources.gui);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
         for (int i = 0; i < effects.size(); i++) {
             effects.get(i).glDraw(offsetForEffects + i * 11, 2, zLevel);
@@ -439,7 +467,7 @@ public class SAOIngameGUI extends GuiIngame {
                     continue;
                 }
 
-                SAOGL.glBindTexture(SAOResources.gui);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
                 SAOGL.glTexturedRect(2, 19 + index * 15, zLevel, 85, 15, 10, 13);
                 SAOGL.glTexturedRect(13, 19 + index * 15, zLevel, 80, 15, 5, 13);
@@ -492,7 +520,7 @@ public class SAOIngameGUI extends GuiIngame {
 
         mc.mcProfiler.startSection("expLevel");
 
-        SAOGL.glBindTexture(SAOResources.gui);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
         final int offsetHealth = offsetUsername + 113 + (healthBoxes + 2) * 5;
 
@@ -506,7 +534,7 @@ public class SAOIngameGUI extends GuiIngame {
         SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13, zLevel, 75, 15, 5, 13);
 
         SAOGL.glString(levelStr, offsetHealth + 5, 16, 0xFFFFFFFF);
-        SAOGL.glBindTexture(SAOResources.gui);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
         mc.mcProfiler.endSection();
     }

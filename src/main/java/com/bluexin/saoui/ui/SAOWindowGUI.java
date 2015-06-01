@@ -40,7 +40,7 @@ public class SAOWindowGUI extends SAOMenuGUI {
     @Override
     public void draw(Minecraft mc, int cursorX, int cursorY) {
         if (visibility > 0) {
-            SAOGL.glBindTexture(SAOResources.gui);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
             SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
 
             final int left = getX(false);

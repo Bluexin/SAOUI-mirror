@@ -29,7 +29,7 @@ public class SAOAlertGUI extends SAOElementGUI {
         super.draw(mc, cursorX, cursorY);
 
         if (visibility > 0) {
-            SAOGL.glBindTexture(SAOResources.gui);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
             final int color = mouseOver(cursorX, cursorY) ? SAOColor.mediumColor(alertColor, SAOColor.DEFAULT_FONT_COLOR) : alertColor;
 

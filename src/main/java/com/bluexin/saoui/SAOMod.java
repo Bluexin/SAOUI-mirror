@@ -920,6 +920,10 @@ public class SAOMod implements Runnable {
         return entity instanceof EntityLivingBase ? ((EntityLivingBase) entity).getMaxHealth() : 1F;
     }
 
+    public static float getHungerFract(final Entity entity) {
+        return entity instanceof EntityPlayer ? ((EntityPlayer) entity).getFoodStats().getFoodLevel() / 20.0F : 1.0F;
+    }
+
     public static SAOColorState getColorState(final EntityPlayer entity) {
         final UUID uuid = entity.getUniqueID();
 

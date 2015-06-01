@@ -1,9 +1,6 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.util.SAOColor;
-import com.bluexin.saoui.util.SAOResources;
-import com.bluexin.saoui.util.SAOGL;
-import com.bluexin.saoui.util.SAOParentGUI;
+import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,7 +20,7 @@ public class SAOVLineGUI extends SAOElementGUI {
         super.draw(mc, cursorX, cursorY);
 
         if (visibility > 0) {
-            SAOGL.glBindTexture(SAOResources.gui);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
             SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_FONT_COLOR, visibility));
 
             final int left = getX(false) + (width - lineWidth) / 2;

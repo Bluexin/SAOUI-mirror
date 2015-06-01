@@ -113,7 +113,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
         }
 
         if (CURSOR_STATUS == SAOCursorStatus.SHOW) {
-            SAOGL.glBindTexture(SAOResources.gui);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
             SAOGL.glBlend(true);
             SAOGL.tryBlendFuncSeparate(770, 771, 1, 0);

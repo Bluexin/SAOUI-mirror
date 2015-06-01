@@ -1,9 +1,6 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.util.SAOColor;
-import com.bluexin.saoui.util.SAOParentGUI;
-import com.bluexin.saoui.util.SAOResources;
-import com.bluexin.saoui.util.SAOGL;
+import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -62,7 +59,7 @@ public class SAOMenuGUI extends SAOContainerGUI {
 	public void draw(Minecraft mc, int cursorX, int cursorY) {
         if ((visibility > 0) && (parent != null) && (height > 0)) {
             if (x > 0) {
-                SAOGL.glBindTexture(SAOResources.gui);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
                 SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
 
                 final int left = getX(false);
@@ -73,7 +70,7 @@ public class SAOMenuGUI extends SAOContainerGUI {
                 SAOGL.glTexturedRect(left - 2, top, 2, height, 40, 41, 2, 4);
                 SAOGL.glTexturedRect(left - 10, arrowTop + (height - 10) / 2, 20, 25 + (fullArrow ? 10 : 0), 10, 10);
             } else if (x < 0) {
-                SAOGL.glBindTexture(SAOResources.gui);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
                 SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
 
                 final int left = getX(false);

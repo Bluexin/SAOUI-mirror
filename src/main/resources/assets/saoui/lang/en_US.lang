@@ -1,0 +1,49 @@
+
+# Social
+guiFriendRequestTitle=Friend Request
+guiFriendRequestText=%s wants to add you as a friend.
+guiPartyInviteTitle=Invite
+guiPartyInviteText=%s invites you to join a party.
+guiPartyDissolvingTitle=Dissolve
+guiPartyDissolvingText=Do you want to disband your party?
+guiPartyLeaveTitle=Leave
+guiPartyLeaveText=Do you want to leave your party?
+guiMessageTitle=Message
+guiMessageFrom=from %s
+guiInvite=Invite
+guiCreate=Create
+guiDissolve=Dissolve
+guiMessageBox=Message Box
+guiGuild=Guild
+guiParty=Party
+guiFriends=Friends
+
+
+# Inventory
+guiWeapons=Weapons
+guiEquipped=Equipped
+guiAccessory=Accessory
+guiProfile=Profile
+guiEquipments=Equipments
+guiItems=Items
+
+
+# Info
+guiPositionCheck=Position Check
+guiFieldMap=Field Map
+guiDungMap=Dungeon Map
+guiQuest=Quest
+guiSkills=Skills
+guiQuestList=Quest List
+guiDistance=Distance
+guiFloor=Floor
+guiCrafting=Crafting
+guiSprinting=Sprinting
+guiSneaking=Sneaking
+
+
+# Misc
+guiOptions=Options..
+guiOption=Option
+guiHelp=Help
+guiLogout=Logout
