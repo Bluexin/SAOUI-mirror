@@ -71,6 +71,7 @@ optionCliChatPacks=Client Chat Packets
 optionSounds=Sound Effects
 optionLogout=Can Log Out?
 optionOrigUI=Original UI
+optionLessVis=Less Visual Noise
 
 
 # Display

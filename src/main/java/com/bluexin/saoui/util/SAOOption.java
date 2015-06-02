@@ -19,7 +19,8 @@ public enum SAOOption {
     CLIENT_CHAT_PACKETS(StatCollector.translateToLocal("optionCliChatPacks"), true),
     SOUND_EFFECTS(StatCollector.translateToLocal("optionSounds"), true),
     LOGOUT(StatCollector.translateToLocal("optionLogout"), false),
-    ORIGINAL_UI(StatCollector.translateToLocal("optionOrigUI"), true);
+    ORIGINAL_UI(StatCollector.translateToLocal("optionOrigUI"), true),
+    LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false);
 
     public final String name;
     public boolean value;

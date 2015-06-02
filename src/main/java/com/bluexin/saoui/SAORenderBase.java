@@ -13,6 +13,8 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -130,6 +132,8 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderColorCursor(Minecraft mc, Entity entity, double x, double y, double z, int distance) {
+        if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;
+
         double d3 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
 
         if (d3 <= (double) (distance * distance)) {
@@ -172,6 +176,7 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderHealthBar(Minecraft mc, Entity entity, double x, double y, double z, float f0, float f1) {
+        if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.entities: SAOResources.entitiesCustom);
 
         Tessellator tessellator = Tessellator.getInstance();
