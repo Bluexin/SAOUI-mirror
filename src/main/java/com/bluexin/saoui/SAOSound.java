@@ -7,6 +7,8 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.ConcurrentModificationException;
+
 public class SAOSound {
 
     public static final String CONFIRM = "sao.confirm";
@@ -22,7 +24,11 @@ public class SAOSound {
 
     public static void playFromEntity(Entity entity, String name) {
         if ((entity != null) && (!entity.isSilent())) {
-            playAtEntity(entity, name);
+            try {
+                playAtEntity(entity, name);
+            } catch (ConcurrentModificationException ignored) {
+                System.out.println("CME thrown!");
+            }
         }
     }
 
@@ -30,25 +36,37 @@ public class SAOSound {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc != null) {
-            play(mc.getSoundHandler(), name, (float) entity.posX, (float) entity.posY, (float) entity.posZ);
+            try {
+                play(mc.getSoundHandler(), name, (float) entity.posX, (float) entity.posY, (float) entity.posZ);
+            } catch (ConcurrentModificationException ignored) {
+                System.out.println("CME thrown!");}
         }
     }
 
     public static void play(Minecraft mc, String name) {
         if (mc != null) {
-            play(mc.getSoundHandler(), name);
+            try {
+                play(mc.getSoundHandler(), name);
+            } catch (ConcurrentModificationException ignored) {
+                System.out.println("CME thrown!");}
         }
     }
 
     public static void play(SoundHandler handler, String name) {
         if ((SAOOption.SOUND_EFFECTS.value) && (handler != null)) {
-            handler.playSound(PositionedSoundRecord.create(getResource(name)));
+            try {
+                handler.playSound(PositionedSoundRecord.create(getResource(name)));
+            } catch (ConcurrentModificationException ignored) {
+                System.out.println("CME thrown!");}
         }
     }
 
     private static void play(SoundHandler handler, String name, float x, float y, float z) {
         if ((SAOOption.SOUND_EFFECTS.value) && (handler != null)) {
-            handler.playSound(PositionedSoundRecord.create(getResource(name), x, y, z));
+            try {
+                handler.playSound(PositionedSoundRecord.create(getResource(name), x, y, z));
+            } catch (ConcurrentModificationException ignored) {
+                System.out.println("CME thrown!");}
         }
     }
 
