@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -118,7 +119,7 @@ public final class SAOSub {
                 }
             }
 
-            sub.elements.add(new SAOLabelGUI(sub, 0, 0, "-Friends-", SAOAlign.CENTER));
+            sub.elements.add(new SAOLabelGUI(sub, 0, 0, '-' + StatCollector.translateToLocal("guiFriends") + '-', SAOAlign.CENTER));
             sub.elements.add(new SAOTextGUI(sub, 0, 0, builder.toString()));
         } else {
             setEmptySub(mc, sub);
@@ -140,7 +141,7 @@ public final class SAOSub {
                 }
             }
 
-            sub.elements.add(new SAOLabelGUI(sub, 0, 0, "-Party-", SAOAlign.CENTER));
+            sub.elements.add(new SAOLabelGUI(sub, 0, 0, '-' + StatCollector.translateToLocal("guiParty") + '-', SAOAlign.CENTER));
             sub.elements.add(new SAOTextGUI(sub, 0, 0, builder.toString()));
         } else {
             setEmptySub(mc, sub);
@@ -177,7 +178,7 @@ public final class SAOSub {
     }
 
     private static SAOMenuGUI setQuestsSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
-        sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, "-Quest List-", SAOAlign.CENTER));
+        sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, '-' + StatCollector.translateToLocal("guiQuestList") + '-', SAOAlign.CENTER));
 
         final SAOMenuGUI questList = new SAOMenuGUI(sub, 0, 0, sub.width, 150);
         questList.innerMenu = true;
@@ -213,12 +214,12 @@ public final class SAOSub {
 
     public static SAOString[] addProfileContent(EntityPlayer player) {
         return new SAOString[]{
-                new SAOJString("Profile"), new SAOPlayerString(player)
+                new SAOJString(StatCollector.translateToLocal("guiProfile")), new SAOPlayerString(player)
         };
     }
 
     public static SAOString[] addPositionContent(EntityPlayer player, EntityPlayer search) {
-        final StringBuilder floor = new StringBuilder("Floor ");
+        final StringBuilder floor = new StringBuilder(StatCollector.translateToLocal("guiFloor") + ' ');
         final StringBuilder builder = new StringBuilder();
 
         if (player != null) {
@@ -229,7 +230,7 @@ public final class SAOSub {
             builder.append("Z: ").append((int) player.posZ).append('\n');
 
             if (player != search) {
-                builder.append("Distance: ");
+                builder.append(StatCollector.translateToLocal("guiDistance")).append(' ');
                 builder.append((double) ((int) (Math.sqrt(player.getDistanceSqToEntity(search)) * 1000)) / 1000);
                 builder.append('\n');
             }

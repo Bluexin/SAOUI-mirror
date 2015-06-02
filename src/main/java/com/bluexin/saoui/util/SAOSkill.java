@@ -1,5 +1,6 @@
 package com.bluexin.saoui.util;
 
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,7 +22,7 @@ public enum SAOSkill {
     public final String toString() {
         final String name = name();
 
-        return name.charAt(0) + name.substring(1, name.length()).toLowerCase();
+        return StatCollector.translateToLocal("skill" + name.charAt(0) + name.substring(1, name.length()).toLowerCase());
     }
 
 }

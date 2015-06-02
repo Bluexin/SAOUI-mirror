@@ -4,6 +4,7 @@ import com.bluexin.saoui.SAOMod;
 import com.bluexin.saoui.util.SAOAlign;
 import com.bluexin.saoui.util.SAOParentGUI;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,7 +16,7 @@ public class SAOMessageGUI extends SAOWindowGUI {
 
     public SAOMessageGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, String text, String from) {
         super(gui, xPos, yPos, w, h, SAOMod._MESSAGE_TITLE);
-        final String fromString = String.format(SAOMod._MESSAGE_FROM, from);
+        final String fromString = StatCollector.translateToLocalFormatted(SAOMod._MESSAGE_FROM, from);
 
         elements.add(textText = new SAOTextGUI(this, 0, 0, text, width));
         elements.add(fromLable = new SAOLabelGUI(this, 0, 0, fromString, SAOAlign.RIGHT));

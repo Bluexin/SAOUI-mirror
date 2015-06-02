@@ -10,6 +10,7 @@ guiPartyLeaveTitle=Leave
 guiPartyLeaveText=Do you want to leave your party?
 guiMessageTitle=Message
 guiMessageFrom=from %s
+guiDeadAlert=You are Dead
 guiInvite=Invite
 guiCreate=Create
 guiDissolve=Dissolve
@@ -28,6 +29,12 @@ guiEquipment=Equipment
 guiItems=Items
 
 
+#Skills
+skillSprinting=Sprinting
+skillCrafting=Crafting
+skillSneaking=Sneaking
+
+
 # Info
 guiPositionCheck=Position Check
 guiFieldMap=Field Map
@@ -40,6 +47,7 @@ guiFloor=Floor
 guiCrafting=Crafting
 guiSprinting=Sprinting
 guiSneaking=Sneaking
+guiProfile=Profile
 
 
 # Misc
@@ -48,6 +56,29 @@ guiOption=Option
 guiHelp=Help
 guiLogout=Logout
 
+
+# Options
+optionDefaultUI=Default UI
+optionDefaultInv=Default Inventory
+optionDefaultDeath=Default Death
+optionCrossHair=Cross Hair
+optionHealthBars=Health Bars
+optionSmoothHealth=Smooth Health
+optionColorCursor=Guild Icon
+optionParticles=Particles
+optionCursorMov=Cursor Movement
+optionCliChatPacks=Client Chat Packets
+optionSounds=Sound Effects
+optionLogout=Can Log Out?
+optionOrigUI=Original UI
+
+
 # Display
 displayLvShort=LV
 displayLvLong=Level
+displayXpShort=XP
+displayXpLong=Experience
+displayHpLong=Health
+displayStrLong=Strength
+displayDexLong=Agility
+displayResLong=Resistance

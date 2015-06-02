@@ -19,7 +19,7 @@ public enum SAOColorState {
     VIOLENT(0xF4BD00FF),
     KILLER(0xBD0000FF),
 
-    GAMEMASTER(0x222222FF);
+    GAMEMASTER(0x79139EFF);
 
     private final int color;
 
@@ -55,11 +55,11 @@ public enum SAOColorState {
     }
 
     private static SAOColorState getPlayerColorState(Minecraft mc, EntityPlayer player, float time) {
-        /*if (SAOMod.getName(player).equals(SAOMod.AUTHOR_AND_DEVELOPER)) {
+        if (SAOMod.getName(player).equals("_Bluexin_") ||SAOMod.getName(player).equals("Blaez")) {
 			return GAMEMASTER;
-		} else {*/
-        return SAOMod.getColorState(player);
-        //}
+		} else {
+            return SAOMod.getColorState(player);
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StatCollector;
 
 import java.util.Collection;
 
@@ -54,13 +55,13 @@ public final class SAOPlayerString implements SAOString {
             final float agility = attr(player.getAIMoveSpeed());
             final float resistance = attr(player.getTotalArmorValue());
 
-            builder.append("Level: ").append(level).append('\n');
-            builder.append("Experience: ").append(experience).append("%\n");
+            builder.append(StatCollector.translateToLocal("displayLvLong")).append(": ").append(level).append('\n');
+            builder.append(StatCollector.translateToLocal("displayXpLong")).append(": ").append(experience).append("%\n");
 
-            builder.append("Health: ").append(health).append("/").append(maxHealth).append('\n');
-            builder.append("Strength: ").append(strength).append('\n');
-            builder.append("Agility: ").append(agility).append('\n');
-            builder.append("Resistance: ").append(resistance).append("\n");
+            builder.append(StatCollector.translateToLocal("displayHpLong")).append(": ").append(health).append("/").append(maxHealth).append('\n');
+            builder.append(StatCollector.translateToLocal("displayStrLong")).append(": ").append(strength).append('\n');
+            builder.append(StatCollector.translateToLocal("displayDexLong")).append(": ").append(agility).append('\n');
+            builder.append(StatCollector.translateToLocal("displayResLong")).append(": ").append(resistance).append("\n");
         }
 
         return builder.toString();

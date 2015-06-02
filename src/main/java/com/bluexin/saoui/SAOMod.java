@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -447,7 +448,7 @@ public class SAOMod implements Runnable {
                 final GuiScreen keepScreen = mc.currentScreen;
                 final boolean ingameFocus = mc.inGameHasFocus;
 
-                final String text = String.format(_PARTY_INVITATION_TEXT, username);
+                final String text = StatCollector.translateToLocalFormatted(_PARTY_INVITATION_TEXT, username);
 
                 mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(_PARTY_INVITATION_TITLE, text, (element, action, data) -> {
                     final SAOID id = element.ID();
@@ -512,7 +513,7 @@ public class SAOMod implements Runnable {
                 final GuiScreen keepScreen = mc.currentScreen;
                 final boolean ingameFocus = mc.inGameHasFocus;
 
-                final String text = String.format(_FRIEND_REQUEST_TEXT, username);
+                final String text = StatCollector.translateToLocalFormatted(_FRIEND_REQUEST_TEXT, username);
 
                 mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(_FRIEND_REQUEST_TITLE, text, (element, action, data) -> {
                     final SAOID id = element.ID();

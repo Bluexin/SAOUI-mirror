@@ -460,7 +460,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.OPTIONS) {
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 130, 100);
 
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, "Options..", SAOIcon.HELP));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, StatCollector.translateToLocal("guiOptions"), SAOIcon.HELP));
 
             for (final SAOOption option : SAOOption.values()) {
                 final SAOButtonGUI button = new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
@@ -476,15 +476,15 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.EQUIPMENT) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.WEAPONS, 0, 0, "Weapons", SAOIcon.EQUIPMENT));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.EQUIPPED, 0, 0, "Equipped", SAOIcon.ARMOR));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.ACCESSORY, 0, 0, "Accessory", SAOIcon.ACCESSORY));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.WEAPONS, 0, 0, StatCollector.translateToLocal("guiWeapons"), SAOIcon.EQUIPMENT));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.EQUIPPED, 0, 0, StatCollector.translateToLocal("guiEquipped"), SAOIcon.ARMOR));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.ACCESSORY, 0, 0, StatCollector.translateToLocal("guiAccessory"), SAOIcon.ACCESSORY));
         } else if (id == SAOID.PARTY) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOPartyGUI(menu, SAOID.INVITE_LIST, 0, 0, "Invite", SAOIcon.INVITE, true));
-            menu.elements.add(new SAOPartyGUI(menu, SAOID.CREATE, 0, 0, "Create", SAOIcon.CREATE, false));
-            menu.elements.add(new SAOPartyGUI(menu, SAOID.DISSOLVE, 0, 0, "Dissolve", SAOIcon.CANCEL, true));
+            menu.elements.add(new SAOPartyGUI(menu, SAOID.INVITE_LIST, 0, 0, StatCollector.translateToLocal("guiInvite"), SAOIcon.INVITE, true));
+            menu.elements.add(new SAOPartyGUI(menu, SAOID.CREATE, 0, 0, StatCollector.translateToLocal("guiCreate"), SAOIcon.CREATE, false));
+            menu.elements.add(new SAOPartyGUI(menu, SAOID.DISSOLVE, 0, 0, StatCollector.translateToLocal("guiDissolve"), SAOIcon.CANCEL, true));
 
             sub = SAOSub.resetPartySub(mc, sub);
             info = SAOSub.addInfo(sub);
@@ -542,9 +542,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             if (((SAOFriendGUI) element).highlight) {
                 menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-                menu.elements.add(new SAOButtonGUI(menu, SAOID.MESSAGE_BOX, 0, 0, "Message Box", SAOIcon.MESSAGE));
-                menu.elements.add(new SAOButtonGUI(menu, SAOID.POSITION_CHECK, 0, 0, "Position Check", SAOIcon.FIELD_MAP));
-                menu.elements.add(new SAOButtonGUI(menu, SAOID.OTHER_PROFILE, 0, 0, "Profile", SAOIcon.PARTY));
+                menu.elements.add(new SAOButtonGUI(menu, SAOID.MESSAGE_BOX, 0, 0, StatCollector.translateToLocal("guiMessageBox"), SAOIcon.MESSAGE));
+                menu.elements.add(new SAOButtonGUI(menu, SAOID.POSITION_CHECK, 0, 0, StatCollector.translateToLocal("guiPositionCheck"), SAOIcon.FIELD_MAP));
+                menu.elements.add(new SAOButtonGUI(menu, SAOID.OTHER_PROFILE, 0, 0, StatCollector.translateToLocal("guiProfile"), SAOIcon.PARTY));
             } else {
                 menu = null;
 
@@ -594,7 +594,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.FIELD_MAP) {
             menu = null;
 
-            sub = SAOSub.resetCheckPositionSub(mc, sub, mc.thePlayer, 4, "-Field Map-");
+            sub = SAOSub.resetCheckPositionSub(mc, sub, mc.thePlayer, 4, '-' + StatCollector.translateToLocal("guiFieldMap") + '-');
             info = SAOSub.addInfo(sub);
 
             infoCaption = null;
@@ -606,7 +606,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.DUNGEON_MAP) {
             menu = null;
 
-            sub = SAOSub.resetCheckPositionSub(mc, sub, mc.thePlayer, 1, "-Dungeon Map-");
+            sub = SAOSub.resetCheckPositionSub(mc, sub, mc.thePlayer, 1, '-' + StatCollector.translateToLocal("guiDungMap") + '-');
             info = SAOSub.addInfo(sub);
 
             infoCaption = null;
