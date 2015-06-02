@@ -145,6 +145,8 @@ public class SAOIngameGUI extends GuiIngame {
 
         mc.mcProfiler.startSection("inventorySlots");
 
+        SAOGL.glAlpha(true);
+
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
         SAOGL.glColor(1, 1, 1, 1);
 
