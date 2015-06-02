@@ -20,7 +20,8 @@ public enum SAOOption {
     SOUND_EFFECTS(StatCollector.translateToLocal("optionSounds"), true),
     LOGOUT(StatCollector.translateToLocal("optionLogout"), false),
     ORIGINAL_UI(StatCollector.translateToLocal("optionOrigUI"), true),
-    LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false);
+    LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false),
+    SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true);
 
     public final String name;
     public boolean value;

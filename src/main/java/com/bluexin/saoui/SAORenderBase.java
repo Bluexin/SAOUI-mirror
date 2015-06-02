@@ -153,7 +153,7 @@ class SAORenderBase extends RenderPlayer {
             SAOGL.tryBlendFuncSeparate(770, 771, 1, 0);
 
 
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.entities: SAOResources.entitiesCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.entities : SAOResources.entitiesCustom);
 
             Tessellator tessellator = Tessellator.getInstance();
 
@@ -161,11 +161,47 @@ class SAORenderBase extends RenderPlayer {
 
             SAOColorState.getColorState(mc, entity, SAOMod.UNKNOWN_TIME_DELAY).glColor();
 
-            tessellator.getWorldRenderer().addVertexWithUV(-9, -1, 0.0D, 0F, 0.25F);
-            tessellator.getWorldRenderer().addVertexWithUV(-9, 17, 0.0D, 0F, 0.375F);
-            tessellator.getWorldRenderer().addVertexWithUV(9, 17, 0.0D, 0.125F, 0.375F);
-            tessellator.getWorldRenderer().addVertexWithUV(9, -1, 0.0D, 0.125F, 0.25F);
-            tessellator.draw();
+            if (SAOOption.SPINNING_CRYSTALS.value) {
+                double a = (entity.worldObj.getTotalWorldTime() % 40) / 20.0D  * Math.PI;
+                double cos = Math.cos(a);//Math.PI / 3 * 2);
+                double sin = Math.sin(a);//Math.PI / 3 * 2);
+
+                if (a > Math.PI / 2 && a <= Math.PI * 3 / 2 ) {
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, -1, 9.0D * sin, 0.125F, 0.25F);
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, 17, 9.0D * sin, 0.125F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * cos, 17, -9.0D * sin, 0F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * cos, -1, -9.0D * sin, 0F, 0.25F);
+                } else {
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * cos, -1, -9.0D * sin, 0F, 0.25F);
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * cos, 17, -9.0D * sin, 0F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, 17, 9.0D * sin, 0.125F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, -1, 9.0D * sin, 0.125F, 0.25F);
+                }
+
+                tessellator.draw();
+                tessellator.getWorldRenderer().startDrawingQuads();
+
+                if (a < Math.PI) {
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * sin, -1, 9.0D * cos, 0.125F, 0.25F);
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * sin, 17, 9.0D * cos, 0.125F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * sin, 17, -9.0D * cos, 0F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * sin, -1, -9.0D * cos, 0F, 0.25F);
+                } else {
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * sin, -1, -9.0D * cos, 0F, 0.25F);
+                    tessellator.getWorldRenderer().addVertexWithUV(9.0D * sin, 17, -9.0D * cos, 0F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * sin, 17, 9.0D * cos, 0.125F, 0.375F);
+                    tessellator.getWorldRenderer().addVertexWithUV(-9.0D * sin, -1, 9.0D * cos, 0.125F, 0.25F);
+                }
+
+                tessellator.draw();
+            } else {
+                tessellator.getWorldRenderer().addVertexWithUV(-9, -1, 0.0D, 0F, 0.25F);
+                tessellator.getWorldRenderer().addVertexWithUV(-9, 17, 0.0D, 0F, 0.375F);
+                tessellator.getWorldRenderer().addVertexWithUV(9, 17, 0.0D, 0.125F, 0.375F);
+                tessellator.getWorldRenderer().addVertexWithUV(9, -1, 0.0D, 0.125F, 0.25F);
+                tessellator.draw();
+            }
+
 
             SAOGL.glBlend(false);
             SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
