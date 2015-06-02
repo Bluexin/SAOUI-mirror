@@ -72,6 +72,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 
     @Override
     public void updateScreen() {
+        if (this.elements == null) return;
         for (int i = elements.size() - 1; i >= 0; i--) {
             if (i >= elements.size()) {
                 continue;
@@ -89,6 +90,8 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 
     @Override
     public void drawScreen(int cursorX, int cursorY, float f) {
+        if (this.elements == null) return;
+        for (SAOElementGUI el: this.elements) if (el == null) return;
         mouseX = cursorX;
         mouseY = cursorY;
 
