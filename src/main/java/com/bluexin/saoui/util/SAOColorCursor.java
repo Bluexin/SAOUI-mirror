@@ -6,6 +6,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public final class SAOColorCursor {
 
+    public static final SAOColorCursor CREATIVE = new SAOColorCursor(SAOColorState.CREATIVE, false);
+
     private static final long STATE_TIME = 24 * 60 * 60 * 1000; // DAY IN MILLISECONDS
 
     private SAOColorState colorState;

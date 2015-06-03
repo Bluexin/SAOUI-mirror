@@ -16,9 +16,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public enum SAOColorState {
 
     INNOCENT(0x93F43EFF),
-    VIOLENT(0xF4BD00FF),
+    VIOLENT(0xF49B00FF),
     KILLER(0xBD0000FF),
 
+    CREATIVE(0xEDE24CFF),
     GAMEMASTER(0x79139EFF);
 
     private final int color;
@@ -33,7 +34,7 @@ public enum SAOColorState {
 
     public static SAOColorState getColorState(Minecraft mc, Entity entity, float time) {
         if (entity instanceof EntityPlayer) {
-            return getPlayerColorState(mc, (EntityPlayer) entity, time);
+            return ((EntityPlayer) entity).capabilities.isCreativeMode ? CREATIVE : getPlayerColorState(mc, (EntityPlayer) entity, time);
         } else if (entity instanceof EntityCreature) {
             return getEntityColorState((EntityCreature) entity);
         } else {

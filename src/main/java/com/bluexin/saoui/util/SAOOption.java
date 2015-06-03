@@ -21,7 +21,8 @@ public enum SAOOption {
     LOGOUT(StatCollector.translateToLocal("optionLogout"), false),
     ORIGINAL_UI(StatCollector.translateToLocal("optionOrigUI"), true),
     LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false),
-    SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true);
+    SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true),
+    FORCE_HUD(StatCollector.translateToLocal("optionForceHud"), false);
 
     public final String name;
     public boolean value;

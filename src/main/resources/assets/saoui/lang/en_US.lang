@@ -73,6 +73,7 @@ optionLogout=Can Log Out?
 optionOrigUI=Original UI
 optionLessVis=Less Visual Noise
 optionSpinning=Spinning Crystals
+optionForceHud=Force HUD (gm 1)
 
 
 # Display

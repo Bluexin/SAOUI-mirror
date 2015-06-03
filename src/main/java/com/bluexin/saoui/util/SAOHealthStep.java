@@ -3,6 +3,7 @@ package com.bluexin.saoui.util;
 import com.bluexin.saoui.SAOMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,7 +15,8 @@ public enum SAOHealthStep {
     VERY_DAMAGED(0.3F, 0xF47800FF),
     DAMAGED(0.4F, 0xF4BD00FF),
     OKAY(0.5F, 0xEDEB38FF),
-    GOOD(1.0F, 0x93F43EFF);
+    GOOD(1.0F, 0x93F43EFF),
+    CREATIVE(-1.0F, 0xB32DE3FF);
 
     private final float healthLimit;
     private final int color;
@@ -47,6 +49,7 @@ public enum SAOHealthStep {
     }
 
     public static SAOHealthStep getStep(Minecraft mc, EntityLivingBase entity, float time) {
+        if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) return CREATIVE;
         final float value = SAOMod.getHealth(mc, entity, time) / SAOMod.getMaxHealth(entity);
         SAOHealthStep step = first();
 

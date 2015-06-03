@@ -110,7 +110,7 @@ public class SAOIngameGUI extends GuiIngame {
 
         SAOGL.glStartUI(mc);
 
-        if (mc.playerController.shouldDrawHUD()) {
+        if (mc.playerController.shouldDrawHUD() || SAOOption.FORCE_HUD.value) {
             drawHUD(time, fontRenderer);
         }
 
