@@ -442,32 +442,38 @@ public class SAOIngameGUI extends GuiIngame {
         }
 
 
-        final String healthStr = String.valueOf((int) SAOMod.getHealth(mc, mc.thePlayer, time)) + " / " + String.valueOf((int) SAOMod.getMaxHealth(mc.thePlayer));
-        final int healthStrWidth = fontRenderer.getStringWidth(healthStr);
+        int healthBoxes = 0;
 
-        final int healthBoxes = (healthStrWidth + 4) / 5;
+        if (!SAOOption.REMOVE_HPXP.value) {
+            final String healthStr = String.valueOf((int) SAOMod.getHealth(mc, mc.thePlayer, time)) + " / " + String.valueOf((int) SAOMod.getMaxHealth(mc.thePlayer));
+            final int healthStrWidth = fontRenderer.getStringWidth(healthStr);
 
-        SAOGL.glColor(1, 1, 1, 1);
-        SAOGL.glTexturedRect(offsetUsername + 113, 13, zLevel, 60, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetUsername + 118, 13, zLevel, healthBoxes * 5, 13, 65, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetUsername + 118 + healthBoxes * 5, 13, zLevel, 70, 15, 5, 13);
+            healthBoxes = (healthStrWidth + 4) / 5;
 
-        SAOGL.glString(healthStr, offsetUsername + 118, 16, 0xFFFFFFFF);
+            SAOGL.glColor(1, 1, 1, 1);
+            SAOGL.glTexturedRect(offsetUsername + 113, 13, zLevel, 60, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetUsername + 118, 13, zLevel, healthBoxes * 5, 13, 65, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetUsername + 118 + healthBoxes * 5, 13, zLevel, 70, 15, 5, 13);
 
-        mc.mcProfiler.endSection();
-
-        mc.mcProfiler.startSection("effects");
-
-        final int offsetForEffects = offsetUsername + healthBarWidth - 4;
-        final List<SAOEffect> effects = SAOEffect.getEffects(mc.thePlayer);
-
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
-
-        for (int i = 0; i < effects.size(); i++) {
-            effects.get(i).glDraw(offsetForEffects + i * 11, 2, zLevel);
+            SAOGL.glString(healthStr, offsetUsername + 118, 16, 0xFFFFFFFF);
         }
 
         mc.mcProfiler.endSection();
+
+        if (!mc.thePlayer.capabilities.isCreativeMode) {
+            mc.mcProfiler.startSection("effects");
+
+            final int offsetForEffects = offsetUsername + healthBarWidth - 4;
+            final List<SAOEffect> effects = SAOEffect.getEffects(mc.thePlayer);
+
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+
+            for (int i = 0; i < effects.size(); i++) {
+                effects.get(i).glDraw(offsetForEffects + i * 11, 2, zLevel);
+            }
+
+            mc.mcProfiler.endSection();
+        }
 
         int hpBarOffset = 26;
 
@@ -539,25 +545,28 @@ public class SAOIngameGUI extends GuiIngame {
             hpBarOffset += (index * 15);
         }
 
-        mc.mcProfiler.startSection("expLevel");
+        if (!SAOOption.REMOVE_HPXP.value) {
+            mc.mcProfiler.startSection("expLevel");
 
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
-        final int offsetHealth = offsetUsername + 113 + (healthBoxes + 2) * 5;
+            final int offsetHealth = offsetUsername + 113 + (healthBoxes + 2) * 5;
 
-        final String levelStr = StatCollector.translateToLocal("displayLvShort") + ": " + String.valueOf(mc.thePlayer.experienceLevel);
-        final int levelStrWidth = fontRenderer.getStringWidth(levelStr);
+            final String levelStr = StatCollector.translateToLocal("displayLvShort") + ": " + String.valueOf(mc.thePlayer.experienceLevel);
+            final int levelStrWidth = fontRenderer.getStringWidth(levelStr);
 
-        final int levelBoxes = (levelStrWidth + 4) / 5;
+            final int levelBoxes = (levelStrWidth + 4) / 5;
 
-        SAOGL.glTexturedRect(offsetHealth, 13, zLevel, 60, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetHealth + 5, 13, zLevel, levelBoxes * 5, 13, 65, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13, zLevel, 75, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetHealth, 13, zLevel, 60, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetHealth + 5, 13, zLevel, levelBoxes * 5, 13, 65, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13, zLevel, 75, 15, 5, 13);
 
-        SAOGL.glString(levelStr, offsetHealth + 5, 16, 0xFFFFFFFF);
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+            SAOGL.glString(levelStr, offsetHealth + 5, 16, 0xFFFFFFFF);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
-        mc.mcProfiler.endSection();
+            mc.mcProfiler.endSection();
+        }
+
     }
 
     private void drawTooltips(FontRenderer fontRenderer, int width, int height) {
