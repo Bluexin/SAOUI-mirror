@@ -132,6 +132,7 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderColorCursor(Minecraft mc, Entity entity, double x, double y, double z, int distance) {
+        if (entity.riddenByEntity != null) return;
         if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;
 
         double d3 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
@@ -212,6 +213,7 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderHealthBar(Minecraft mc, Entity entity, double x, double y, double z, float f0, float f1) {
+        if (entity.riddenByEntity != null) return;
         if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) return;
         if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.entities: SAOResources.entitiesCustom);
