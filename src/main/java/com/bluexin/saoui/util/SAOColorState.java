@@ -2,6 +2,7 @@ package com.bluexin.saoui.util;
 
 import com.bluexin.saoui.SAOMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.monster.EntityMob;
@@ -34,7 +35,7 @@ public enum SAOColorState {
 
     public static SAOColorState getColorState(Minecraft mc, Entity entity, float time) {
         if (entity instanceof EntityPlayer) {
-            return ((EntityPlayer) entity).capabilities.isCreativeMode ? CREATIVE : getPlayerColorState(mc, (EntityPlayer) entity, time);
+            return SAOMod.isCreative((AbstractClientPlayer) entity)? CREATIVE : getPlayerColorState(mc, (EntityPlayer) entity, time);
         } else if (entity instanceof EntityCreature) {
             return getEntityColorState((EntityCreature) entity);
         } else {

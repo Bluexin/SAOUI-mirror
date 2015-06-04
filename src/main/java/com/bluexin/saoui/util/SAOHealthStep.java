@@ -49,7 +49,7 @@ public enum SAOHealthStep {
     }
 
     public static SAOHealthStep getStep(Minecraft mc, EntityLivingBase entity, float time) {
-        if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) return CREATIVE;
+        if (entity instanceof EntityPlayer && (((EntityPlayer) entity).capabilities.isCreativeMode || ((EntityPlayer) entity).isSpectator())) return CREATIVE;
         final float value = SAOMod.getHealth(mc, entity, time) / SAOMod.getMaxHealth(entity);
         SAOHealthStep step = first();
 
