@@ -1,0 +1,4 @@
+0.1-001:
+    started using indev versioning ;p
+    new icons for ALO theme
+    fixed mounts health bars/cursors showing up
