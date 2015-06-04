@@ -54,7 +54,7 @@ dependencies {
 
 task buildInfo {
     if (System.getenv().DRONE_BUILD_NUMBER != null) {
-        def cmd = System.getenv().DRONE_BUILD_NUMBER + " >> changelog.txt"
+        def cmd = "echo " + System.getenv().DRONE_BUILD_NUMBER + " >> changelog.txt"
         def proc = cmd.execute()
         proc.waitFor()
     }
