@@ -28,7 +28,7 @@ minecraft {
     version = "1.8-11.14.1.1419"
     runDir = "run"
     
-    // the mappings can be changed at any time, and must be in the following format.
+    // the mappings can be changed at any time, and must be in the following format.. (ehh)
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
