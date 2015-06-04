@@ -45,7 +45,7 @@ public class SAOMod implements Runnable {
     public static final String MODID = "saoui";
 
     public static final String NAME = "Sword Art Online UI";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.0-001";
 
     private static final double MAX_RANGE = 256.0D;
     private static final float HEALTH_ANIMATION_FACTOR = 0.075F;
