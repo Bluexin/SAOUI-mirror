@@ -57,11 +57,20 @@ public enum SAOColorState {
     }
 
     private static SAOColorState getPlayerColorState(Minecraft mc, EntityPlayer player, float time) {
-        if (SAOMod.getName(player).equals("_Bluexin_") ||SAOMod.getName(player).equals("Blaez")) {
+        if (isDev(SAOMod.getName(player))) {
 			return GAMEMASTER;
 		} else {
             return SAOMod.getColorState(player);
         }
+    }
+
+    private static boolean isDev(String pl) {
+        String[] devs = new String[] {"_Bluexin_", "Blaez", "Felphor", "LordCruaver"};
+        for (String dev: devs) {
+            if (dev.equals(pl)) return true;
+        }
+
+        return false;
     }
 
 }

@@ -75,6 +75,7 @@ optionLessVis=Less Visual Noise
 optionSpinning=Spinning Crystals
 optionForceHud=Force HUD (gm 1)
 optionLightHud=Lighter HUD
+optionBossBar=Force Boss HP bar
 
 
 # Display
