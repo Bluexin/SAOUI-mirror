@@ -3,3 +3,4 @@ fixed mounts health bars/cursors showing up
 spectator mode now also has purple health bar
 other creative players should now be detected as such
 added players to dev list
+added a way to display the Absorption Effect
