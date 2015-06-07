@@ -469,6 +469,8 @@ public class SAOIngameGUI extends GuiIngame {
         mc.mcProfiler.endSection();
 
         if (!mc.thePlayer.capabilities.isCreativeMode) {
+            SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
+
             mc.mcProfiler.startSection("effects");
 
             final int offsetForEffects = offsetUsername + healthBarWidth - 4;
