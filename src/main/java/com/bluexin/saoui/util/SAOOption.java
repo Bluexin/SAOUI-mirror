@@ -23,7 +23,8 @@ public enum SAOOption {
     LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false),
     SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true),
     FORCE_HUD(StatCollector.translateToLocal("optionForceHud"), false),
-    REMOVE_HPXP(StatCollector.translateToLocal("optionLightHud"), false);
+    REMOVE_HPXP(StatCollector.translateToLocal("optionLightHud"), false),
+    ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false);
 
     public final String name;
     public boolean value;

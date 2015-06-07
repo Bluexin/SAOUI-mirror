@@ -4,3 +4,4 @@ spectator mode now also has purple health bar
 other creative players should now be detected as such
 added players to dev list
 added a way to display the Absorption Effect
+added an option to change the positioning of the absorption value
