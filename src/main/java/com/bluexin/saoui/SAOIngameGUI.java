@@ -456,6 +456,15 @@ public class SAOIngameGUI extends GuiIngame {
             final String healthStr = String.valueOf((SAOOption.ALT_ABSORB_POS.value? absorb:"") + (int) SAOMod.getHealth(mc, mc.thePlayer, time)) + (SAOOption.ALT_ABSORB_POS.value? "":absorb) + " / " + String.valueOf((int) SAOMod.getMaxHealth(mc.thePlayer));
             final int healthStrWidth = fontRenderer.getStringWidth(healthStr);
 
+            final int absStart = healthStr.indexOf('(');
+            String[] strs;
+            if (absStart >= 0) strs = new String[]{
+                    healthStr.substring(0, absStart),
+                    healthStr.substring(absStart, healthStr.indexOf(')') + 1),
+                    healthStr.substring(healthStr.indexOf(')') + 1)
+            };
+            else strs = new String[] {"", "", healthStr};
+
             healthBoxes = (healthStrWidth + 4) / 5;
 
             SAOGL.glColor(1, 1, 1, 1);
@@ -463,7 +472,9 @@ public class SAOIngameGUI extends GuiIngame {
             SAOGL.glTexturedRect(offsetUsername + 118, 13, zLevel, healthBoxes * 5, 13, 65, 15, 5, 13);
             SAOGL.glTexturedRect(offsetUsername + 118 + healthBoxes * 5, 13, zLevel, 70, 15, 5, 13);
 
-            SAOGL.glString(healthStr, offsetUsername + 118, 16, 0xFFFFFFFF);
+            SAOGL.glString(strs[0], offsetUsername + 118, 16, 0xFFFFFFFF);
+            SAOGL.glString(strs[1], offsetUsername + 118 + fontRenderer.getStringWidth(strs[0]), 16, 0xFF55FFFF);
+            SAOGL.glString(strs[2], offsetUsername + 118 + fontRenderer.getStringWidth(strs[0] + strs[1]), 16, 0xFFFFFFFF);
         }
 
         mc.mcProfiler.endSection();
