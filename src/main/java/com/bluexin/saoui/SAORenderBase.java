@@ -99,7 +99,7 @@ class SAORenderBase extends RenderPlayer {
         }
 
         if (SAOOption.PARTICLES.value) {
-            if (deadStart) {
+            if (deadStart && entity instanceof EntityLivingBase) {
                 SAOSound.playAtEntity(entity, SAOSound.PARTICLES_DEATH);
             }
 
