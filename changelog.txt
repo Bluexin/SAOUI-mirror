@@ -7,3 +7,4 @@ added a way to display the Absorption Effect
 added an option to change the positioning of the absorption value
 fixed icons (buffs) coloring
 added yellow color to absorb value rendering
+fixed floating-point values in absorb and 0 health (same bug)

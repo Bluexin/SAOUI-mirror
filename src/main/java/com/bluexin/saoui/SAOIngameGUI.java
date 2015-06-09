@@ -447,13 +447,12 @@ public class SAOIngameGUI extends GuiIngame {
         if (!SAOOption.REMOVE_HPXP.value) {
             String absorb = SAOOption.ALT_ABSORB_POS.value? "":" ";
             if (mc.thePlayer.getAbsorptionAmount() > 0) {
-                absorb += "(+" + mc.thePlayer.getAbsorptionAmount();
-                if (absorb.endsWith(".0")) absorb = absorb.substring(0, absorb.indexOf('.'));
+                absorb += "(+" + Math.ceil(mc.thePlayer.getAbsorptionAmount());
                 absorb += ')';
                 absorb += SAOOption.ALT_ABSORB_POS.value? ' ':"";
             }
 
-            final String healthStr = String.valueOf((SAOOption.ALT_ABSORB_POS.value? absorb:"") + (int) SAOMod.getHealth(mc, mc.thePlayer, time)) + (SAOOption.ALT_ABSORB_POS.value? "":absorb) + " / " + String.valueOf((int) SAOMod.getMaxHealth(mc.thePlayer));
+            final String healthStr = String.valueOf((SAOOption.ALT_ABSORB_POS.value? absorb:"") + Math.ceil(SAOMod.getHealth(mc, mc.thePlayer, time))) + (SAOOption.ALT_ABSORB_POS.value? "":absorb) + " / " + String.valueOf(Math.ceil(SAOMod.getMaxHealth(mc.thePlayer)));
             final int healthStrWidth = fontRenderer.getStringWidth(healthStr);
 
             final int absStart = healthStr.indexOf('(');
