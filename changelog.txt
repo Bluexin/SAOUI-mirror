@@ -9,3 +9,4 @@ fixed icons (buffs) coloring
 added yellow color to absorb value rendering
 fixed floating-point values in absorb and 0 health (same bug)
 fixed items despawn noise
+other players now see the mount's HP bar
