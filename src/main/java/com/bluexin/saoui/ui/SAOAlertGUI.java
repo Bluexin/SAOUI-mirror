@@ -43,7 +43,7 @@ public class SAOAlertGUI extends SAOElementGUI {
             SAOGL.glTexturedRect(left + width, top, 60, 145, 20, height);
 
             // Handled texture-wise now... Yeah lazy ^-^
-            SAOGL.glString(caption, left + (width - SAOGL.glStringWidth(caption)) / 2, top + (height - SAOGL.glStringHeight()) / 2, alertColor);
+            //SAOGL.glString(caption, left + (width - SAOGL.glStringWidth(caption)) / 2, top + (height - SAOGL.glStringHeight()) / 2, alertColor);
 
             //GlStateManager.scale(0.5F, 0.5F, 0.5F);
             //SAOGL.glString(caption, (int) (left + (width - SAOGL.glStringWidth(caption) / 4) / 16) * 2, (int) (top + (height - SAOGL.glStringHeight()) / 1.5F) * 2, alertColor);
