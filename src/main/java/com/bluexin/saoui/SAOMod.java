@@ -85,6 +85,7 @@ public class SAOMod implements Runnable {
     private static Thread mcModThread, renderManagerUpdate;
 
     private static Map<UUID, Float> healthSmooth;
+    private static Map<UUID, Float> hungerSmooth;
     private static Map<UUID, SAOColorCursor> colorStates;
 
     private static int partyTicks;
@@ -201,6 +202,12 @@ public class SAOMod implements Runnable {
             healthSmooth = new HashMap<>();
         } else {
             healthSmooth.clear();
+        }
+
+        if (hungerSmooth == null) {
+            hungerSmooth = new HashMap<>();
+        } else {
+            hungerSmooth.clear();
         }
 
         if (colorStates == null) {
@@ -923,8 +930,35 @@ public class SAOMod implements Runnable {
         return entity instanceof EntityLivingBase ? ((EntityLivingBase) entity).getMaxHealth() : 1F;
     }
 
-    public static float getHungerFract(final Entity entity) {
-        return entity instanceof EntityPlayer ? ((EntityPlayer) entity).getFoodStats().getFoodLevel() / 20.0F : 1.0F;
+    public static float getHungerFract(final Minecraft mc, final Entity entity, final float time) {
+        if (!(entity instanceof EntityPlayer)) return 1.0F;
+        EntityPlayer player = (EntityPlayer) entity;
+        final float hunger;
+        if (SAOOption.SMOOTH_HEALTH.value) {
+            final UUID uuid = entity.getUniqueID();
+
+            hunger = player.getFoodStats().getFoodLevel();
+
+            if (hungerSmooth.containsKey(uuid)) {
+                float hungerValue = hungerSmooth.get(uuid);
+
+                if (hunger <= 0) {
+                    final float value = (float) (18 - player.deathTime) / 18;
+
+                    if (value <= 0) hungerSmooth.remove(uuid);
+
+                    return hungerValue * value;
+                } else if (Math.round(hungerValue * 10) != Math.round(hunger * 10))
+                    hungerValue = hungerValue + (hunger - hungerValue) * (gameTimeDelay(mc, time) * HEALTH_ANIMATION_FACTOR);
+                else hungerValue = hunger;
+
+                hungerSmooth.put(uuid, hungerValue);
+                return hungerValue / 20.0F;
+            } else {
+                hungerSmooth.put(uuid, hunger);
+                return hunger / 20.0F;
+            }
+        } else return player.getFoodStats().getFoodLevel() / 20.0F;
     }
 
     public static SAOColorState getColorState(final EntityPlayer entity) {

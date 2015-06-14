@@ -411,7 +411,7 @@ public class SAOIngameGUI extends GuiIngame {
                 for (int i = 0; i < healthValue - 2; i++) SAOGL.glTexturedRect(offsetUsername + i  + 4, 6, zLevel, 0, 245, 4, 4);
             }
 
-            final int foodValue = (int) (SAOMod.getHungerFract(mc.thePlayer) * healthWidth);
+            final int foodValue = (int) (SAOMod.getHungerFract(mc, mc.thePlayer, time) * healthWidth);
             h = foodValue < 12? 12 - foodValue: 0;
             o = healthHeight;
             SAOGL.glColorRGBA(0x8EE1E8);
