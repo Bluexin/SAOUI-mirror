@@ -2,4 +2,4 @@
 
 IFS=$'\n' ar=( version=$DRONE_BUILD_NUMBER)
 mv src/main/resources/mcmod.info mcmod.info.bak
-gawk -va="${ar[*]}" -f a.awk mcmod.info.bak > src/main/resources/mcmod.info
+awk -va="${ar[*]}" -f a.awk mcmod.info.bak > src/main/resources/mcmod.info
