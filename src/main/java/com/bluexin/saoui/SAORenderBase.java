@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -138,7 +139,7 @@ class SAORenderBase extends RenderPlayer {
         double d3 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
 
         if (d3 <= (double) (distance * distance)) {
-            final float sizeMult = ((EntityLivingBase) entity).isChild()? 0.5F: 1.0F;
+            final float sizeMult = ((EntityLivingBase) entity).isChild() && entity instanceof EntityMob? 0.5F: 1.0F;
 
             float f = 1.6F;
             float f1 = 0.016666668F * f;
@@ -233,7 +234,7 @@ class SAORenderBase extends RenderPlayer {
 
         tessellator.getWorldRenderer().startDrawing(GL11.GL_TRIANGLE_STRIP);
 
-        final float sizeMult = ((EntityLivingBase) entity).isChild()? 0.5F: 1.0F;
+        final float sizeMult = ((EntityLivingBase) entity).isChild() && entity instanceof EntityMob? 0.5F: 1.0F;
 
         for (int i = 0; i <= hitPoints; i++) {
             final double value = (double) (i + HEALTH_COUNT - hitPoints) / HEALTH_COUNT;
