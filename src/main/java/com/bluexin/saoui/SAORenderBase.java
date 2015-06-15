@@ -138,14 +138,16 @@ class SAORenderBase extends RenderPlayer {
         double d3 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
 
         if (d3 <= (double) (distance * distance)) {
+            final float sizeMult = ((EntityLivingBase) entity).isChild()? 0.5F: 1.0F;
+
             float f = 1.6F;
             float f1 = 0.016666668F * f;
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate((float) x + 0.0F, (float) y + entity.height + 1.1F, (float) z);
+            GlStateManager.translate((float) x + 0.0F, (float) y + sizeMult * entity.height + sizeMult * 1.1F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.scale(-f1, -f1, f1);
+            GlStateManager.scale(-(f1 * sizeMult), -(f1 * sizeMult), (f1 * sizeMult));
             GlStateManager.disableLighting();
 
             SAOGL.glDepthTest(true);
@@ -216,7 +218,7 @@ class SAORenderBase extends RenderPlayer {
         if (entity.riddenByEntity != null && entity.riddenByEntity == mc.thePlayer) return;
         if (entity instanceof EntityPlayer && SAOMod.isCreative((AbstractClientPlayer) entity)) return;
         if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.entities: SAOResources.entitiesCustom);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.entities : SAOResources.entitiesCustom);
 
         Tessellator tessellator = Tessellator.getInstance();
 
@@ -231,13 +233,15 @@ class SAORenderBase extends RenderPlayer {
 
         tessellator.getWorldRenderer().startDrawing(GL11.GL_TRIANGLE_STRIP);
 
+        final float sizeMult = ((EntityLivingBase) entity).isChild()? 0.5F: 1.0F;
+
         for (int i = 0; i <= hitPoints; i++) {
             final double value = (double) (i + HEALTH_COUNT - hitPoints) / HEALTH_COUNT;
             final double rad = Math.toRadians(renderManager.playerViewY - 135) + (value - 0.5) * Math.PI * HEALTH_ANGLE;
 
-            final double x0 = x + entity.width * HEALTH_RANGE * Math.cos(rad);
-            final double y0 = y + entity.height * HEALTH_OFFSET;
-            final double z0 = z + entity.width * HEALTH_RANGE * Math.sin(rad);
+            final double x0 = x + sizeMult * entity.width * HEALTH_RANGE * Math.cos(rad);
+            final double y0 = y + sizeMult * entity.height * HEALTH_OFFSET;
+            final double z0 = z + sizeMult * entity.width * HEALTH_RANGE * Math.sin(rad);
 
             final double uv_value = value - (double) (HEALTH_COUNT - hitPoints) / HEALTH_COUNT;
 
@@ -254,9 +258,9 @@ class SAORenderBase extends RenderPlayer {
             final double value = (double) i / HEALTH_COUNT;
             final double rad = Math.toRadians(renderManager.playerViewY - 135) + (value - 0.5) * Math.PI * HEALTH_ANGLE;
 
-            final double x0 = x + entity.width * HEALTH_RANGE * Math.cos(rad);
-            final double y0 = y + entity.height * HEALTH_OFFSET;
-            final double z0 = z + entity.width * HEALTH_RANGE * Math.sin(rad);
+            final double x0 = x + sizeMult * entity.width * HEALTH_RANGE * Math.cos(rad);
+            final double y0 = y + sizeMult * entity.height * HEALTH_OFFSET;
+            final double z0 = z + sizeMult * entity.width * HEALTH_RANGE * Math.sin(rad);
 
             tessellator.getWorldRenderer().addVertexWithUV(x0, y0 + HEALTH_HEIGHT, z0, (1.0 - value), 0.125);
             tessellator.getWorldRenderer().addVertexWithUV(x0, y0, z0, (1.0 - value), 0.25);

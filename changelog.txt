@@ -13,3 +13,4 @@ other players now see the mount's HP bar
 updated gui files, new buff icons on ALO theme
 better death text
 smooth hunger <3
+babies health bar & crystal should be fixed
