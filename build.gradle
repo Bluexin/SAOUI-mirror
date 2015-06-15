@@ -52,14 +52,6 @@ dependencies {
 
 }
 
-task buildInfo {
-    if (System.getenv().DRONE_BUILD_NUMBER != null) {
-        def cmd = "echo " + project.version + "." + System.getenv().DRONE_BUILD_NUMBER + " >> changelog.txt"
-        def proc = cmd.execute()
-        proc.waitFor()
-    }
-}
-
 processResources
 {
     // this will ensure that this task is redone when the versions change.
