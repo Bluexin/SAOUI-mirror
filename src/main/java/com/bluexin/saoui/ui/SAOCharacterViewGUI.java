@@ -35,12 +35,11 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
             final int size = width * height / 550;
 
-            final int shadowX = size;
             final int shadowY = size / 2 + Math.max(Math.min((cursorY - top) / 12, 0), -size / 2 + 2);
 
             final int shadowOffset = Math.max((cursorY - top) / 10, 0);
 
-            SAOGL.glTexturedRect(left - shadowX / 2, (top - shadowY / 2), shadowX, shadowY, 200, 85, 56, 30);
+            SAOGL.glTexturedRect(left - size / 2, (top - shadowY / 2), size, shadowY, 200, 85, 56, 30);
 
             drawCharacter(character, left, top, size, cursorX, cursorY);
 

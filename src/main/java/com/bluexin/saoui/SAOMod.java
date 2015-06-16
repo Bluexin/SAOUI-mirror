@@ -1,9 +1,9 @@
 package com.bluexin.saoui;
 
-import com.bluexin.saoui.ui.SAOWindowGUI;
-import com.bluexin.saoui.util.*;
 import com.bluexin.saoui.ui.SAOConfirmGUI;
 import com.bluexin.saoui.ui.SAOScreenGUI;
+import com.bluexin.saoui.ui.SAOWindowGUI;
+import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiGameOver;
@@ -626,7 +626,7 @@ public class SAOMod implements Runnable {
     public static void addFriendRequest(Minecraft mc, String... names) {
         synchronized (friendRequests) {
             for (final String name : names) {
-                if ((!friendRequests.contains(name)) && (!isFriend(name))) {
+                if ((!friendRequests.contains(new SAOFriendRequest(name, 10000))) && (!isFriend(name))) {
                     friendRequests.add(new SAOFriendRequest(name, 10000));
                     sendSAOCommand(mc, SAOCommand.ADD_FRIEND_REQUEST, name);
                 }
@@ -717,7 +717,7 @@ public class SAOMod implements Runnable {
                 return true;
             } catch (IOException e) {
                 if (DEBUG) {
-                    System.out.println(e);
+                    e.printStackTrace();
                 }
 
                 return false;

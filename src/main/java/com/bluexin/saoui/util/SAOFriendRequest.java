@@ -15,7 +15,7 @@ public final class SAOFriendRequest {
     }
 
     private boolean equals(SAOFriendRequest request) {
-        return equals(request == null ? (String) null : request.friendName);
+        return equals(request == null ? null : request.friendName);
     }
 
     public final boolean equals(String name) {

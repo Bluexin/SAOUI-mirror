@@ -13,7 +13,7 @@ public class VersionChecker { // TODO: handle indev vs public
     {
         InputStream input = VersionChecker.class.getResourceAsStream("/assets/saoui/version.txt");
         if (input == null) throw new IOException("InputStream null!");
-        String content = IOUtils.toString(input, StandardCharsets.UTF_8).replace("\r\n","");
+        String content = IOUtils.toString(input, StandardCharsets.UTF_8).replace("\r\n", "").replace("\n", "");
         IOUtils.closeQuietly(input);
 
         return Integer.parseInt(content);
@@ -21,7 +21,7 @@ public class VersionChecker { // TODO: handle indev vs public
 
     private static int getRemoteVer() throws IOException {
         InputStream input = new URL("https://drone.io/github.com/Bluexin/SAOUI/files/build/libs/version.txt").openStream();
-        String content = IOUtils.toString(input, StandardCharsets.UTF_8).replace("\r\n", "");
+        String content = IOUtils.toString(input, StandardCharsets.UTF_8).replace("\r\n", "").replace("\n", "");
         IOUtils.closeQuietly(input);
 
         return Integer.parseInt(content);

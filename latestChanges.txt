@@ -1,1 +1,1 @@
-Added a VersionChecker 
+Fixed version checker error and ConcurrentModificationException. Fixes #1 (or should) 
