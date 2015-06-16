@@ -8,7 +8,7 @@
   "updateUrl": "",
   "authorList": ["TheJackiMonster", "Bluexin"],
   "credits": "TheJackiMonster for the original mod, Justice~ for new textures",
-  "logoFile": "",
+  "logoFile": "assets/saoui/textures/logo.png",
   "screenshots": [],
   "dependencies": []
 }
