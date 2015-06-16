@@ -15,3 +15,4 @@ better death text
 smooth hunger <3
 babies health bar & crystal should be fixed
 Adding automatic changelog 
+Added a VersionChecker 

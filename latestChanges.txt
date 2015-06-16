@@ -1,1 +1,1 @@
-Adding automatic changelog 
+Added a VersionChecker 

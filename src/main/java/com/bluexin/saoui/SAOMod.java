@@ -96,6 +96,8 @@ public class SAOMod implements Runnable {
     private boolean replaceGUI;
     private SAOEventHandler events;
 
+    public static boolean verChecked = false;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         events = new SAOEventHandler();

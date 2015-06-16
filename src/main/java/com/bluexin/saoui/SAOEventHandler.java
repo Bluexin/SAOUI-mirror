@@ -1,6 +1,8 @@
 package com.bluexin.saoui;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -75,6 +77,14 @@ class SAOEventHandler {
     public void playerDrops(PlayerDropsEvent e) {
         if (e.source.getEntity() instanceof EntityPlayer) {
             SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
+        }
+    }
+
+    @SubscribeEvent
+    public void joinWorld(EntityJoinWorldEvent e) {
+        if (!SAOMod.verChecked && e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer) {
+            ((EntityPlayer) e.entity).addChatComponentMessage(new ChatComponentText(VersionChecker.getUpdateNotif()));
+            SAOMod.verChecked = true;
         }
     }
 
