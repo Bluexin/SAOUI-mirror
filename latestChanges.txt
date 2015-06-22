@@ -1,1 +1,1 @@
-Fixed ArmorStands having a cursor and health bar 
+Fixed little border-case issue with VersionChecker 

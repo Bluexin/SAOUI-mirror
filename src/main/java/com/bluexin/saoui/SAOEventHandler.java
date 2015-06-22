@@ -83,7 +83,8 @@ class SAOEventHandler {
     @SubscribeEvent
     public void joinWorld(EntityJoinWorldEvent e) {
         if (!SAOMod.verChecked && e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer) {
-            ((EntityPlayer) e.entity).addChatComponentMessage(new ChatComponentText(VersionChecker.getUpdateNotif()));
+            String msg = VersionChecker.getUpdateNotif();
+            if (!msg.equals("")) ((EntityPlayer) e.entity).addChatComponentMessage(new ChatComponentText(msg));
             SAOMod.verChecked = true;
         }
     }
