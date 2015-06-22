@@ -1,1 +1,1 @@
-Added nice logo to the mod 
+Fixed ArmorStands having a cursor and health bar 

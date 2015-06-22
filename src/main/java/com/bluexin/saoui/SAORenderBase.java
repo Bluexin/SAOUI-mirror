@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
@@ -133,6 +134,7 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderColorCursor(Minecraft mc, Entity entity, double x, double y, double z, int distance) {
+        if (entity instanceof EntityArmorStand) return;
         if (entity.riddenByEntity != null) return;
         if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;
 
@@ -216,6 +218,7 @@ class SAORenderBase extends RenderPlayer {
     }
 
     private void doRenderHealthBar(Minecraft mc, Entity entity, double x, double y, double z, float f0, float f1) {
+        if (entity instanceof EntityArmorStand) return;
         if (entity.riddenByEntity != null && entity.riddenByEntity == mc.thePlayer) return;
         if (entity instanceof EntityPlayer && SAOMod.isCreative((AbstractClientPlayer) entity)) return;
         if (SAOOption.LESS_VISUALS.value && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer)) return;

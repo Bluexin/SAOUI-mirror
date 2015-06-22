@@ -18,3 +18,4 @@ Adding automatic changelog
 Added a VersionChecker 
 Fixed version checker error and ConcurrentModificationException. Fixes #1 (or should)
 Added nice logo to the mod 
+Fixed ArmorStands having a cursor and health bar 
