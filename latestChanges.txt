@@ -1,1 +1,1 @@
-Fixed little border-case issue with VersionChecker 
+Setting last things up for first public release 

@@ -20,3 +20,4 @@ Fixed version checker error and ConcurrentModificationException. Fixes #1 (or sh
 Added nice logo to the mod 
 Fixed ArmorStands having a cursor and health bar 
 Fixed little border-case issue with VersionChecker 
+Setting last things up for first public release 
