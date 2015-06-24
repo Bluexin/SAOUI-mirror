@@ -1,7 +1,6 @@
 package com.bluexin.saoui;
 
 import com.bluexin.saoui.util.SAOCommand;
-import com.bluexin.saoui.util.SAOOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.resources.I18n;
@@ -75,7 +74,7 @@ class SAONewChatGUI extends GuiNewChat {
             }
         }
 
-        if (SAOOption.CLIENT_CHAT_PACKETS.value) {
+        if (false/*SAOOption.CLIENT_CHAT_PACKETS.value*/) {
             final String format0 = I18n.format("commands.message.display.incoming", "%s", "%s");
             final String format1 = I18n.format("commands.message.display.outgoing", "%s", "%s");
 

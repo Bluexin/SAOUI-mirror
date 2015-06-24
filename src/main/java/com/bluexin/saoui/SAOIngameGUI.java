@@ -1,7 +1,6 @@
 package com.bluexin.saoui;
 
 import com.bluexin.saoui.util.*;
-import com.bluexin.saoui.ui.SAOIconGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
@@ -21,7 +20,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.util.ArrayDeque;
@@ -33,7 +31,7 @@ public class SAOIngameGUI extends GuiIngame {
 
     private final SAONewChatGUI chatLine;
     private final Queue<String[]> messages;
-    private final SAOIconGUI receivedMessage;
+    //private final SAOIconGUI receivedMessage;
 
     private boolean openedMessage;
 
@@ -41,11 +39,11 @@ public class SAOIngameGUI extends GuiIngame {
         super(mc);
         chatLine = new SAONewChatGUI(this, mc, persistantChatGUI);
         messages = new ArrayDeque<>();
-        receivedMessage = new SAOIconGUI(null, SAOID.MESSAGE, 0, 0, SAOIcon.MESSAGE_RECEIVED);
+        //receivedMessage = new SAOIconGUI(null, SAOID.MESSAGE, 0, 0, SAOIcon.MESSAGE_RECEIVED);
         openedMessage = false;
 
-        receivedMessage.visibility = 0;
-        receivedMessage.highlight = true;
+        //receivedMessage.visibility = 0;
+        //receivedMessage.highlight = true;
     }
 
     @Override
@@ -298,7 +296,7 @@ public class SAOIngameGUI extends GuiIngame {
         GlStateManager.disableLighting();
 
         SAOGL.glAlpha(true);
-
+/*
         if (!messages.isEmpty()) {
             receivedMessage.x = 8;
             receivedMessage.y = height * 3 / 4;
@@ -314,7 +312,7 @@ public class SAOIngameGUI extends GuiIngame {
 
             final String numberString = String.valueOf(messages.size());
             SAOGL.glString(numberString, receivedMessage.getX(false), receivedMessage.getY(false), SAOColor.HOVER_FONT_COLOR, true);
-        }
+        }*/
 
         final Item clock = Item.getByNameOrId("clock");
 
@@ -637,7 +635,7 @@ public class SAOIngameGUI extends GuiIngame {
     }
 
     public boolean backgroundClicked(int cursorX, int cursorY, int button) {
-        return !SAOOption.DEFAULT_UI.value && (receivedMessage.mouseOver(cursorX, cursorY, button)) && (receivedMessage.mouseReleased(mc, cursorX, cursorY, button)) && openMessage();
+        return !SAOOption.DEFAULT_UI.value; //&& (receivedMessage.mouseOver(cursorX, cursorY, button)) && (receivedMessage.mouseReleased(mc, cursorX, cursorY, button)) && openMessage();
 
     }
 

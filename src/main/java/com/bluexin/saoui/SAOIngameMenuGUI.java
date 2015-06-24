@@ -2,12 +2,10 @@ package com.bluexin.saoui;
 
 import com.bluexin.saoui.ui.*;
 import com.bluexin.saoui.util.*;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -190,16 +188,16 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                 SAOMod.saveAllOptions();
             }
         } else if ((id == SAOID.MESSAGE) && (mc.ingameGUI instanceof SAOIngameGUI)) {
-            ((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
+            //((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
         } else if ((id == SAOID.MESSAGE_BOX) && (element.parent instanceof SAOMenuGUI) && (((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI)) {
-            final String username = ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption;
+            /*final String username = ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption;
 
             final String format = I18n.format("commands.message.usage");
             final String cmd = format.substring(0, format.indexOf(' '));
 
             final String message = SAOJ8String.join(" ", cmd, username, "");
 
-            mc.displayGuiScreen(new GuiChat(message));
+            mc.displayGuiScreen(new GuiChat(message));*/
         } else if ((id == SAOID.SKILL) && (element instanceof SAOButtonGUI)) {
             final SAOButtonGUI button = (SAOButtonGUI) element;
 
@@ -230,13 +228,13 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                     break;
             }
         } else if ((id == SAOID.INVITE_PLAYER) && (element instanceof SAOButtonGUI)) {
-            final String name = ((SAOButtonGUI) element).caption;
+            /*final String name = ((SAOButtonGUI) element).caption;
 
             if (!SAOMod.isPartyMember(name)) {
                 SAOMod.inviteParty(mc, name);
-            }
+            }*/
         } else if (id == SAOID.CREATE) {
-            element.enabled = !SAOMod.createParty(mc, 2.5);
+            element.enabled = false;//!SAOMod.createParty(mc, 2.5);
 
             if (!element.enabled) {
                 mc.displayGuiScreen(null);
@@ -417,6 +415,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             setInfo(profile[0], profile[1]);
         } else if (id == SAOID.SOCIAL) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
+            menu.enabled = false;
 
             menu.elements.add(new SAOButtonGUI(menu, SAOID.GUILD, 0, 0, StatCollector.translateToLocal("guiGuild"), SAOIcon.GUILD));
             menu.elements.add(new SAOButtonGUI(menu, SAOID.PARTY, 0, 0, StatCollector.translateToLocal("guiParty"), SAOIcon.PARTY));
@@ -481,6 +480,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu.elements.add(new SAOButtonGUI(menu, SAOID.ACCESSORY, 0, 0, StatCollector.translateToLocal("guiAccessory"), SAOIcon.ACCESSORY));
         } else if (id == SAOID.PARTY) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
+            menu.enabled = false;
 
             menu.elements.add(new SAOPartyGUI(menu, SAOID.INVITE_LIST, 0, 0, StatCollector.translateToLocal("guiInvite"), SAOIcon.INVITE, true));
             menu.elements.add(new SAOPartyGUI(menu, SAOID.CREATE, 0, 0, StatCollector.translateToLocal("guiCreate"), SAOIcon.CREATE, false));
@@ -493,6 +493,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             infoText = null;
         } else if (id == SAOID.INVITE_LIST) {
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 100, 60);
+            menu.enabled = false;
 
             for (final EntityPlayer player : SAOMod.listOnlinePlayers(mc)) {
                 final String name = SAOMod.getName(player);
@@ -532,6 +533,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu = new SAOInventoryGUI(element, menuOffsetX, menuOffsetY, 150, 100, mc.thePlayer.inventoryContainer, SAOInventory.ACCESSORY);
         } else if (id == SAOID.FRIENDS) {
             menu = new SAOFriendsGUI(mc, element, menuOffsetX, menuOffsetY, 150, 100);
+            menu.enabled = false;
 
             sub = SAOSub.resetFriendsSub(mc, sub);
             info = SAOSub.addInfo(sub);
@@ -541,6 +543,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if ((id == SAOID.FRIEND) && (element instanceof SAOFriendGUI)) {
             if (((SAOFriendGUI) element).highlight) {
                 menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
+                menu.enabled = false;
 
                 menu.elements.add(new SAOButtonGUI(menu, SAOID.MESSAGE_BOX, 0, 0, StatCollector.translateToLocal("guiMessageBox"), SAOIcon.MESSAGE));
                 menu.elements.add(new SAOButtonGUI(menu, SAOID.POSITION_CHECK, 0, 0, StatCollector.translateToLocal("guiPositionCheck"), SAOIcon.FIELD_MAP));
@@ -548,7 +551,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             } else {
                 menu = null;
 
-                SAOMod.addFriendRequest(mc, ((SAOFriendGUI) element).caption);
+                //SAOMod.addFriendRequest(mc, ((SAOFriendGUI) element).caption);
                 element.enabled = false;
             }
         } else if ((id == SAOID.OTHER_PROFILE) && (element.parent instanceof SAOMenuGUI) && (((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI)) {
