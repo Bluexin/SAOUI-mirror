@@ -1,1 +1,1 @@
-*Sigh* 
+Fixed bug with player list (default TAB) 

@@ -22,3 +22,4 @@ Fixed ArmorStands having a cursor and health bar
 Fixed little border-case issue with VersionChecker 
 Setting last things up for first public release 
 *Sigh* 
+Fixed bug with player list (default TAB) 

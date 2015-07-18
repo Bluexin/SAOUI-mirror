@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
@@ -282,11 +283,12 @@ public class SAOIngameGUI extends GuiIngame {
 
         GlStateManager.popMatrix();
 
-        scoreobjective = mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
+        Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
+        scoreobjective = scoreboard.getObjectiveInDisplaySlot(0);
 
-        if (this.mc.gameSettings.keyBindPlayerList.isPressed() && (!this.mc.isIntegratedServerRunning() || this.mc.thePlayer.sendQueue.func_175106_d().size() > 1 || scoreobjective != null)) {
+        if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || this.mc.thePlayer.sendQueue.func_175106_d().size() > 1 || scoreobjective != null)) {
             this.overlayPlayerList.func_175246_a(true);
-            this.overlayPlayerList.func_175249_a(width, mc.theWorld.getScoreboard(), scoreobjective);
+            this.overlayPlayerList.func_175249_a(width, scoreboard, scoreobjective);
         } else {
             this.overlayPlayerList.func_175246_a(false);
         }
