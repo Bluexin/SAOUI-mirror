@@ -1,1 +1,1 @@
-Added almost all the potionEffects (No icons for harm/instant_damage, confusion/nausea, digSlowDown/mining_fatigue (inCodeName/unlocalized_name)) 
+Added almost all the potionEffects (with the textures this time ;p) 
