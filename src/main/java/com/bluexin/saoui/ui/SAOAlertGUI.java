@@ -38,9 +38,9 @@ public class SAOAlertGUI extends SAOElementGUI {
             final int left = getX(false);
             final int top = getY(false);
 
-            SAOGL.glTexturedRect(left - 20, top, 0, 145, 20, height);
-            SAOGL.glTexturedRect(left, top, width, height, 20, 145, 40, height);
-            SAOGL.glTexturedRect(left + width, top, 60, 145, 20, height);
+            SAOGL.glTexturedRect(left - 20, top, 0, 155, 20, height);
+            SAOGL.glTexturedRect(left, top, width, height, 20, 155, 40, height);
+            SAOGL.glTexturedRect(left + width, top, 60, 155, 20, height);
 
             // Handled texture-wise now... Yeah lazy ^-^
             //SAOGL.glString(caption, left + (width - SAOGL.glStringWidth(caption)) / 2, top + (height - SAOGL.glStringHeight()) / 2, alertColor);

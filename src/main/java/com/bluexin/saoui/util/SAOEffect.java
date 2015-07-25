@@ -23,7 +23,21 @@ public enum SAOEffect {
     BLIND,
     WET,
     DROWNING,
-    BURNING;
+    BURNING,
+    SATURATION,
+    SPEED_BOOST,
+    WATER_BREATH,
+    STRENGTH,
+    ABSORPTION,
+    FIRE_RES,
+    HASTE,
+    HEALTH_BOOST,
+    INST_HEALTH, // Probably won't be used here
+    INVISIBILITY,
+    JUMP_BOOST,
+    NIGHT_VISION,
+    REGEN,
+    RESIST;
 
     private static final int SRC_X = 0;
     private static final int SRC_Y = 135;
@@ -31,11 +45,11 @@ public enum SAOEffect {
     private static final int SRC_HEIGHT = 10;
 
     private int getSrcX() {
-        return SRC_X + ordinal() * SRC_WIDTH;
+        return SRC_X + ordinal() % 14 * SRC_WIDTH;
     }
 
     private int getSrcY() {
-        return SRC_Y;
+        return SRC_Y + ordinal() * SRC_HEIGHT / 14;
     }
 
     public final void glDraw(int x, int y, float z) {
@@ -68,6 +82,34 @@ public enum SAOEffect {
                 effects.add(CURSED);
             } else if (potionEffect.getPotionID() == Potion.blindness.getId()) {
                 effects.add(BLIND);
+            } else if (potionEffect.getPotionID() == Potion.saturation.getId()) {
+                effects.add(SATURATION);
+            } else if (potionEffect.getPotionID() == Potion.moveSpeed.getId()) {
+                effects.add(SPEED_BOOST);
+            } else if (potionEffect.getPotionID() == Potion.waterBreathing.getId()){
+                effects.add(WATER_BREATH);
+            } else if (potionEffect.getPotionID() == Potion.damageBoost.getId()) {
+                effects.add(STRENGTH);
+            } else if (potionEffect.getPotionID() == Potion.absorption.getId()) {
+                effects.add(ABSORPTION);
+            } else if (potionEffect.getPotionID() == Potion.fireResistance.getId()) {
+                effects.add(FIRE_RES);
+            } else if (potionEffect.getPotionID() == Potion.digSpeed.getId()) {
+                effects.add(HASTE);
+            } else if (potionEffect.getPotionID() == Potion.healthBoost.getId()) {
+                effects.add(HEALTH_BOOST);
+            } else if (potionEffect.getPotionID() == Potion.heal.getId()) {
+                effects.add(INST_HEALTH);
+            } else if (potionEffect.getPotionID() == Potion.invisibility.getId()) {
+                effects.add(INVISIBILITY);
+            } else if (potionEffect.getPotionID() == Potion.jump.getId()) {
+                effects.add(JUMP_BOOST);
+            } else if (potionEffect.getPotionID() == Potion.nightVision.getId()) {
+                effects.add(NIGHT_VISION);
+            } else if (potionEffect.getPotionID() == Potion.regeneration.getId()) {
+                effects.add(REGEN);
+            } else if (potionEffect.getPotionID() == Potion.resistance.getId()) {
+                effects.add(RESIST);
             }
         });
 
