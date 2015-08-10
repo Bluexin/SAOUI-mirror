@@ -28,10 +28,14 @@ public enum SAOOption {
 
     public final String name;
     public boolean value;
+    //public final boolean isCategory;
+    //public final SAOOption category;
 
-    SAOOption(String optionName, boolean defaultValue) {
+    SAOOption(String optionName, boolean defaultValue/*, boolean isCat, SAOOption category*/) {
         name = optionName;
         value = defaultValue;
+        //isCategory = isCat;
+        //this.category= category;
     }
 
     public final String toString() {
