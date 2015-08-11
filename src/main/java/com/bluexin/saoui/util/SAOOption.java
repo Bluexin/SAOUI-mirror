@@ -7,37 +7,41 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public enum SAOOption {
 
-    DEFAULT_UI(StatCollector.translateToLocal("optionDefaultUI"), false),
-    DEFAULT_INVENTORY(StatCollector.translateToLocal("optionDefaultInv"), false),
-    DEFAULT_DEATH_SCREEN(StatCollector.translateToLocal("optionDefaultDeath"), false),
-    CROSS_HAIR(StatCollector.translateToLocal("optionCrossHair"), false),
-    HEALTH_BARS(StatCollector.translateToLocal("optionHealthBars"), true),
-    SMOOTH_HEALTH(StatCollector.translateToLocal("optionSmoothHealth"), true),
-    COLOR_CURSOR(StatCollector.translateToLocal("optionColorCursor"), true),
-    PARTICLES(StatCollector.translateToLocal("optionParticles"), true),
-    CURSOR_MOVEMENT(StatCollector.translateToLocal("optionCursorMov"), true),
-    CLIENT_CHAT_PACKETS(StatCollector.translateToLocal("optionCliChatPacks"), true),
-    SOUND_EFFECTS(StatCollector.translateToLocal("optionSounds"), true),
-    LOGOUT(StatCollector.translateToLocal("optionLogout"), false),
-    ORIGINAL_UI(StatCollector.translateToLocal("optionOrigUI"), true),
-    LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false),
-    SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true),
-    FORCE_HUD(StatCollector.translateToLocal("optionForceHud"), false),
-    REMOVE_HPXP(StatCollector.translateToLocal("optionLightHud"), false),
-    ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false);
+    UI(StatCollector.translateToLocal("optCatUI"), false, true, null),
+    RENDERER(StatCollector.translateToLocal("optCatRend"), false, true, null),
+    INTERFACES(StatCollector.translateToLocal("optCatInterf"), false, true, null),
+    DEFAULT_UI(StatCollector.translateToLocal("optionDefaultUI"), false, false, UI),
+    DEFAULT_INVENTORY(StatCollector.translateToLocal("optionDefaultInv"), false, false, INTERFACES),
+    DEFAULT_DEATH_SCREEN(StatCollector.translateToLocal("optionDefaultDeath"), false, false, UI),
+    CROSS_HAIR(StatCollector.translateToLocal("optionCrossHair"), false, false, UI),
+    HEALTH_BARS(StatCollector.translateToLocal("optionHealthBars"), true, false, RENDERER),
+    SMOOTH_HEALTH(StatCollector.translateToLocal("optionSmoothHealth"), true, false, UI),
+    COLOR_CURSOR(StatCollector.translateToLocal("optionColorCursor"), true, false, RENDERER),
+    PARTICLES(StatCollector.translateToLocal("optionParticles"), true, false, RENDERER),
+    CURSOR_MOVEMENT(StatCollector.translateToLocal("optionCursorMov"), true, false, INTERFACES),
+    CLIENT_CHAT_PACKETS(StatCollector.translateToLocal("optionCliChatPacks"), true, false, null),
+    SOUND_EFFECTS(StatCollector.translateToLocal("optionSounds"), true, false, null),
+    LOGOUT(StatCollector.translateToLocal("optionLogout"), false, false, INTERFACES),
+    ORIGINAL_UI(StatCollector.translateToLocal("optionOrigUI"), true, false, UI),
+    LESS_VISUALS(StatCollector.translateToLocal("optionLessVis"), false, false, RENDERER),
+    SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true, false, RENDERER),
+    FORCE_HUD(StatCollector.translateToLocal("optionForceHud"), false, false, UI),
+    REMOVE_HPXP(StatCollector.translateToLocal("optionLightHud"), false, false, UI),
+    ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false, false, UI);
 
     public final String name;
     public boolean value;
-    //public final boolean isCategory;
-    //public final SAOOption category;
+    public final boolean isCategory;
+    public final SAOOption category;
 
-    SAOOption(String optionName, boolean defaultValue/*, boolean isCat, SAOOption category*/) {
+    SAOOption(String optionName, boolean defaultValue, boolean isCat, SAOOption category) {
         name = optionName;
         value = defaultValue;
-        //isCategory = isCat;
-        //this.category= category;
+        isCategory = isCat;
+        this.category= category;
     }
 
+    @Override
     public final String toString() {
         return name;
     }

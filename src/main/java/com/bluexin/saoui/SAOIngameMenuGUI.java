@@ -29,6 +29,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
     private int flowY;
     private int flowX, jumpX;
+    private SAOOption openOptCat = null;
 
     private SAOMenuGUI sub;
 
@@ -462,13 +463,47 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, StatCollector.translateToLocal("guiOptions"), SAOIcon.HELP));
 
             for (final SAOOption option : SAOOption.values()) {
-                final SAOButtonGUI button = new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
+                if (option.category == null) {
+                    final SAOButtonGUI button = new SAOButtonGUI(menu, option.isCategory ? SAOID.OPT_CAT : SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
 
-                button.highlight = option.value;
+                    button.highlight = option.value;
 
-                if (option == SAOOption.CROSS_HAIR) {
-                    button.enabled = !SAOOption.DEFAULT_UI.value;
+                    if (option == SAOOption.CROSS_HAIR) {
+                        button.enabled = !SAOOption.DEFAULT_UI.value;
+                    }
+
+                    menu.elements.add(button);
                 }
+            }
+        } else if (id == SAOID.OPT_CAT) {
+            for (final SAOOption option : SAOOption.values()) {
+                if (((SAOButtonGUI) element).caption.equals(option.toString())) {
+                    openOptCat = option;
+                    break;
+                }
+            }
+            // TODO: Here!
+            menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 130, 100);
+
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, StatCollector.translateToLocal("guiOptions"), SAOIcon.HELP));
+
+            for (final SAOOption option : SAOOption.values()) {
+                if (option.category == openOptCat) {
+                    final SAOButtonGUI button = new SAOButtonGUI(menu, option.isCategory ? SAOID.OPT_CAT : SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
+
+                    button.highlight = option.value;
+
+                    if (option == SAOOption.CROSS_HAIR) {
+                        button.enabled = !SAOOption.DEFAULT_UI.value;
+                    }
+
+                    menu.elements.add(button);
+                }
+            }
+            if (openOptCat != null) {
+                final SAOButtonGUI button = new SAOButtonGUI(menu, SAOID.OPT_CAT, 0, 0, StatCollector.translateToLocal("guiBack"), SAOIcon.CANCEL);
+
+                button.highlight = false;
 
                 menu.elements.add(button);
             }

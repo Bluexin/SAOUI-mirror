@@ -48,6 +48,7 @@ public enum SAOID {
 
     SKILL(SKILLS, false),
     OPTION(OPTIONS, false),
+    OPT_CAT(OPTIONS, true),
 
     ALERT(false);
 
