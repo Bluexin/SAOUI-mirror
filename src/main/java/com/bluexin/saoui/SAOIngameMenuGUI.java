@@ -111,6 +111,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         final SAOID id = element.ID();
 
         if (id.menuFlag) {
+            if (id == SAOID.OPT_CAT && ((SAOButtonGUI) element).caption.equals(StatCollector.translateToLocal("guiBack")))
+                openOptCat = openOptCat.category;
             if (isMenuOpen(id)) {
                 element.click(mc.getSoundHandler(), false);
                 closeMenu(element, id);
@@ -476,27 +478,13 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                 }
             }
         } else if (id == SAOID.OPT_CAT) {
-            for (final SAOOption option : SAOOption.values()) {
-                if (((SAOButtonGUI) element).caption.equals(option.toString())) {
-                    openOptCat = option;
-                    break;
-                }
-            }
-            // TODO: Here!
+            openOptCat = SAOOption.fromString(((SAOButtonGUI) element).caption);
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 130, 100);
-
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, StatCollector.translateToLocal("guiOptions"), SAOIcon.HELP));
 
             for (final SAOOption option : SAOOption.values()) {
                 if (option.category == openOptCat) {
                     final SAOButtonGUI button = new SAOButtonGUI(menu, option.isCategory ? SAOID.OPT_CAT : SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
-
                     button.highlight = option.value;
-
-                    if (option == SAOOption.CROSS_HAIR) {
-                        button.enabled = !SAOOption.DEFAULT_UI.value;
-                    }
-
                     menu.elements.add(button);
                 }
             }
@@ -680,7 +668,14 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             for (final SAOElementGUI element0 : list) {
                 if (element0.ID() == id) {
                     if (element0 instanceof SAOButtonGUI) {
-                        ((SAOButtonGUI) element0).highlight = true;
+                        if (id == SAOID.OPT_CAT) {
+                            SAOOption curr = openOptCat;
+                            final SAOOption comp = SAOOption.fromString(((SAOButtonGUI) element0).caption);
+                            while (curr == comp) {
+                                ((SAOButtonGUI) element0).highlight = curr == openOptCat;
+                                curr = curr.category;
+                            }
+                        } else ((SAOButtonGUI) element0).highlight = true;
                     } else if (element0 instanceof SAOIconGUI) {
                         ((SAOIconGUI) element0).highlight = true;
                     }

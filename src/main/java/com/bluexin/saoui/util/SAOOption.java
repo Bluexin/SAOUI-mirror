@@ -46,4 +46,9 @@ public enum SAOOption {
         return name;
     }
 
+    public static SAOOption fromString(String str) {
+        for (final SAOOption option: values()) if (option.toString().equals(str)) return option;
+        return null;
+    }
+
 }
