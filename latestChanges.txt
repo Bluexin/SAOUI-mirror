@@ -1,1 +1,1 @@
-Made categories for the options! Also, fixed textue file :p 
+Little fix to options categories 

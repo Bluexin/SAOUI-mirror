@@ -111,8 +111,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         final SAOID id = element.ID();
 
         if (id.menuFlag) {
-            if (id == SAOID.OPT_CAT && ((SAOButtonGUI) element).caption.equals(StatCollector.translateToLocal("guiBack")))
-                openOptCat = openOptCat.category;
+            //if (id == SAOID.OPT_CAT && ((SAOButtonGUI) element).caption.equals(StatCollector.translateToLocal("guiBack")))
+            //    openOptCat = openOptCat.category;
             if (isMenuOpen(id)) {
                 element.click(mc.getSoundHandler(), false);
                 closeMenu(element, id);
@@ -488,13 +488,13 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                     menu.elements.add(button);
                 }
             }
-            if (openOptCat != null) {
+            /*if (openOptCat != null) {
                 final SAOButtonGUI button = new SAOButtonGUI(menu, SAOID.OPT_CAT, 0, 0, StatCollector.translateToLocal("guiBack"), SAOIcon.CANCEL);
 
                 button.highlight = false;
 
                 menu.elements.add(button);
-            }
+            }*/
         } else if (id == SAOID.EQUIPMENT) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
