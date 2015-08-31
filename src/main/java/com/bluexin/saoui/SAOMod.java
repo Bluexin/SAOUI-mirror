@@ -1004,5 +1004,9 @@ public class SAOMod implements Runnable {
     public static boolean isCreative(AbstractClientPlayer player) {
         NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(player.getGameProfile().getId());
         return networkplayerinfo != null && networkplayerinfo.getGameType() == WorldSettings.GameType.SPECTATOR;
+
+
+        //return FMLCommonHandler.instance().getMinecraftServerInstance() != null && FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().canSendCommands((player).getGameProfile());
+        // This should make it get if the player is OP on a sevrer
     }
 }
