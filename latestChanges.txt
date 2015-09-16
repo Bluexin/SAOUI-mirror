@@ -1,1 +1,1 @@
-Little fix to options categories 
+Should allow other mods adding things to the UI 
