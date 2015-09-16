@@ -92,7 +92,7 @@ class SAONewChatGUI extends GuiNewChat {
                 if (command != null) {
                     SAOMod.receiveSAOCommand(minecraft, command, username, command.getContent(message));
                 } else {
-                    parent.onMessage(username, message);
+                    //parent.onMessage(username, message);
                 }
             } else if (!reformat(text, format1, input)) {
                 super.printChatMessageWithOptionalDeletion(chat, flag);
