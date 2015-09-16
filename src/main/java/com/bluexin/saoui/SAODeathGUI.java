@@ -77,10 +77,10 @@ public class SAODeathGUI extends SAOScreenGUI {
     protected void backgroundClicked(int cursorX, int cursorY, int button) {
         if (!mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
             if (button == 0) {
-                /*if (!((SAOIngameGUI) mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
+                if (((SAOIngameGUI) mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
                     gameOver.confirmClicked(false, 1);
                     mc.setIngameFocus();
-                }*/
+                }
             }
         }
     }

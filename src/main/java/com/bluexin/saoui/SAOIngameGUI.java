@@ -394,4 +394,8 @@ public class SAOIngameGUI extends GuiIngameForge {
     {
         MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Post(eventParent, type));
     }
+
+    public boolean backgroundClicked(int cursorX, int cursorY, int button) {
+        return !SAOOption.DEFAULT_UI.value;
+    }
 }
