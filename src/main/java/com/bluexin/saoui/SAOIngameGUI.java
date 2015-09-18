@@ -41,6 +41,17 @@ public class SAOIngameGUI extends GuiIngameForge {
 
         SAOGL.glBlend(true);
 
+        if (SAOOption.FORCE_HUD.value && !this.mc.playerController.shouldDrawHUD() && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+            ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+            int width = res.getScaledWidth();
+            int height = res.getScaledHeight();
+            if (renderHealth) renderHealth(width, height);
+            if (renderArmor)  renderArmor(width, height);
+            if (renderFood)   renderFood(width, height);
+            if (renderHealthMount) renderHealthMount(width, height);
+            if (renderAir)    renderAir(width, height);
+        } // Basically adding what super doesn't render by default
+
         super.renderGameOverlay(partialTicks);
     }
 
