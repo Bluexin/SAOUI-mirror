@@ -4,7 +4,6 @@ import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -199,8 +198,6 @@ public class SAOIngameGUI extends GuiIngameForge {
 
         }
 
-
-        GlStateManager.disableBlend();
         mc.mcProfiler.endSection();
         post(HEALTH);
 
