@@ -2,14 +2,14 @@ package com.bluexin.saoui;
 
 import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,6 +40,7 @@ public class SAOIngameGUI extends GuiIngameForge {
         time = partialTicks;
 
         SAOGL.glBlend(true);
+        super.renderGameOverlay(partialTicks);
 
         if (SAOOption.FORCE_HUD.value && !this.mc.playerController.shouldDrawHUD() && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
             ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
@@ -52,7 +53,6 @@ public class SAOIngameGUI extends GuiIngameForge {
             if (renderAir)    renderAir(width, height);
         } // Basically adding what super doesn't render by default
 
-        super.renderGameOverlay(partialTicks);
     }
 
     @Override
