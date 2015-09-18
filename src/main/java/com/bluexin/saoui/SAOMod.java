@@ -22,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldSettings;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -267,8 +268,11 @@ public class SAOMod implements Runnable {
                 }
             }
 
-            if ((mc.ingameGUI != null) && (!(mc.ingameGUI instanceof SAOIngameGUI))) {
+            if (!SAOOption.DEFAULT_UI.value && mc.ingameGUI != null && (!(mc.ingameGUI instanceof SAOIngameGUI))) {
                 mc.ingameGUI = new SAOIngameGUI(mc);
+                continue;
+            } else if (SAOOption.DEFAULT_UI.value && mc.ingameGUI != null && (mc.ingameGUI instanceof SAOIngameGUI)) {
+                mc.ingameGUI = new GuiIngameForge(mc);
                 continue;
             }
 
