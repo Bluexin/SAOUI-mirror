@@ -237,22 +237,20 @@ public class SAOIngameGUI extends GuiIngameForge {
             SAOGL.glString(strs[2], offsetUsername + 118 + fontRenderer.getStringWidth(strs[0] + strs[1]), 16, 0xFFFFFFFF);
         }
 
-        if (!mc.thePlayer.capabilities.isCreativeMode) {
-            SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
+        SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-            mc.mcProfiler.startSection("effects");
+        mc.mcProfiler.startSection("effects");
 
-            final int offsetForEffects = offsetUsername + healthBarWidth - 4;
-            final List<SAOEffect> effects = SAOEffect.getEffects(mc.thePlayer);
+        final int offsetForEffects = offsetUsername + healthBarWidth - 4;
+        final List<SAOEffect> effects = SAOEffect.getEffects(mc.thePlayer);
 
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
-            for (int i = 0; i < effects.size(); i++) {
-                effects.get(i).glDraw(offsetForEffects + i * 11, 2, zLevel);
-            }
-
-            mc.mcProfiler.endSection();
+        for (int i = 0; i < effects.size(); i++) {
+            effects.get(i).glDraw(offsetForEffects + i * 11, 2, zLevel);
         }
+
+        mc.mcProfiler.endSection();
 
         if (SAOMod.isPartyMember(username)) {
             mc.mcProfiler.startSection("party");
