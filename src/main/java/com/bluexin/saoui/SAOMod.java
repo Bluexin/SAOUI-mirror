@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 @Mod(modid = SAOMod.MODID, name = SAOMod.NAME, version = SAOMod.VERSION)
 @SideOnly(Side.CLIENT)
 public class SAOMod implements Runnable {
-//
+
     public static final String MODID = "saoui";
 
     public static final String NAME = "Sword Art Online UI";
