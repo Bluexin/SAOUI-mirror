@@ -1,5 +1,7 @@
 package com.bluexin.saoui;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -18,26 +20,20 @@ class SAOEventHandler {
 
     @SubscribeEvent
     public void livingAttack(LivingAttackEvent e) {
-        if (e.entityLiving instanceof EntityPlayer) {
-            if (e.source.getEntity() instanceof EntityPlayer) {
-                if (e.entityLiving.getHealth() <= 0) {
-                    SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
-                } else {
-                    SAOMod.onDamagePlayer((EntityPlayer) e.source.getEntity());
-                }
-            }
-        }
+        this.livingHit(e.entityLiving, e.source.getEntity());
     }
 
     @SubscribeEvent
     public void livingHurt(LivingHurtEvent e) {
-        if (e.entityLiving instanceof EntityPlayer) {
-            if (e.source.getEntity() instanceof EntityPlayer) {
-                if (e.entityLiving.getHealth() <= 0) {
-                    SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
-                } else {
-                    SAOMod.onDamagePlayer((EntityPlayer) e.source.getEntity());
-                }
+        this.livingHit(e.entityLiving, e.source.getEntity());
+    }
+
+    private void livingHit(EntityLivingBase target, Entity source) {
+        if (target instanceof EntityPlayer && source instanceof EntityPlayer) {
+            if (target.getHealth() <= 0) {
+                SAOMod.onKillPlayer((EntityPlayer) source);
+            } else {
+                SAOMod.onDamagePlayer((EntityPlayer) source);
             }
         }
     }
