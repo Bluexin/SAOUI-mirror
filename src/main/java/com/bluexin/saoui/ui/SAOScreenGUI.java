@@ -16,14 +16,10 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 
     private static final float ROTATION_FACTOR = 0.25F;
     protected static SAOCursorStatus CURSOR_STATUS = SAOCursorStatus.SHOW;
-
+    protected final List<SAOElementGUI> elements;
     private int mouseX, mouseY;
-
     private int mouseDown;
     private float mouseDownValue;
-
-    protected final List<SAOElementGUI> elements;
-
     private float[] rotationYaw, rotationPitch;
     private boolean grabbed;
 
@@ -53,11 +49,19 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
     }
 
     private int getCursorX() {
-        return SAOOption.CURSOR_MOVEMENT.value ? (width / 2 - mouseX) / 2 : 0;
+        if (SAOOption.CURSOR_MOVEMENT.value) {
+            return SAOOption.CURSOR_MOVEMENT.value ? (width / 2 - mouseX) / 2 : 0;
+        } else {
+            return 0;
+        }
     }
 
     private int getCursorY() {
+        if (SAOOption.CURSOR_MOVEMENT.value) {
         return SAOOption.CURSOR_MOVEMENT.value ? (height / 2 - mouseY) / 2 : 0;
+        } else {
+            return 0;
+        }
     }
 
     @Override

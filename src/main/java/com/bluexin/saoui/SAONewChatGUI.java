@@ -1,19 +1,10 @@
 package com.bluexin.saoui;
 
-import com.bluexin.saoui.util.SAOCommand;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiNewChat;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SideOnly(Side.CLIENT)
-class SAONewChatGUI extends GuiNewChat {
+class SAONewChatGUI /*extends GuiNewChat*/ {/*
 
     private static final String[] kills = {
             "death.fell.assist",
@@ -40,20 +31,19 @@ class SAONewChatGUI extends GuiNewChat {
             "death.attack.thorns"
     };
 
-    private final SAOIngameGUI parent;
     private final List<String> input;
     private final Minecraft minecraft;
     private final GuiNewChat oldChat;
 
     public SAONewChatGUI(SAOIngameGUI gui, Minecraft mc, GuiNewChat chat) {
         super(mc);
-        parent = gui;
         input = new ArrayList<>();
         minecraft = mc;
         oldChat = chat;
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
 	public void printChatMessageWithOptionalDeletion(IChatComponent chat, int flag) {
         final String text = chat.getUnformattedText();
 
@@ -74,7 +64,7 @@ class SAONewChatGUI extends GuiNewChat {
             }
         }
 
-        if (false/*SAOOption.CLIENT_CHAT_PACKETS.value*/) {
+        if (false) {
             final String format0 = I18n.format("commands.message.display.incoming", "%s", "%s");
             final String format1 = I18n.format("commands.message.display.outgoing", "%s", "%s");
 
@@ -151,5 +141,5 @@ class SAONewChatGUI extends GuiNewChat {
 
         return (stringIndex >= string.length()) && (formatIndex >= format.length());
     }
-
+*/
 }

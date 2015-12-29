@@ -26,20 +26,15 @@ import java.util.Map.Entry;
 public class SAOIngameMenuGUI extends SAOScreenGUI {
 
     private final List<Entry<SAOID, SAOMenuGUI>> menus;
-
+    private final SAOString[] infoData = new SAOString[2];
+    private final GuiInventory parentInv;
     private int flowY;
     private int flowX, jumpX;
     private SAOOption openOptCat = null;
-
     private SAOMenuGUI sub;
-
     private SAOPanelGUI info;
     private SAOLabelGUI infoCaption;
     private SAOTextGUI infoText;
-
-    private final SAOString[] infoData = new SAOString[2];
-
-    private final GuiInventory parentInv;
 
     public SAOIngameMenuGUI(GuiInventory vanillaGUI) {
         super();
@@ -145,7 +140,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                 mc.loadWorld(null);
                 mc.displayGuiScreen(new GuiMainMenu());
             }
-        } else if (id == SAOID.HELP) {
+        } else if (id == SAOID.MENU) {
             mc.displayGuiScreen(new GuiIngameMenu());
         } else if ((id == SAOID.OPTION) && (element instanceof SAOButtonGUI)) {
             final SAOButtonGUI button = (SAOButtonGUI) element;
@@ -231,11 +226,11 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                     break;
             }
         } else if ((id == SAOID.INVITE_PLAYER) && (element instanceof SAOButtonGUI)) {
-            /*final String name = ((SAOButtonGUI) element).caption;
+            final String name = ((SAOButtonGUI) element).caption;
 
             if (!SAOMod.isPartyMember(name)) {
                 SAOMod.inviteParty(mc, name);
-            }*/
+            }
         } else if (id == SAOID.CREATE) {
             element.enabled = false;//!SAOMod.createParty(mc, 2.5);
 
@@ -416,7 +411,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             final SAOString[] profile = SAOSub.addProfileContent(mc);
 
             setInfo(profile[0], profile[1]);
-        } else if (id == SAOID.SOCIAL) {
+        } else if (id == SAOID.SOCIAL) {/*
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
             menu.enabled = false;
 
@@ -428,7 +423,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             info = SAOSub.addInfo(sub);
 
             infoCaption = null;
-            infoText = null;
+            infoText = null;*/
         } else if (id == SAOID.NAVIGATION) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
@@ -445,7 +440,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
             menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTIONS, 0, 0, StatCollector.translateToLocal("guiOption"), SAOIcon.OPTION));
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.HELP, 0, 0, StatCollector.translateToLocal("guiHelp"), SAOIcon.HELP));
+            menu.elements.add(new SAOButtonGUI(menu, SAOID.MENU, 0, 0, StatCollector.translateToLocal("guiMenu"), SAOIcon.HELP));
             menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.value ? StatCollector.translateToLocal("guiLogout") : "", SAOIcon.LOGOUT, (mc1, button) -> {
                 if (SAOOption.LOGOUT.value) {
                     if (button.caption.length() == 0) {
@@ -563,7 +558,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
             infoCaption = null;
             infoText = null;
-        } else if ((id == SAOID.FRIEND) && (element instanceof SAOFriendGUI)) {
+        } else if ((id == SAOID.FRIEND) && (element instanceof SAOFriendGUI)) {/*
             if (((SAOFriendGUI) element).highlight) {
                 menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
                 menu.enabled = false;
@@ -576,7 +571,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
                 //SAOMod.addFriendRequest(mc, ((SAOFriendGUI) element).caption);
                 element.enabled = false;
-            }
+            }*/
         } else if ((id == SAOID.OTHER_PROFILE) && (element.parent instanceof SAOMenuGUI) && (((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI)) {
             menu = null;
 

@@ -46,5 +46,13 @@
         "name": "particles_death"
       }
     ]
+  },
+  "sao.low.health": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "low_health"
+      }
+    ]
   }
 }

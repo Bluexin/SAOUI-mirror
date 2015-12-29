@@ -8,7 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class VersionChecker { // TODO: handle indev vs public
-
+    // TODO: all of this should be threaded
     private static int getLocaleVer() throws IOException
     {
         InputStream input = VersionChecker.class.getResourceAsStream("/assets/saoui/version.txt");

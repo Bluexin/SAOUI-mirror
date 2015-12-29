@@ -177,6 +177,7 @@ public final class SAOSub {
         return sub;
     }
 
+    @SuppressWarnings("unchecked")
     private static SAOMenuGUI setQuestsSub(Minecraft mc, SAOMenuGUI sub, EntityPlayer player) {
         sub.elements.add(new SAOLabelGUI(sub, 0, 0, sub.width, '-' + StatCollector.translateToLocal("guiQuestList") + '-', SAOAlign.CENTER));
 

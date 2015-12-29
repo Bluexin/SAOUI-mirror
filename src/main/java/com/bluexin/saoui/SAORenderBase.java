@@ -9,8 +9,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -24,19 +24,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-class SAORenderBase extends RenderPlayer {
+class SAORenderBase extends Render {
 
     private static final int HEALTH_COUNT = 32;
     private static final double HEALTH_ANGLE = 0.35F;
     private static final double HEALTH_RANGE = 0.975F;
     private static final float HEALTH_OFFSET = 0.75F;
+    @SuppressWarnings("unused")
     private static final float HEALTH_OFFSET_PLAYER = -0.125F;
     private static final double HEALTH_HEIGHT = 0.21F;
 
+    @SuppressWarnings("unused")
     private static final double PIECES_X_OFFSET = 0.02;
+    @SuppressWarnings("unused")
     private static final double PIECES_Y_OFFSET = -0.02;
+    @SuppressWarnings("unused")
     private static final int PIECES_COUNT = 150;
+    @SuppressWarnings("unused")
     private static final double PIECES_SPEED = 1.4;
+    @SuppressWarnings("unused")
     private static final double PIECES_GRAVITY = 0.4;
 
     private final Render parent;
@@ -47,25 +53,10 @@ class SAORenderBase extends RenderPlayer {
     }
 
     @Override
-	public void func_177138_b(AbstractClientPlayer player) {
-        if (parent instanceof RenderPlayer) {
-            ((RenderPlayer) parent).func_177138_b(player);
-        }
-    }
-
-    @Override
-	public void func_177139_c(AbstractClientPlayer player) {
-        if (parent instanceof RenderPlayer) {
-            ((RenderPlayer) parent).func_177139_c(player);
-        }
-    }
-
-    @Override
     public boolean shouldRender(Entity p_177071_1_, ICamera p_177071_2_, double p_177071_3_, double p_177071_5_, double p_177071_7_) {
         return parent.shouldRender(p_177071_1_, p_177071_2_, p_177071_3_, p_177071_5_, p_177071_7_);
     }
 
-    @Override
 	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
         final Minecraft mc = Minecraft.getMinecraft();
 
@@ -113,7 +104,6 @@ class SAORenderBase extends RenderPlayer {
         }
     }
 
-    @Override
 	public void bindTexture(ResourceLocation location) {
         parent.bindTexture(location);
     }
@@ -165,7 +155,9 @@ class SAORenderBase extends RenderPlayer {
 
             tessellator.getWorldRenderer().startDrawingQuads();
 
-            SAOColorState.getColorState(mc, entity, SAOMod.UNKNOWN_TIME_DELAY).glColor();
+            if (entity instanceof EntityLiving || entity instanceof EntityPlayer) {
+                SAOColorState.getColorState(mc, entity, SAOMod.UNKNOWN_TIME_DELAY).glColor();
+            }
 
             if (SAOOption.SPINNING_CRYSTALS.value) {
                 double a = (entity.worldObj.getTotalWorldTime() % 40) / 20.0D  * Math.PI;
@@ -322,5 +314,11 @@ class SAORenderBase extends RenderPlayer {
     @Override
     public void renderName(Entity entity, double x, double y, double z) {
         if (entity instanceof EntityLivingBase) super.renderName(entity, x, y, z);
+    }
+
+    @Override
+    protected ResourceLocation getEntityTexture(Entity entity) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

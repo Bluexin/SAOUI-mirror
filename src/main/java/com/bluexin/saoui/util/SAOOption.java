@@ -11,7 +11,9 @@ public enum SAOOption {
     RENDERER(StatCollector.translateToLocal("optCatRend"), false, true, null),
     INTERFACES(StatCollector.translateToLocal("optCatInterf"), false, true, null),
     DEFAULT_UI(StatCollector.translateToLocal("optionDefaultUI"), false, false, UI),
-    DEFAULT_INVENTORY(StatCollector.translateToLocal("optionDefaultInv"), false, false, INTERFACES),
+    DEFAULT_INVENTORY(StatCollector.translateToLocal("optionDefaultInv"), true, false, INTERFACES),
+    DEFAULT_HOTBAR(StatCollector.translateToLocal("optionDefaultHotbar"), false, false, UI),
+    ALT_HOTBAR(StatCollector.translateToLocal("optionAltHotbar"), false, false, UI),
     DEFAULT_DEATH_SCREEN(StatCollector.translateToLocal("optionDefaultDeath"), false, false, UI),
     CROSS_HAIR(StatCollector.translateToLocal("optionCrossHair"), false, false, UI),
     HEALTH_BARS(StatCollector.translateToLocal("optionHealthBars"), true, false, RENDERER),
@@ -30,9 +32,9 @@ public enum SAOOption {
     ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false, false, UI);
 
     public final String name;
-    public boolean value;
     public final boolean isCategory;
     public final SAOOption category;
+    public boolean value;
 
     SAOOption(String optionName, boolean defaultValue, boolean isCat, SAOOption category) {
         name = optionName;
@@ -41,14 +43,14 @@ public enum SAOOption {
         this.category= category;
     }
 
-    @Override
-    public final String toString() {
-        return name;
-    }
-
     public static SAOOption fromString(String str) {
         for (final SAOOption option: values()) if (option.toString().equals(str)) return option;
         return null;
+    }
+
+    @Override
+    public final String toString() {
+        return name;
     }
 
 }

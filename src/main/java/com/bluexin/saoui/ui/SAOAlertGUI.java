@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 
 public class SAOAlertGUI extends SAOElementGUI {
 
+    @SuppressWarnings("unused")
     private String caption;
     private int alertColor;
 

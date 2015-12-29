@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 class SAOEntityPiecesFX extends EntityFX {
 
     private float smokeParticleScale;
-    private static final String __OBFID = "CL_00000924";
 
     public SAOEntityPiecesFX(World world, double xCoord, double yCoord, double zCoord, float redValue, float greenValue, float blueValue) {
         this(world, xCoord, yCoord, zCoord, redValue, greenValue, blueValue, 1.0F);
@@ -34,8 +33,7 @@ class SAOEntityPiecesFX extends EntityFX {
         this.noClip = false;
     }
 
-    @Override
-    public void func_180434_a(WorldRenderer renderer, Entity e, float time, float x, float y, float z, float f0, float f1) {
+    public void renderParticle(WorldRenderer renderer, Entity e, float time, float x, float y, float z, float f0, float f1) {
         float particle = ((float) this.particleAge + time) / (float) this.particleMaxAge * 32.0F;
 
         if (particle < 0.0F) {
@@ -68,7 +66,7 @@ class SAOEntityPiecesFX extends EntityFX {
         }
 
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
-        this.motionY -= 0.002D;
+        this.motionY -= 0.04D * (double) this.particleGravity;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
         if (this.posY == this.prevPosY) {

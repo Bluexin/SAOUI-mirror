@@ -1,5 +1,8 @@
 package com.bluexin.saoui;
 
+import com.bluexin.saoui.util.SAOColorCursor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,15 +11,20 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 class SAOEventHandler {
+
+    private final Minecraft mc = Minecraft.getMinecraft();
+    private boolean isPlaying = false;
 
     @SubscribeEvent
     public void livingAttack(LivingAttackEvent e) {
@@ -85,4 +93,51 @@ class SAOEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public void colorstateupdate(LivingUpdateEvent e) {
+        long time = System.currentTimeMillis();
+        long lasttime = time;
+
+        long delay;
+
+        time = System.currentTimeMillis();
+        delay = Math.abs(time - lasttime);
+        lasttime = time;
+        if (e.entityLiving instanceof EntityLivingBase) {
+            for (final SAOColorCursor cursor : SAOMod.colorStates.values()) {
+                cursor.update(delay);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void abilityCheck(ClientTickEvent e) {
+        if (mc.thePlayer == null) {
+            SAOMod.IS_SPRINTING = false;
+            SAOMod.IS_SNEAKING = false;
+        } else if (mc.inGameHasFocus) {
+            if (SAOMod.IS_SPRINTING) {
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
+            }
+            if (SAOMod.IS_SNEAKING) {
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
+            }
+        }
+    }
+    /*
+    @SubscribeEvent
+    public void lowHealth(TickEvent.PlayerTickEvent e)
+    {
+    	isPlaying = SAOSound.isSfxPlaying(SAOSound.LOW_HEALTH);
+    	if (!isPlaying){
+    		isPlaying = true;
+    		if (!(e.player.getHealth() <= 0)){
+    			if (e.player.getHealth() <= e.player.getMaxHealth() * 0.3F && !e.player.isDead){
+    				SAOSound.play(mc, SAOSound.LOW_HEALTH);
+    			}
+    		}
+    	}
+    	
+    }*/
+    
 }

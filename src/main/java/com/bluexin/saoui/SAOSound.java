@@ -15,13 +15,18 @@ public class SAOSound {
     public static final String MESSAGE = "sao.message";
     public static final String ORB_DROPDOWN = "sao.orb.dropdown";
     public static final String PARTICLES_DEATH = "sao.particles.death";
-
+    public static final String LOW_HEALTH = "sao.low.health";
+    
     private static ResourceLocation getResource(String name) {
         return new ResourceLocation(SAOMod.MODID, name);
     }
 
+    public static boolean isSfxPlaying(String name) {
+        return Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(PositionedSoundRecord.create(getResource(name)));
+    }
+
     public static void playFromEntity(Entity entity, String name) {
-        if ((entity != null) && (!entity.isSilent())) {
+        if (entity != null) {
             playAtEntity(entity, name);
         }
     }

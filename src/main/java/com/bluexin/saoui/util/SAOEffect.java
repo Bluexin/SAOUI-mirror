@@ -44,24 +44,7 @@ public enum SAOEffect {
     private static final int SRC_WIDTH = 15;
     private static final int SRC_HEIGHT = 10;
 
-    private int getSrcX() {
-        return SRC_X + (ordinal() % 14) * SRC_WIDTH;
-    }
-
-    private int getSrcY() {
-        return SRC_Y + ordinal() / 14 * SRC_HEIGHT;
-    }
-
-    public final void glDraw(int x, int y, float z) {
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.effects: SAOResources.effectsCustom);
-        SAOGL.glTexturedRect(x, y, z, getSrcX(), getSrcY(), SRC_WIDTH, SRC_HEIGHT);
-    }
-
-    public final void glDraw(int x, int y) {
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.effects: SAOResources.effectsCustom);
-        SAOGL.glTexturedRect(x, y, getSrcX(), getSrcY(), SRC_WIDTH, SRC_HEIGHT);
-    }
-
+    @SuppressWarnings("unchecked")
     public static List<SAOEffect> getEffects(EntityPlayer player) {
         final List<SAOEffect> effects = new ArrayList<>();
 
@@ -132,6 +115,24 @@ public enum SAOEffect {
         }
 
         return effects;
+    }
+
+    private int getSrcX() {
+        return SRC_X + (ordinal() % 14) * SRC_WIDTH;
+    }
+
+    private int getSrcY() {
+        return SRC_Y + ordinal() / 14 * SRC_HEIGHT;
+    }
+
+    public final void glDraw(int x, int y, float z) {
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.effects : SAOResources.effectsCustom);
+        SAOGL.glTexturedRect(x, y, z, getSrcX(), getSrcY(), SRC_WIDTH, SRC_HEIGHT);
+    }
+
+    public final void glDraw(int x, int y) {
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.effects : SAOResources.effectsCustom);
+        SAOGL.glTexturedRect(x, y, getSrcX(), getSrcY(), SRC_WIDTH, SRC_HEIGHT);
     }
 
 }

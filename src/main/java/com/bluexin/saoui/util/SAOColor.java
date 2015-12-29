@@ -24,15 +24,16 @@ public final class SAOColor {
 
     public static final int CURSOR_COLOR = 0x8EE1E8;
 
-    public static final int DEAD_COLOR = 0xC94141FF;
+    public static final int DEAD_COLOR = 0x0033ccFF;
+    public static final int HARDCORE_DEAD_COLOR = 0xC94141FF;
+
+    private SAOColor() {
+    }
 
     public static int multiplyAlpha(int rgba, float alpha) {
         final int value = (int) (((rgba) & 0xFF) * alpha);
 
         return (rgba & 0xFFFFFF00) | (value & 0xFF);
-    }
-
-    private SAOColor() {
     }
 
     public static int mediumColor(int rgba0, int rgba1) {

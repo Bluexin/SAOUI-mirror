@@ -1,9 +1,9 @@
 package com.bluexin.saoui;
 
-import com.bluexin.saoui.ui.SAOMessageGUI;
-import com.bluexin.saoui.ui.SAOWindowGUI;
 import com.bluexin.saoui.ui.SAOConfirmGUI;
+import com.bluexin.saoui.ui.SAOMessageGUI;
 import com.bluexin.saoui.ui.SAOScreenGUI;
+import com.bluexin.saoui.ui.SAOWindowGUI;
 import com.bluexin.saoui.util.SAOActionHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,6 +17,27 @@ public class SAOWindowViewGUI extends SAOScreenGUI {
         super();
         windowWidth = width;
         windowHeight = height;
+    }
+
+    public static SAOWindowViewGUI viewMessage(final String username, final String message) {
+        return new SAOWindowViewGUI(200, 40) {
+
+            public SAOWindowGUI createWindow(int width, int height) {
+                return new SAOMessageGUI(this, 0, 0, width, height, message, username);
+            }
+
+        };
+    }
+
+    @SuppressWarnings("unused")
+    public static SAOWindowViewGUI viewConfirm(final String title, final String message, final SAOActionHandler handler) {
+        return new SAOWindowViewGUI(200, 60) {
+
+            public SAOWindowGUI createWindow(int width, int height) {
+                return new SAOConfirmGUI(this, 0, 0, width, height, title, message, handler);
+            }
+
+        };
     }
 
     @Override
@@ -52,26 +73,6 @@ public class SAOWindowViewGUI extends SAOScreenGUI {
 
     @Override
     protected void backgroundClicked(int cursorX, int cursorY, int button) {
-    }
-
-    public static SAOWindowViewGUI viewMessage(final String username, final String message) {
-        return new SAOWindowViewGUI(200, 40) {
-
-            public SAOWindowGUI createWindow(int width, int height) {
-                return new SAOMessageGUI(this, 0, 0, width, height, message, username);
-            }
-
-        };
-    }
-
-    public static SAOWindowViewGUI viewConfirm(final String title, final String message, final SAOActionHandler handler) {
-        return new SAOWindowViewGUI(200, 60) {
-
-            public SAOWindowGUI createWindow(int width, int height) {
-                return new SAOConfirmGUI(this, 0, 0, width, height, title, message, handler);
-            }
-
-        };
     }
 
 }

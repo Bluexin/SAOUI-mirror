@@ -1,8 +1,8 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.util.SAOIcon;
 import com.bluexin.saoui.SAOMod;
 import com.bluexin.saoui.util.SAOID;
+import com.bluexin.saoui.util.SAOIcon;
 import com.bluexin.saoui.util.SAOParentGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,5 +64,5 @@ public class SAOFriendGUI extends SAOButtonGUI {
 
         return null;
     }
-
 }
+

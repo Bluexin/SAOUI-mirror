@@ -27,7 +27,7 @@ public enum SAOID {
     DUNGEON_MAP(NAVIGATION, true),
 
     OPTIONS(SETTINGS, true),
-    HELP(SETTINGS, false),
+    MENU(SETTINGS, false),
     LOGOUT(SETTINGS, false),
 
     WEAPONS(EQUIPMENT, true),
@@ -52,8 +52,8 @@ public enum SAOID {
 
     ALERT(false);
 
-    private final SAOID parent;
     public final boolean menuFlag;
+    private final SAOID parent;
 
     SAOID(SAOID parentID, boolean menu) {
         parent = parentID;

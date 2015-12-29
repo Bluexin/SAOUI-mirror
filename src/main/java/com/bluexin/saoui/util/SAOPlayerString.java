@@ -16,6 +16,10 @@ public final class SAOPlayerString implements SAOString {
         player = entityPlayer;
     }
 
+    private static float attr(double attributeValue) {
+        return (float) ((int) (attributeValue * 1000)) / 1000;
+    }
+
     public final String toString() {
         final StringBuilder builder = new StringBuilder();
 
@@ -34,7 +38,7 @@ public final class SAOPlayerString implements SAOString {
 
             if (player.getCurrentEquippedItem() != null) {
                 final Multimap map = player.getCurrentEquippedItem().getAttributeModifiers();
-                final Collection itemAttackDamage = map.get(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
+                final Collection<?> itemAttackDamage = map.get(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
 
                 for (Object value : itemAttackDamage) {
                     if (value instanceof AttributeModifier) {
@@ -65,10 +69,6 @@ public final class SAOPlayerString implements SAOString {
         }
 
         return builder.toString();
-    }
-
-    private static float attr(double attributeValue) {
-        return (float) ((int) (attributeValue * 1000)) / 1000;
     }
 
 }
