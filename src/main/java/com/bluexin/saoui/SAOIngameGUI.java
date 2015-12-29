@@ -73,14 +73,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderArmor(int width, int height) {
-        // Overrides and cancels any event registering what we want to, before we do, then forcing ours to the highest priority.
-        if (eventParent.type == ARMOR) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(ARMOR);
-                return;
-            }
-        }
+        if (replaceEvent(ARMOR)) return;
         // Nothing happens here
         post(ARMOR);
     }
@@ -88,14 +81,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderTooltip(ScaledResolution res, float partialTicks) {
-        if (eventParent.type == HOTBAR) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(HOTBAR);
-                return;
-            }
-        }
-
+        if (replaceEvent(HOTBAR)) return;
         if (mc.playerController.isSpectator())
         {
             this.spectatorGui.renderTooltip(res, partialTicks);
@@ -169,13 +155,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderAir(int width, int height) {
-        if (eventParent.type == AIR) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(AIR);
-                return;
-            }
-        }
+        if (replaceEvent(AIR)) return;
         // Linked to renderHealth
         post(AIR);
     }
@@ -183,13 +163,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderHealth(int width, int height) {
-        if (eventParent.type == HEALTH) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(HEALTH);
-                return;
-            }
-        }
+        if (replaceEvent(HEALTH)) return;
         mc.mcProfiler.startSection("health");
 
         final String username = mc.thePlayer.getName();
@@ -396,13 +370,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     }
 
     private void renderFood(int healthWidth, int healthHeight, int offsetUsername, int stepOne, int stepTwo, int stepThree) {
-        if (eventParent.type == FOOD) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(FOOD);
-                return;
-            }
-        }
+        if (replaceEvent(FOOD)) return;
         mc.mcProfiler.startSection("food");
         final int foodValue = (int) (SAOMod.getHungerFract(mc, mc.thePlayer, time) * healthWidth);
         int h = foodValue < 12? 12 - foodValue: 0;
@@ -440,13 +408,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderExperience(int width, int height) {
-        if (eventParent.type == EXPERIENCE) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(EXPERIENCE);
-                return;
-            }
-        }
+        if (replaceEvent(EXPERIENCE)) return;
         // Nothing happens here
         post(EXPERIENCE);
     }
@@ -454,15 +416,27 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderJumpBar(int width, int height) {
-        if (eventParent.type == JUMPBAR) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(JUMPBAR);
-                return;
-            }
-        }
+        if (replaceEvent(JUMPBAR)) return;
         // Nothing happens here (not implemented yet)
         post(JUMPBAR);
+    }
+
+    /**
+     * Overrides and cancels any event registering what we
+     * want to, before we do, then forcing ours to the highest priority.
+     *
+     * @param el the element type to override
+     * @return whether caller should return
+     */
+    private boolean replaceEvent(ElementType el) {
+        if (eventParent.type == el) {
+            if (eventParent.isCancelable()) {
+                eventParent.setCanceled(true);
+                pre(el);
+                return true;
+            }
+        }
+        return false;
     }
 
     /*@Override
