@@ -82,12 +82,9 @@ public class SAOIngameGUI extends GuiIngameForge {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderTooltip(ScaledResolution res, float partialTicks) {
         if (replaceEvent(HOTBAR)) return;
-        if (mc.playerController.isSpectator())
-        {
-            this.spectatorGui.renderTooltip(res, partialTicks);
-        } else if (SAOOption.DEFAULT_HOTBAR.value) {
-            super.renderTooltip(res, partialTicks);
-        } else if (SAOOption.ALT_HOTBAR.value) {
+        if (mc.playerController.isSpectator()) this.spectatorGui.renderTooltip(res, partialTicks);
+        else if (SAOOption.DEFAULT_HOTBAR.value) super.renderTooltip(res, partialTicks);
+        else if (SAOOption.ALT_HOTBAR.value) {
             SAOGL.glAlpha(true);
             SAOGL.glBlend(true);
             SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
@@ -116,9 +113,7 @@ public class SAOIngameGUI extends GuiIngameForge {
 
             RenderHelper.disableStandardItemLighting();
 
-        }
-        else
-        {
+        } else {
             SAOGL.glAlpha(true);
             SAOGL.glBlend(true);
             SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
@@ -140,13 +135,12 @@ public class SAOIngameGUI extends GuiIngameForge {
 
             RenderHelper.enableGUIStandardItemLighting();
 
-            for (int i = 0; i < slotCount; i++) {
+            for (int i = 0; i < slotCount; i++)
                 super.renderHotbarItem(i, res.getScaledWidth() - 22, slotsY + 2 + (22 * i), partialTicks, mc.thePlayer);
-            }
 
             RenderHelper.disableStandardItemLighting();
-
         }
+
         SAOGL.glRescaleNormal(false);
 
         post(HOTBAR);
@@ -207,9 +201,7 @@ public class SAOIngameGUI extends GuiIngameForge {
                 if (((i >= 105) && (i <= 110)) || (i >= healthValue - h)) {
                     h--;
 
-                    if (h <= 0) {
-                        break;
-                    }
+                    if (h <= 0) break;
                 }
             }
         } else {
@@ -225,9 +217,7 @@ public class SAOIngameGUI extends GuiIngameForge {
                 } else if ((i >= stepOne && i <= stepOne + 3) || (i >= stepTwo && i <= stepTwo + 3) || (i >= stepThree)) {
                     h++;
 
-                    if (h > 12) {
-                        break;
-                    }
+                    if (h > 12) break;
                 }
             }
 
@@ -386,9 +376,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             } else if ((i >= stepOne && i <= stepOne + 3) || (i >= stepTwo && i <= stepTwo + 3) || (i >= stepThree)) {
                 h++;
 
-                if (h > 12) {
-                    break;
-                }
+                if (h > 12) break;
             }
         }
 
@@ -429,12 +417,10 @@ public class SAOIngameGUI extends GuiIngameForge {
      * @return whether caller should return
      */
     private boolean replaceEvent(ElementType el) {
-        if (eventParent.type == el) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(el);
-                return true;
-            }
+        if (eventParent.type == el && eventParent.isCancelable()) {
+            eventParent.setCanceled(true);
+            pre(el);
+            return true;
         }
         return false;
     }
@@ -451,25 +437,17 @@ public class SAOIngameGUI extends GuiIngameForge {
         Entity tmp = player.ridingEntity;
         if (!(tmp instanceof EntityLivingBase)) return;
 
-        if (eventParent.type == HEALTHMOUNT) {
-            if (eventParent.isCancelable()) {
-                eventParent.setCanceled(true);
-                pre(HEALTHMOUNT);
-                return;
-            }
-        }
+        if (replaceEvent(HEALTHMOUNT)) return;
         // Not implemented yet
         post(HEALTHMOUNT);
     }
 
     // c/p from GuiIngameForge
-    private boolean pre(ElementType type)
-    {
+    private boolean pre(ElementType type) {
         return MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Pre(eventParent, type));
     }
 
-    private void post(ElementType type)
-    {
+    private void post(ElementType type) {
         MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Post(eventParent, type));
     }
 

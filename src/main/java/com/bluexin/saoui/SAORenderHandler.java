@@ -21,33 +21,28 @@ public class SAORenderHandler {
 
     @SubscribeEvent
     public void checkingameGUI(TickEvent.RenderTickEvent e) {
-        if (!SAOOption.DEFAULT_UI.value && mc.ingameGUI != null && (!(mc.ingameGUI instanceof SAOIngameGUI))) {
-            mc.ingameGUI = new SAOIngameGUI(mc);
-        } else if (SAOOption.DEFAULT_UI.value && mc.ingameGUI != null && (mc.ingameGUI instanceof SAOIngameGUI)) {
-            mc.ingameGUI = new GuiIngameForge(mc);
-        }
+        boolean b = mc.ingameGUI instanceof SAOIngameGUI;
+        if (mc.ingameGUI != null && SAOOption.DEFAULT_UI.value == b)
+            mc.ingameGUI = b ? new GuiIngameForge(mc) : new SAOIngameGUI(mc);
     }
 
     @SubscribeEvent
     public void checkGuiInstance(TickEvent.RenderTickEvent e) {
         if (replaceGUI) {
-            if ((mc.currentScreen != null) && (!(mc.currentScreen instanceof SAOScreenGUI))) {
-                if (SAOMod.REPLACE_GUI_DELAY > 0) {
-                    SAOMod.REPLACE_GUI_DELAY--;
-                } else if ((mc.currentScreen instanceof GuiIngameMenu) || ((mc.currentScreen instanceof GuiInventory) &&
-                        (!SAOOption.DEFAULT_INVENTORY.value))) {
+            if (mc.currentScreen != null && !(mc.currentScreen instanceof SAOScreenGUI)) {
+                if (SAOMod.REPLACE_GUI_DELAY > 0) SAOMod.REPLACE_GUI_DELAY--;
+                else if ((mc.currentScreen instanceof GuiIngameMenu) || ((mc.currentScreen instanceof GuiInventory) && (!SAOOption.DEFAULT_INVENTORY.value))) {
                     final boolean inv = (mc.currentScreen instanceof GuiInventory);
 
                     mc.currentScreen.mc = mc;
-                    if (mc.playerController.isInCreativeMode() && mc.currentScreen instanceof GuiInventory) {
+                    if (mc.playerController.isInCreativeMode() && mc.currentScreen instanceof GuiInventory)
                         mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
-                    } else try {
+                    else try {
                         SAOSound.play(mc, SAOSound.ORB_DROPDOWN);
                         mc.displayGuiScreen(new SAOIngameMenuGUI((GuiInventory) (inv ? mc.currentScreen : null)));
                         replaceGUI = false;
                     } catch (NullPointerException ignored) {
                     }
-
                 } else if ((mc.currentScreen instanceof GuiGameOver) && (!SAOOption.DEFAULT_DEATH_SCREEN.value)) {
                     mc.currentScreen.mc = mc;
 
@@ -61,8 +56,6 @@ public class SAORenderHandler {
                     }
                 }
             }
-        } else if ((mc.currentScreen == null) && (mc.inGameHasFocus)) {
-            replaceGUI = true;
-        }
+        } else if ((mc.currentScreen == null) && (mc.inGameHasFocus)) replaceGUI = true;
     }
 }
