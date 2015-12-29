@@ -803,21 +803,19 @@ public class SAOMod {
                     // private access // really evil //
 
                     try {
-                        for (final Object key : manager.entityRenderMap.keySet()) {
-                            if (key instanceof Class<?>) {
-                                final Class<?> class0 = (Class<?>) key;
+                        manager.entityRenderMap.keySet().stream().filter(key -> key instanceof Class<?>).forEach(key -> {
+                            final Class<?> class0 = (Class<?>) key;
 
-                                if (EntityLivingBase.class.isAssignableFrom(class0)) {
-                                    final Object value = manager.entityRenderMap.get(key);
+                            if (EntityLivingBase.class.isAssignableFrom(class0)) {
+                                final Object value = manager.entityRenderMap.get(key);
 
-                                    if ((value instanceof Render) && (!(value instanceof SAORenderBase))) {
-                                        final Render render = new SAORenderBase((Render) value);
-                                        manager.entityRenderMap.put(key, render);
-                                        render.func_177068_d();
-                                    }
+                                if ((value instanceof Render) && (!(value instanceof SAORenderBase))) {
+                                    final Render render = new SAORenderBase((Render) value);
+                                    manager.entityRenderMap.put(key, render);
+                                    render.func_177068_d();
                                 }
                             }
-                        }
+                        });
                     } catch (Exception e) {
                         SAOMod.sleep(1000L);
                     }

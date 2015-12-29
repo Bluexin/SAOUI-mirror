@@ -5,7 +5,6 @@ import com.bluexin.saoui.util.SAOOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraftforge.client.GuiIngameForge;
@@ -46,7 +45,7 @@ public class SAORenderHandler {
                         SAOSound.play(mc, SAOSound.ORB_DROPDOWN);
                         mc.displayGuiScreen(new SAOIngameMenuGUI((GuiInventory) (inv ? mc.currentScreen : null)));
                         replaceGUI = false;
-                    } catch (NullPointerException f) {
+                    } catch (NullPointerException ignored) {
                     }
 
                 } else if ((mc.currentScreen instanceof GuiGameOver) && (!SAOOption.DEFAULT_DEATH_SCREEN.value)) {
@@ -54,10 +53,10 @@ public class SAORenderHandler {
 
                     if (mc.ingameGUI instanceof SAOIngameGUI) {
                         try {
-                            mc.displayGuiScreen((GuiScreen) null);
+                            mc.displayGuiScreen(null);
                             mc.displayGuiScreen(new SAODeathGUI((GuiGameOver) mc.currentScreen));
                             replaceGUI = false;
-                        } catch (NullPointerException f) {
+                        } catch (NullPointerException ignored) {
                         }
                     }
                 }

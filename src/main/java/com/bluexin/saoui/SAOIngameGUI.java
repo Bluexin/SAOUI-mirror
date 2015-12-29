@@ -58,7 +58,6 @@ public class SAOIngameGUI extends GuiIngameForge {
             renderArmor = false;
             renderHealthMount = false;
             renderExperiance = false;
-            ;
             mc.entityRenderer.setupOverlayRendering();
         } // Basically adding what super doesn't render by default
 

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Code" pattern="src:com.bluexin.saoui..*" />
+</component>

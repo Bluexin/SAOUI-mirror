@@ -9,8 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 public class VersionChecker { // TODO: handle indev vs public
     // TODO: all of this should be threaded
-    private static int getLocaleVer() throws IOException
-    {
+    private static int getLocaleVer() throws IOException {
         InputStream input = VersionChecker.class.getResourceAsStream("/assets/saoui/version.txt");
         if (input == null) throw new IOException("InputStream null!");
         String content = IOUtils.toString(input, StandardCharsets.UTF_8).replace("\r\n", "").replace("\n", "");

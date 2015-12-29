@@ -9,8 +9,6 @@ import com.bluexin.saoui.util.SAOCursorStatus;
 import com.bluexin.saoui.util.SAOID;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -82,18 +80,18 @@ public class SAODeathGUI extends SAOScreenGUI {
         if (!this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
             if (!((SAOIngameGUI) this.mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
                 this.mc.thePlayer.respawnPlayer();
-                this.mc.displayGuiScreen((GuiScreen) null);
+                this.mc.displayGuiScreen(null);
                 mc.setIngameFocus();
             }
         } else if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
             if (!((SAOIngameGUI) this.mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
                 this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld((WorldClient) null);
+                this.mc.loadWorld(null);
                 this.mc.displayGuiScreen(new GuiMainMenu());
             }
         } else {
             this.mc.theWorld.sendQuittingDisconnectingPacket();
-            this.mc.loadWorld((WorldClient) null);
+            this.mc.loadWorld(null);
             this.mc.displayGuiScreen(new GuiMainMenu());
         }
     }
