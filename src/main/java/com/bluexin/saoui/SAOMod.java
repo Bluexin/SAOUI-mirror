@@ -777,7 +777,7 @@ public class SAOMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         final Minecraft mc = Minecraft.getMinecraft();
-        /*
+        /*/
         friendsFile = new File(mc.mcDataDir, ".sao_friends");
 
         if (!friendsFile.exists()) {
