@@ -32,7 +32,7 @@ public class SAOButtonGUI extends SAOElementGUI {
 
     public SAOButtonGUI(SAOParentGUI gui, SAOID saoID, int xPos, int yPos, String string, SAOIcon saoIcon, boolean highlighted) {
         this(gui, saoID, xPos, yPos, 100, string, saoIcon);
-        highlight = true;
+        highlight = highlighted;
     }
 
     @Override
