@@ -8,7 +8,6 @@ import com.bluexin.saoui.util.SAOColor;
 import com.bluexin.saoui.util.SAOCursorStatus;
 import com.bluexin.saoui.util.SAOID;
 import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -65,21 +64,6 @@ public class SAODeathGUI extends SAOScreenGUI {
 
         // id isn't needed here anyway ^-^
         if (id == SAOID.ALERT) gameOver.confirmClicked(this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled(), -1);
-    }
-
-    @Override
-    protected void backgroundClicked(int cursorX, int cursorY, int button) {
-        if (!((SAOIngameGUI) this.mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
-            if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld(null);
-                this.mc.displayGuiScreen(new GuiMainMenu());
-            } else {
-                this.mc.thePlayer.respawnPlayer();
-                this.mc.displayGuiScreen(null);
-                mc.setIngameFocus();
-            }
-        }
     }
 
     @Override
