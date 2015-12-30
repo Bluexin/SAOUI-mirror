@@ -1,0 +1,20 @@
+build:
+  only:
+    - master
+  script:
+    - chmod +x *
+    - #./editVer
+    - mkdir -p build/libs
+    - echo $SAOUI_VERSION > src/main/resources/assets/saoui/version.txt
+    - ./gradlew clean setupCIWorkSpace build
+    - mv build/libs/saoui-1.0.jar build/libs/saoui-1.0.$SAOUI_VERSION.jar
+    - mv changelog.txt build/libs/changelog.txt
+    - mv latestChanges.txt build/libs/latestChanges.txt
+
+artifacts:
+  paths:
+    - build/
+
+cache:
+  paths:
+    - build/
