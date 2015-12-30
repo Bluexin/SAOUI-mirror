@@ -35,3 +35,4 @@ Trying gitlab CI setup
 Still trying 
 Hopefully this will be last try.. 
 Still trying T_T 
+Removed last thread bit 

@@ -1,6 +1,5 @@
 package com.bluexin.saoui;
 
-import com.bluexin.saoui.util.SAOColorCursor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -103,11 +102,7 @@ class SAOEventHandler {
         time = System.currentTimeMillis();
         delay = Math.abs(time - lasttime);
         lasttime = time;
-        if (e.entityLiving instanceof EntityLivingBase) {
-            for (final SAOColorCursor cursor : SAOMod.colorStates.values()) {
-                cursor.update(delay);
-            }
-        }
+        if (e.entityLiving != null) SAOMod.colorStates.values().stream().forEach(cursor -> cursor.update(delay));
     }
 
     @SubscribeEvent
@@ -116,12 +111,8 @@ class SAOEventHandler {
             SAOMod.IS_SPRINTING = false;
             SAOMod.IS_SNEAKING = false;
         } else if (mc.inGameHasFocus) {
-            if (SAOMod.IS_SPRINTING) {
-                KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
-            }
-            if (SAOMod.IS_SNEAKING) {
-                KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
-            }
+            if (SAOMod.IS_SPRINTING) KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
+            if (SAOMod.IS_SNEAKING) KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
         }
     }
     /*

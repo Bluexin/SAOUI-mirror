@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,7 +37,7 @@ import java.util.*;
 @Mod(modid = SAOMod.MODID, name = SAOMod.NAME, version = SAOMod.VERSION)
 @SideOnly(Side.CLIENT)
 public class SAOMod {
-
+// TODO: fix threading issues (see inspection)
     public static final String MODID = "saoui";
     public static final String NAME = "Sword Art Online UI";
     public static final String VERSION = "1.3";
@@ -58,7 +59,6 @@ public class SAOMod {
     public static String _PARTY_LEAVING_TEXT;
     public static String _MESSAGE_TITLE;
     public static String _MESSAGE_FROM;
-    private static Thread mcModThread, renderManagerUpdate;
     private static Map<UUID, Float> healthSmooth;
     private static Map<UUID, Float> hungerSmooth;
     private static Configuration config;
@@ -786,55 +786,6 @@ public class SAOMod {
 
         friends = loadFriends();
          */
-        final RenderManager manager = mc.getRenderManager();
-
-        if (renderManagerUpdate != null) {
-            final Thread thread = renderManagerUpdate;
-            renderManagerUpdate = null;
-            thread.interrupt();
-        }
-
-        renderManagerUpdate = new Thread() {
-
-            @SuppressWarnings({"unchecked", "rawtypes"})
-            @Override
-            public void run() {
-                while (manager != null) {
-                    // private access // really evil //
-
-                    try {
-                        manager.entityRenderMap.keySet().stream().filter(key -> key instanceof Class<?>).forEach(key -> {
-                            final Class<?> class0 = (Class<?>) key;
-
-                            if (EntityLivingBase.class.isAssignableFrom(class0)) {
-                                final Object value = manager.entityRenderMap.get(key);
-
-                                if ((value instanceof Render) && (!(value instanceof SAORenderBase))) {
-                                    final Render render = new SAORenderBase((Render) value);
-                                    manager.entityRenderMap.put(key, render);
-                                    render.func_177068_d();
-                                }
-                            }
-                        });
-                    } catch (Exception e) {
-                        SAOMod.sleep(1000L);
-                    }
-
-                    // private access // really evil //
-
-                    SAOMod.sleep(10000L);
-                }
-            }
-
-        };
-
-        renderManagerUpdate.start();
-
-        if (mcModThread != null) {
-            final Thread thread = mcModThread;
-            mcModThread = null;
-            thread.interrupt();
-        }
 
         if (healthSmooth == null) {
             healthSmooth = new HashMap<>();
@@ -855,6 +806,26 @@ public class SAOMod {
         }
 
         replaceGUI = true;
+    }
+
+    @SuppressWarnings("unchecked")
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent evt) {
+        final Minecraft mc = Minecraft.getMinecraft();
+        RenderManager manager = mc.getRenderManager();
+        manager.entityRenderMap.keySet().stream().filter(key -> key instanceof Class<?>).forEach(key -> {
+            final Class<?> class0 = (Class<?>) key;
+
+            if (EntityLivingBase.class.isAssignableFrom(class0)) {
+                final Object value = manager.entityRenderMap.get(key);
+
+                if (value instanceof Render && !(value instanceof SAORenderBase)) {
+                    final Render render = new SAORenderBase((Render) value);
+                    manager.entityRenderMap.put(key, render);
+                    render.func_177068_d();
+                }
+            }
+        });
     }
 
 }
