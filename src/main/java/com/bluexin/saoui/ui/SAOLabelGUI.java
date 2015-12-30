@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class SAOLabelGUI extends SAOElementGUI {
 
     public String caption;
-    public int fontColor;
+    public SAOColor fontColor;
     private SAOAlign align;
 
     public SAOLabelGUI(SAOParentGUI gui, int xPos, int yPos, int width, String string, SAOAlign saoAlign) {
@@ -34,7 +34,7 @@ public class SAOLabelGUI extends SAOElementGUI {
             final int left = align.getX(this, false, SAOGL.glStringWidth(caption)) + getOffsetX();
             final int top = getY(false);
 
-            SAOGL.glString(caption, left, top + (height - SAOGL.glStringHeight()) / 2, SAOColor.multiplyAlpha(fontColor, visibility));
+            SAOGL.glString(caption, left, top + (height - SAOGL.glStringHeight()) / 2, fontColor.multiplyAlpha(visibility));
         }
     }
 

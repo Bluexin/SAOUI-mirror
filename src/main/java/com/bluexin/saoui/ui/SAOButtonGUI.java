@@ -81,9 +81,9 @@ public class SAOButtonGUI extends SAOElementGUI {
 
     int getColor(int hoverState, boolean bg) {
         if (bg) {
-            return hoverState == 1 ? SAOColor.DEFAULT_COLOR : hoverState >= 2 ? SAOColor.HOVER_COLOR : SAOColor.DISABLED_MASK;
+            return hoverState == 1 ? SAOColor.DEFAULT_COLOR.rgba : hoverState >= 2 ? SAOColor.HOVER_COLOR.rgba : SAOColor.DISABLED_MASK.rgba;
         } else {
-            return hoverState == 1 ? SAOColor.DEFAULT_FONT_COLOR : hoverState >= 2 ? SAOColor.HOVER_FONT_COLOR : SAOColor.DEFAULT_FONT_COLOR & SAOColor.DISABLED_MASK;
+            return hoverState == 1 ? SAOColor.DEFAULT_FONT_COLOR.rgba : hoverState >= 2 ? SAOColor.HOVER_FONT_COLOR.rgba : SAOColor.DEFAULT_FONT_COLOR.rgba & SAOColor.DISABLED_MASK.rgba;
         }
     }
 

@@ -116,7 +116,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
                     mouseDownValue = 1.0F;
                 }
 
-                SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.CURSOR_COLOR, mouseDownValue));
+                SAOGL.glColorRGBA(SAOColor.CURSOR_COLOR.multiplyAlpha(mouseDownValue));
                 SAOGL.glTexturedRect(cursorX - 7, cursorY - 7, 35, 115, 15, 15);
 
                 SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR);

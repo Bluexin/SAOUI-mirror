@@ -24,9 +24,7 @@ public enum SAOAlign {
     }
 
     private interface SAOPositioner {
-
         int getX(SAOElementGUI element, boolean relative, int width);
-
     }
 
 }

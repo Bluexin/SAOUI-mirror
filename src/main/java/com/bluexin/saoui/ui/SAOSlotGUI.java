@@ -27,6 +27,38 @@ public class SAOSlotGUI extends SAOButtonGUI {
         this(gui, xPos, yPos, 150, slot);
     }
 
+    static SAOIcon getIcon(ItemStack stack) {
+        if (stack != null) {
+            if (SAOInventory.WEAPONS.isFine(stack, false)) {
+                return SAOIcon.EQUIPMENT;
+            } else if (SAOInventory.EQUIPMENT.isFine(stack, false)) {
+                return SAOIcon.ARMOR;
+            } else if (SAOInventory.ACCESSORY.isFine(stack, false)) {
+                return SAOIcon.ACCESSORY;
+            } else {
+                return SAOIcon.ITEMS;
+            }
+        } else {
+            return SAOIcon.NONE;
+        }
+    }
+
+    private static SAOIcon getIcon(Slot slot) {
+        if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
+            return getIcon(slot.getStack());
+        } else {
+            return SAOIcon.HELP;
+        }
+    }
+
+    private static String getCaption(Slot slot) {
+        if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
+            return slot.getStack().getDisplayName();
+        } else {
+            return UNKNOWN;
+        }
+    }
+
     @Override
     public void draw(Minecraft mc, int cursorX, int cursorY) {
         super.draw(mc, cursorX, cursorY);
@@ -83,7 +115,7 @@ public class SAOSlotGUI extends SAOButtonGUI {
         final int color = super.getColor(hoverState, bg);
 
         if ((highlight) && (hoverState != 2)) {
-            return SAOColor.mediumColor(color, SAOColor.mediumColor(SAOColor.DEFAULT_COLOR, 0xFF));
+            return SAOColor.mediumColor(color, SAOColor.DEFAULT_COLOR.mediumColor(0xFF));
         } else {
             return color;
         }
@@ -102,38 +134,6 @@ public class SAOSlotGUI extends SAOButtonGUI {
     @Override
     public boolean mouseReleased(Minecraft mc, int cursorX, int cursorY, int button) {
         return super.mouseReleased(mc, cursorX, cursorY, button) || (button == 1) || (button == 2);
-    }
-
-    static SAOIcon getIcon(ItemStack stack) {
-        if (stack != null) {
-            if (SAOInventory.WEAPONS.isFine(stack, false)) {
-                return SAOIcon.EQUIPMENT;
-            } else if (SAOInventory.EQUIPMENT.isFine(stack, false)) {
-                return SAOIcon.ARMOR;
-            } else if (SAOInventory.ACCESSORY.isFine(stack, false)) {
-                return SAOIcon.ACCESSORY;
-            } else {
-                return SAOIcon.ITEMS;
-            }
-        } else {
-            return SAOIcon.NONE;
-        }
-    }
-
-    private static SAOIcon getIcon(Slot slot) {
-        if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
-            return getIcon(slot.getStack());
-        } else {
-            return SAOIcon.HELP;
-        }
-    }
-
-    private static String getCaption(Slot slot) {
-        if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
-            return slot.getStack().getDisplayName();
-        } else {
-            return UNKNOWN;
-        }
     }
 
 }

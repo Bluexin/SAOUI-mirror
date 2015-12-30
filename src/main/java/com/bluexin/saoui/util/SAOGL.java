@@ -45,6 +45,10 @@ public final class SAOGL {
         GlStateManager.color(red, green, blue, alpha);
     }
 
+    public static void glColorRGBA(SAOColor color) {
+        glColorRGBA(color.rgba);
+    }
+
     public static void glColorRGBA(int rgba) {
         final float red = (float) ((rgba >> 24) & 0xFF) / 0xFF;
         final float green = (float) ((rgba >> 16) & 0xFF) / 0xFF;

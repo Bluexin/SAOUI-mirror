@@ -28,7 +28,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
         if (visibility > 0) {
             SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
-            SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
+            SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
 
             int left = getX(false) + width / 2;
             int top = getY(false) + height * 13 / 16;
@@ -37,7 +37,60 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
             final int shadowY = size / 2 + Math.max(Math.min((cursorY - top) / 12, 0), -size / 2 + 2);
 
-            final int shadowOffset = Math.max((cursorY - top) / 10, 0);
+            SAOGL.glTexturedRect(left - size / 2, (top - shadowY / 2), size, shadowY, 200, 85, 56, 30);
+
+            drawCharacter(character, left, top, size, cursorX, cursorY);
+
+            left = getX(false) + width / 2;
+            top = getY(false) + height / 2;
+
+            final int width2 = (width / 2) - 14;
+            final int height2 = (height / 2) - 14;
+
+            for (int angle = 0; angle < 12; angle++) {
+                final int x = (int) (left + Math.sin(Math.toRadians(angle * 30)) * width2);
+                final int y = (int) (top + Math.cos(Math.toRadians(angle * 30)) * height2);
+
+                final boolean hovered = ((cursorX >= x - 10) && (cursorY >= y - 10) && (cursorX <= x + 10) && (cursorY <= y + 10));
+
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
+
+                SAOGL.glColorRGBA((hovered ? SAOColor.HOVER_COLOR : SAOColor.DEFAULT_FONT_COLOR).multiplyAlpha(visibility));
+                SAOGL.glTexturedRect(x - 10, y - 10, 0, 25, 20, 20);
+
+                if ((angle + 4 < 9) || (angle + 4 >= 12)) {
+                    final int index = (angle + 4 >= 12 ? (angle - 8) % 9 : (angle + 4) % 9);
+                    final Slot slot = character.inventoryContainer.getSlotFromInventory(character.inventory, index);
+
+                    if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
+                        SAOGL.glColorRGBA((hovered ? SAOColor.HOVER_FONT_COLOR : SAOColor.DEFAULT_COLOR).multiplyAlpha(visibility));
+                        SAOSlotGUI.getIcon(slot.getStack()).glDraw(x - 8, y - 8);
+                    }
+
+                    if (hovered) {
+                        clickIndex = index;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void draw(Minecraft mc, int cursorX, int cursorY) {
+        super.draw(mc, cursorX, cursorY);
+
+        clickIndex = -1;
+
+        if (visibility > 0) {
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
+            SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
+
+            int left = getX(false) + width / 2;
+            int top = getY(false) + height * 13 / 16;
+
+            final int size = width * height / 550;
+
+            final int shadowY = size / 2 + Math.max(Math.min((cursorY - top) / 12, 0), -size / 2 + 2);
 
             SAOGL.glTexturedRect(left - size / 2, (top - shadowY / 2), size, shadowY, 200, 85, 56, 30);
 
@@ -57,7 +110,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
                 SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
 
-                SAOGL.glColorRGBA(SAOColor.multiplyAlpha(hovered ? SAOColor.HOVER_COLOR : SAOColor.DEFAULT_FONT_COLOR, visibility));
+                SAOGL.glColorRGBA((hovered ? SAOColor.HOVER_COLOR : SAOColor.DEFAULT_FONT_COLOR).multiplyAlpha(visibility));
                 SAOGL.glTexturedRect(x - 10, y - 10, 0, 25, 20, 20);
 
                 if ((angle + 4 < 9) || (angle + 4 >= 12)) {
@@ -65,7 +118,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
                     final Slot slot = character.inventoryContainer.getSlotFromInventory(character.inventory, index);
 
                     if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
-                        SAOGL.glColorRGBA(SAOColor.multiplyAlpha(hovered ? SAOColor.HOVER_FONT_COLOR : SAOColor.DEFAULT_COLOR, visibility));
+                        SAOGL.glColorRGBA((hovered ? SAOColor.HOVER_FONT_COLOR : SAOColor.DEFAULT_COLOR).multiplyAlpha(visibility));
                         SAOSlotGUI.getIcon(slot.getStack()).glDraw(x - 8, y - 8);
                     }
 

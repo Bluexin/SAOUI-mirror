@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SAOPanelGUI extends SAOMenuGUI {
 
-    public int bgColor;
+    public SAOColor bgColor;
 
     public SAOPanelGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
         super(gui, xPos, yPos, w, h);
@@ -25,7 +25,7 @@ public class SAOPanelGUI extends SAOMenuGUI {
 
             final int shadowSize = (x == 0 ? 0 : 5);
 
-            SAOGL.glColorRGBA(SAOColor.multiplyAlpha(bgColor, visibility));
+            SAOGL.glColorRGBA(bgColor.multiplyAlpha(visibility));
 
             if (shadowSize > 0) {
                 SAOGL.glTexturedRect(left - shadowSize, top - shadowSize, 5 - shadowSize, 120 - shadowSize, shadowSize, shadowSize);
@@ -42,7 +42,7 @@ public class SAOPanelGUI extends SAOMenuGUI {
             SAOGL.glTexturedRect(left, top, width, height, 5, 120, 10, 10);
 
             if (x == 0) {
-                SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
+                SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
 
                 SAOGL.glTexturedRect(left + 5, top, 156, 25, 10, 10);
             }

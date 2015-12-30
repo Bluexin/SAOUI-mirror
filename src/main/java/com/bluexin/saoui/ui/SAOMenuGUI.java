@@ -8,8 +8,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SAOMenuGUI extends SAOContainerGUI {
 
-    boolean fullArrow;
     public boolean innerMenu;
+    boolean fullArrow;
 
     public SAOMenuGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h) {
         super(gui, xPos, yPos, w, h);
@@ -21,9 +21,7 @@ public class SAOMenuGUI extends SAOContainerGUI {
         int start = 0;
         int offset = 0;
 
-        while ((start < elements.size()) && (start < index)) {
-            offset += getOffsetSize(elements.get(start++));
-        }
+        while ((start < elements.size()) && (start < index)) offset += getOffsetSize(elements.get(start++));
 
         return offset;
     }
@@ -36,9 +34,8 @@ public class SAOMenuGUI extends SAOContainerGUI {
 	public void update(Minecraft mc) {
         height = getSize();
 
-        if (width <= 0) {
+        if (width <= 0)
             elements.stream().filter(element -> element.width > width).forEach(element -> width = element.width);
-        }
 
         super.update(mc);
     }
@@ -57,10 +54,10 @@ public class SAOMenuGUI extends SAOContainerGUI {
 
     @Override
 	public void draw(Minecraft mc, int cursorX, int cursorY) {
-        if ((visibility > 0) && (parent != null) && (height > 0)) {
+        if (visibility > 0 && parent != null && height > 0) {
             if (x > 0) {
                 SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
-                SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
+                SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
 
                 final int left = getX(false);
                 final int top = getY(false);
@@ -71,7 +68,7 @@ public class SAOMenuGUI extends SAOContainerGUI {
                 SAOGL.glTexturedRect(left - 10, arrowTop + (height - 10) / 2, 20, 25 + (fullArrow ? 10 : 0), 10, 10);
             } else if (x < 0) {
                 SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
-                SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
+                SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
 
                 final int left = getX(false);
                 final int top = getY(false);

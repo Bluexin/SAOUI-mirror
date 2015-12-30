@@ -19,12 +19,12 @@ public class SAOWindowGUI extends SAOMenuGUI {
         }
     }
 
-    public final void setTitle(String title) {
-        titleLable.caption = title;
-    }
-
     public final String getTitle() {
         return titleLable.caption;
+    }
+
+    public final void setTitle(String title) {
+        titleLable.caption = title;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class SAOWindowGUI extends SAOMenuGUI {
     public void draw(Minecraft mc, int cursorX, int cursorY) {
         if (visibility > 0) {
             SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
-            SAOGL.glColorRGBA(SAOColor.multiplyAlpha(SAOColor.DEFAULT_COLOR, visibility));
+            SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
 
             final int left = getX(false);
             final int top = getY(false);
