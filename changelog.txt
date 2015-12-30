@@ -33,3 +33,4 @@ Little fix to options categories
 Should allow other mods adding things to the UI 
 Trying gitlab CI setup 
 Still trying 
+Hopefully this will be last try.. 
