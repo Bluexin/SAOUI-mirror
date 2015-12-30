@@ -30,9 +30,5 @@ Starting option sorting
 Broken build! it is still usable, but GUIs are a bit broken, even though it's nothing harmfull, and options are BROKEN! 
 Made categories for the options! Also, fixed textue file :p 
 Little fix to options categories 
-Should allow other mods adding things to the UI 
-Trying gitlab CI setup 
-Still trying 
-Hopefully this will be last try.. 
-Still trying T_T 
+Should allow other mods adding things to the UI
 Removed last thread bit 

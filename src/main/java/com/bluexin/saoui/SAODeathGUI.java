@@ -31,11 +31,7 @@ public class SAODeathGUI extends SAOScreenGUI {
     protected void init() {
         super.init();
 
-        if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-            elements.add(new SAOAlertGUI(this, 0, 0, SAOMod._DEAD_ALERT, SAOColor.HARDCORE_DEAD_COLOR));
-        } else {
-            elements.add(new SAOAlertGUI(this, 0, 0, SAOMod._DEAD_ALERT, SAOColor.DEAD_COLOR));
-        }
+        elements.add(new SAOAlertGUI(this, 0, 0, SAOMod._DEAD_ALERT, this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled() ? SAOColor.HARDCORE_DEAD_COLOR : SAOColor.DEAD_COLOR));
     }
 
     @Override
@@ -67,32 +63,22 @@ public class SAODeathGUI extends SAOScreenGUI {
 
         element.click(mc.getSoundHandler(), false);
 
-        if (id == SAOID.ALERT) {
-            if (!this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-                gameOver.confirmClicked(false, 0);
-            } else {
-                gameOver.confirmClicked(true, 1);
-            }
-        }
+        // id isn't needed here anyway ^-^
+        if (id == SAOID.ALERT) gameOver.confirmClicked(this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled(), -1);
     }
 
+    @Override
     protected void backgroundClicked(int cursorX, int cursorY, int button) {
-        if (!this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-            if (!((SAOIngameGUI) this.mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
+        if (!((SAOIngameGUI) this.mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
+            if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
+                this.mc.theWorld.sendQuittingDisconnectingPacket();
+                this.mc.loadWorld(null);
+                this.mc.displayGuiScreen(new GuiMainMenu());
+            } else {
                 this.mc.thePlayer.respawnPlayer();
                 this.mc.displayGuiScreen(null);
                 mc.setIngameFocus();
             }
-        } else if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-            if (!((SAOIngameGUI) this.mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld(null);
-                this.mc.displayGuiScreen(new GuiMainMenu());
-            }
-        } else {
-            this.mc.theWorld.sendQuittingDisconnectingPacket();
-            this.mc.loadWorld(null);
-            this.mc.displayGuiScreen(new GuiMainMenu());
         }
     }
 
