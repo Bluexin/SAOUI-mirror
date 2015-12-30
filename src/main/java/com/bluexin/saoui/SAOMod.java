@@ -33,11 +33,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Mod(modid = SAOMod.MODID, name = SAOMod.NAME, version = SAOMod.VERSION)
 @SideOnly(Side.CLIENT)
 public class SAOMod {
-// TODO: fix threading issues (see inspection)
+    // TODO: fix threading issues (see inspection)
     public static final String MODID = "saoui";
     public static final String NAME = "Sword Art Online UI";
     public static final String VERSION = "1.3";
@@ -71,7 +72,7 @@ public class SAOMod {
     private static String _PARTY_INVITATION_TITLE;
     private static String _PARTY_INVITATION_TEXT;
     private static int partyTicks;
-    
+
     private static boolean sleep(long time) {
         try {
             Thread.sleep(time);
@@ -455,15 +456,7 @@ public class SAOMod {
     }
 
     public static boolean isPartyMember(String username) {
-        if (party != null) {
-            for (final String member : party) {
-                if (member.equals(username)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return party != null && Stream.of(party).anyMatch(member -> member.equals(username));
     }
 
     public static boolean isPartyLeader(String username) {
@@ -776,8 +769,8 @@ public class SAOMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        final Minecraft mc = Minecraft.getMinecraft();
-        /*/
+//        final Minecraft mc = Minecraft.getMinecraft();
+        /*
         friendsFile = new File(mc.mcDataDir, ".sao_friends");
 
         if (!friendsFile.exists()) {
@@ -811,20 +804,20 @@ public class SAOMod {
     @SuppressWarnings("unchecked")
     @EventHandler
     public void postInit(FMLPostInitializationEvent evt) {
+        /*
+        If some mobs don't get registered this way, that means the mods don't register their renderers at the right place.
+         */
         final Minecraft mc = Minecraft.getMinecraft();
         RenderManager manager = mc.getRenderManager();
-        manager.entityRenderMap.keySet().stream().filter(key -> key instanceof Class<?>).forEach(key -> {
-            final Class<?> class0 = (Class<?>) key;
+        manager.entityRenderMap.keySet().stream().filter(key -> key instanceof Class<?>).filter(key -> EntityLivingBase.class.isAssignableFrom((Class<?>) key)).forEach(key -> {
+            final Object value = manager.entityRenderMap.get(key);
 
-            if (EntityLivingBase.class.isAssignableFrom(class0)) {
-                final Object value = manager.entityRenderMap.get(key);
-
-                if (value instanceof Render && !(value instanceof SAORenderBase)) {
-                    final Render render = new SAORenderBase((Render) value);
-                    manager.entityRenderMap.put(key, render);
-                    render.func_177068_d();
-                }
+            if (value instanceof Render && !(value instanceof SAORenderBase)) {
+                final Render render = new SAORenderBase((Render) value);
+                manager.entityRenderMap.put(key, render);
+                render.func_177068_d();
             }
+
         });
     }
 
