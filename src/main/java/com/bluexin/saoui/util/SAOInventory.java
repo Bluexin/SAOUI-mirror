@@ -41,14 +41,7 @@ public enum SAOInventory {
         );
     }),
 
-    ITEMS(new ItemFilter() {
-
-        @Override
-        public boolean filter(ItemStack stack, boolean state) {
-            return !state || (!EQUIPMENT.isFine(stack, state));
-        }
-
-    });
+    ITEMS((stack, state) -> !state || (!EQUIPMENT.isFine(stack, state)));
 
     private final ItemFilter itemFilter;
 
