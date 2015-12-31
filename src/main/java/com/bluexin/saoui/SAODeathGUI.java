@@ -67,6 +67,11 @@ public class SAODeathGUI extends SAOScreenGUI {
     }
 
     @Override
+    protected void backgroundClicked(int cursorX, int cursorY, int button) {
+
+    }
+
+    @Override
     public void close() {
         super.close();
 

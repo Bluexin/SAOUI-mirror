@@ -298,7 +298,7 @@ class SAORenderBase extends Render {
 
     private void useColor(Minecraft mc, Entity entity, float time) {
         if (entity instanceof EntityLivingBase) {
-            SAOHealthStep.getStep(mc, (EntityLivingBase) entity, time).glColor((EntityLivingBase) entity);
+            SAOHealthStep.getStep(mc, (EntityLivingBase) entity, time).glColor();
         } else {
             SAOHealthStep.GOOD.glColor();
         }

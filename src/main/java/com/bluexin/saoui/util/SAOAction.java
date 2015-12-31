@@ -20,11 +20,7 @@ public enum SAOAction {
     MOUSE_WHEEL;
 
     public static SAOAction getAction(int button, boolean pressed) {
-        if ((button >= 0) && (button <= 2)) {
-            return values()[button + (pressed ? LEFT_PRESSED.ordinal() : LEFT_RELEASED.ordinal())];
-        } else {
-            return UNKNOWN;
-        }
+        return button >= 0 && button <= 2 ? values()[button + (pressed ? LEFT_PRESSED.ordinal() : LEFT_RELEASED.ordinal())] : UNKNOWN;
     }
 
 }

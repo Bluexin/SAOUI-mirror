@@ -65,7 +65,7 @@ public enum SAOID {
     }
 
     public boolean hasParent(SAOID id) {
-        return (parent == id) || ((parent != null) && (parent.hasParent(id)));
+        return parent == id || parent != null && parent.hasParent(id);
     }
 
 }

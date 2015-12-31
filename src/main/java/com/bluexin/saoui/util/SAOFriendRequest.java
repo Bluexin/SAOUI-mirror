@@ -23,11 +23,7 @@ public final class SAOFriendRequest {
     }
 
     public final boolean equals(Object object) {
-        if (object instanceof SAOFriendRequest) {
-            return equals((SAOFriendRequest) object);
-        } else {
-            return equals(String.valueOf(object));
-        }
+        return object instanceof SAOFriendRequest ? equals((SAOFriendRequest) object) : equals(String.valueOf(object));
     }
 
 }
