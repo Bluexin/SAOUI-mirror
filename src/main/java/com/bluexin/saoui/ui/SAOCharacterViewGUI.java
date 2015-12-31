@@ -8,6 +8,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Objects;
+
 @SideOnly(Side.CLIENT)
 public class SAOCharacterViewGUI extends SAOElementGUI {
 
@@ -84,9 +86,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
                         SAOSlotGUI.getIcon(slot.getStack()).glDraw(x - 8, y - 8);
                     }
 
-                    if (hovered) {
-                        clickIndex = index;
-                    }
+                    if (hovered) clickIndex = index;
                 }
             }
         }
@@ -94,21 +94,18 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
     @Override
     public boolean keyTyped(Minecraft mc, char ch, int key) {
-        if (character == mc.thePlayer) {
-            for (int i = 0; i < 9; i++) {
-                if (key == mc.gameSettings.keyBindsHotbar[i].getKeyCode()) {
-                    character.inventory.currentItem = i;
-                    return true;
-                }
+        if (Objects.equals(character, mc.thePlayer)) for (int i = 0; i < 9; i++)
+            if (key == mc.gameSettings.keyBindsHotbar[i].getKeyCode()) {
+                character.inventory.currentItem = i;
+                return true;
             }
-        }
 
         return super.keyTyped(mc, ch, key);
     }
 
     @Override
     public boolean mousePressed(Minecraft mc, int cursorX, int cursorY, int button) {
-        if ((clickIndex >= 0) && (button == 0) && (character == mc.thePlayer)) {
+        if (clickIndex >= 0 && button == 0 && Objects.equals(character, mc.thePlayer)) {
             character.inventory.currentItem = clickIndex;
             return true;
         }

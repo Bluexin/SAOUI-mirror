@@ -147,7 +147,12 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
 
         boolean clickedElement = false;
 
-        for (int i = elements.size() - 1; i >= 0; i--)
+        for (int i = elements.size() - 1; i >= 0; i--) {
+            if (i >= elements.size()) {
+                if (elements.size() > 0) i = elements.size() - 1;
+                else break;
+            }
+
             if (elements.get(i).mouseOver(cursorX, cursorY)) {
                 if (elements.get(i).mousePressed(mc, cursorX, cursorY, button))
                     actionPerformed(elements.get(i), SAOAction.getAction(button, true), button);
@@ -155,6 +160,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
                 clickedElement = true;
                 System.out.println(elements.get(i) + " ok");
             }
+        }
 
         if (!clickedElement) backgroundClicked(cursorX, cursorY, button);
     }

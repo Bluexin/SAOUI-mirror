@@ -56,14 +56,13 @@ public class SAOContainerGUI extends SAOElementGUI {
     public boolean mousePressed(Minecraft mc, int cursorX, int cursorY, int button) {
         for (int i = elements.size() - 1; i >= 0; i--) {
             if (i >= elements.size()) {
-                continue;
+                if (elements.size() > 0) i = elements.size() - 1;
+                else break;
             }
 
-            if (elements.get(i).mouseOver(cursorX, cursorY)) {
-                if (elements.get(i).mousePressed(mc, cursorX, cursorY, button)) {
+            if (elements.get(i).mouseOver(cursorX, cursorY))
+                if (elements.get(i).mousePressed(mc, cursorX, cursorY, button))
                     actionPerformed(elements.get(i), SAOAction.getAction(button, true), button);
-                }
-            }
         }
 
         return super.mousePressed(mc, cursorX, cursorY, button);
@@ -73,14 +72,13 @@ public class SAOContainerGUI extends SAOElementGUI {
     public boolean mouseReleased(Minecraft mc, int cursorX, int cursorY, int button) {
         for (int i = elements.size() - 1; i >= 0; i--) {
             if (i >= elements.size()) {
-                continue;
+                if (elements.size() > 0) i = elements.size() - 1;
+                else break;
             }
 
-            if (elements.get(i).mouseOver(cursorX, cursorY, button)) {
-                if (elements.get(i).mouseReleased(mc, cursorX, cursorY, button)) {
+            if (elements.get(i).mouseOver(cursorX, cursorY, button))
+                if (elements.get(i).mouseReleased(mc, cursorX, cursorY, button))
                     actionPerformed(elements.get(i), SAOAction.getAction(button, false), button);
-                }
-            }
         }
 
         return super.mouseReleased(mc, cursorX, cursorY, button);
@@ -90,14 +88,13 @@ public class SAOContainerGUI extends SAOElementGUI {
     public boolean mouseWheel(Minecraft mc, int cursorX, int cursorY, int delta) {
         for (int i = elements.size() - 1; i >= 0; i--) {
             if (i >= elements.size()) {
-                continue;
+                if (elements.size() > 0) i = elements.size() - 1;
+                else break;
             }
 
-            if (elements.get(i).mouseOver(cursorX, cursorY)) {
-                if (elements.get(i).mouseWheel(mc, cursorX, cursorY, delta)) {
+            if (elements.get(i).mouseOver(cursorX, cursorY))
+                if (elements.get(i).mouseWheel(mc, cursorX, cursorY, delta))
                     actionPerformed(elements.get(i), SAOAction.MOUSE_WHEEL, delta);
-                }
-            }
         }
 
         return super.mouseWheel(mc, cursorX, cursorY, delta);
@@ -105,14 +102,8 @@ public class SAOContainerGUI extends SAOElementGUI {
 
     @Override
     public void close(Minecraft mc) {
-        for (int i = elements.size() - 1; i >= 0; i--) {
-            if (i >= elements.size()) {
-                continue;
-            }
-
-            elements.get(i).close(mc);
-            elements.remove(i);
-        }
+        elements.stream().forEach(el -> el.close(mc));
+        elements.clear();
 
         super.close(mc);
     }

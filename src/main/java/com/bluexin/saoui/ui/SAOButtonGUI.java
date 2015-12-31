@@ -80,23 +80,11 @@ public class SAOButtonGUI extends SAOElementGUI {
     }
 
     int getColor(int hoverState, boolean bg) {
-        if (bg) {
-            return hoverState == 1 ? SAOColor.DEFAULT_COLOR.rgba : hoverState >= 2 ? SAOColor.HOVER_COLOR.rgba : SAOColor.DISABLED_MASK.rgba;
-        } else {
-            return hoverState == 1 ? SAOColor.DEFAULT_FONT_COLOR.rgba : hoverState >= 2 ? SAOColor.HOVER_FONT_COLOR.rgba : SAOColor.DEFAULT_FONT_COLOR.rgba & SAOColor.DISABLED_MASK.rgba;
-        }
+        return bg ? hoverState == 1 ? SAOColor.DEFAULT_COLOR.rgba : hoverState >= 2 ? SAOColor.HOVER_COLOR.rgba : SAOColor.DISABLED_MASK.rgba : hoverState == 1 ? SAOColor.DEFAULT_FONT_COLOR.rgba : hoverState >= 2 ? SAOColor.HOVER_FONT_COLOR.rgba : SAOColor.DEFAULT_FONT_COLOR.rgba & SAOColor.DISABLED_MASK.rgba;
     }
 
     int hoverState(int cursorX, int cursorY) {
-        if (mouseOver(cursorX, cursorY)) {
-            return 2;
-        } else if (highlight) {
-            return 3;
-        } else if (enabled) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return mouseOver(cursorX, cursorY) ? 2 : highlight ? 3 : enabled ? 1 : 0;
     }
 
     @Override
