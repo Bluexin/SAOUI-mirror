@@ -33,3 +33,4 @@ Little fix to options categories
 Should allow other mods adding things to the UI
 Removed last thread bit 
 Optimized the VersionChecker 
+Fixed derpy texture 
