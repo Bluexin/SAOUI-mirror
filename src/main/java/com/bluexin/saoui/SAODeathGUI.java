@@ -12,6 +12,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+
 @SideOnly(Side.CLIENT)
 public class SAODeathGUI extends SAOScreenGUI {
 
@@ -68,6 +70,11 @@ public class SAODeathGUI extends SAOScreenGUI {
 
     @Override
     protected void backgroundClicked(int cursorX, int cursorY, int button) {
+
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
 
     }
 

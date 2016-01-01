@@ -73,3 +73,7 @@ processResources
 }
 
 idea { module { inheritOutputDirs = true } }
+
+task stage {
+    dependsOn build
+}
