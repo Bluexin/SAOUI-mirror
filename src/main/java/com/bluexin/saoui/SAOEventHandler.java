@@ -86,9 +86,12 @@ class SAOEventHandler {
     @SubscribeEvent
     public void joinWorld(EntityJoinWorldEvent e) {
         if (!SAOMod.verChecked && e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer) {
-            String msg = VersionChecker.getUpdateNotif();
-            if (!msg.equals("")) ((EntityPlayer) e.entity).addChatComponentMessage(new ChatComponentText(msg));
-            SAOMod.verChecked = true;
+            VersionChecker vc = new VersionChecker();
+            vc.addListener((obs, oldV, newV) -> Minecraft.getMinecraft().addScheduledTask(() -> {
+                if (newV != null && !newV.equals("")) ((EntityPlayer) e.entity).addChatComponentMessage(new ChatComponentText(newV));
+                SAOMod.verChecked = true;
+            }));
+            vc.run();
         }
     }
 

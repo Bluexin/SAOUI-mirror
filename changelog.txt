@@ -32,3 +32,4 @@ Made categories for the options! Also, fixed textue file :p
 Little fix to options categories 
 Should allow other mods adding things to the UI
 Removed last thread bit 
+Optimized the VersionChecker 
