@@ -52,6 +52,10 @@ dependencies {
 
 }
 
+task stage {
+    dependsOn build
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
@@ -73,7 +77,3 @@ processResources
 }
 
 idea { module { inheritOutputDirs = true } }
-
-task stage {
-    dependsOn build
-}
