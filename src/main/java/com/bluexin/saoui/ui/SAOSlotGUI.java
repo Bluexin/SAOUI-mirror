@@ -29,34 +29,19 @@ public class SAOSlotGUI extends SAOButtonGUI {
 
     static SAOIcon getIcon(ItemStack stack) {
         if (stack != null) {
-            if (SAOInventory.WEAPONS.isFine(stack, false)) {
-                return SAOIcon.EQUIPMENT;
-            } else if (SAOInventory.EQUIPMENT.isFine(stack, false)) {
-                return SAOIcon.ARMOR;
-            } else if (SAOInventory.ACCESSORY.isFine(stack, false)) {
-                return SAOIcon.ACCESSORY;
-            } else {
-                return SAOIcon.ITEMS;
-            }
-        } else {
-            return SAOIcon.NONE;
-        }
+            if (SAOInventory.WEAPONS.isFine(stack, false)) return SAOIcon.EQUIPMENT;
+            else if (SAOInventory.EQUIPMENT.isFine(stack, false)) return SAOIcon.ARMOR;
+            else if (SAOInventory.ACCESSORY.isFine(stack, false)) return SAOIcon.ACCESSORY;
+            else return SAOIcon.ITEMS;
+        } else return SAOIcon.NONE;
     }
 
     private static SAOIcon getIcon(Slot slot) {
-        if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
-            return getIcon(slot.getStack());
-        } else {
-            return SAOIcon.HELP;
-        }
+        return slot.getHasStack() && slot.getStack().getItem() != null ? getIcon(slot.getStack()) : SAOIcon.HELP;
     }
 
     private static String getCaption(Slot slot) {
-        if ((slot.getHasStack()) && (slot.getStack().getItem() != null)) {
-            return slot.getStack().getDisplayName();
-        } else {
-            return UNKNOWN;
-        }
+        return slot.getHasStack() && slot.getStack().getItem() != null ? slot.getStack().getDisplayName() : UNKNOWN;
     }
 
     @Override
@@ -69,11 +54,8 @@ public class SAOSlotGUI extends SAOButtonGUI {
 
             final ItemStack stack = getStack();
 
-            if (stack != null) {
-                final String sizeString = "x" + stack.stackSize;
-
-                SAOGL.glString(sizeString, left + width + 2, top + height - 16, SAOColor.multiplyAlpha(getColor(hoverState(cursorX, cursorY), false), visibility), true);
-            }
+            if (stack != null)
+                SAOGL.glString("x" + stack.stackSize, left + width + 2, top + height - 16, SAOColor.multiplyAlpha(getColor(hoverState(cursorX, cursorY), false), visibility), true);
         }
     }
 
@@ -85,13 +67,11 @@ public class SAOSlotGUI extends SAOButtonGUI {
             icon = getIcon(buttonSlot);
         }
 
-        if (isEmpty()) {
-            remove();
-        }
+        if (isEmpty()) remove();
     }
 
     private boolean isEmpty() {
-        return (!buttonSlot.getHasStack()) || (buttonSlot.getStack() == null);
+        return (!buttonSlot.getHasStack());
     }
 
     public Slot getSlot() {
@@ -103,22 +83,14 @@ public class SAOSlotGUI extends SAOButtonGUI {
     }
 
     public ItemStack getStack() {
-        if (isEmpty()) {
-            return null;
-        } else {
-            return buttonSlot.getStack();
-        }
+        return buttonSlot.getStack();
     }
 
     @Override
     int getColor(int hoverState, boolean bg) {
         final int color = super.getColor(hoverState, bg);
 
-        if ((highlight) && (hoverState != 2)) {
-            return SAOColor.mediumColor(color, SAOColor.DEFAULT_COLOR.mediumColor(0xFF));
-        } else {
-            return color;
-        }
+        return highlight && hoverState != 2 ? SAOColor.mediumColor(color, SAOColor.DEFAULT_COLOR.mediumColor(0xFF)) : color;
     }
 
     @Override
@@ -128,12 +100,12 @@ public class SAOSlotGUI extends SAOButtonGUI {
 
     @Override
     public boolean mouseOver(int cursorX, int cursorY, int flag) {
-        return (focus = super.mouseOver(cursorX, cursorY, flag));
+        return focus = super.mouseOver(cursorX, cursorY, flag);
     }
 
     @Override
     public boolean mouseReleased(Minecraft mc, int cursorX, int cursorY, int button) {
-        return super.mouseReleased(mc, cursorX, cursorY, button) || (button == 1) || (button == 2);
+        return super.mouseReleased(mc, cursorX, cursorY, button) || button == 1 || button == 2;
     }
 
 }

@@ -2,8 +2,8 @@ package com.bluexin.saoui.ui;
 
 import com.bluexin.saoui.util.SAOID;
 import com.bluexin.saoui.util.SAOIcon;
-import com.bluexin.saoui.util.SAOStateHandler;
 import com.bluexin.saoui.util.SAOParentGUI;
+import com.bluexin.saoui.util.SAOStateHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,9 +28,7 @@ public class SAOStateButtonGUI extends SAOButtonGUI {
 
     @Override
     public void update(Minecraft mc) {
-        if (state != null) {
-            enabled = state.isStateEnabled(mc, this);
-        }
+        if (state != null) enabled = state.isStateEnabled(mc, this);
 
         super.update(mc);
     }
