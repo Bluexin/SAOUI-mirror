@@ -35,6 +35,10 @@ public class SAOButtonGUI extends SAOElementGUI {
         highlight = highlighted;
     }
 
+    public SAOButtonGUI(SAOParentGUI gui, SAOID slot, int xPos, int yPos, int w, int h) {
+        this(gui, slot, xPos, yPos, w, h, "", SAOIcon.NONE);
+    }
+
     @Override
 	public void draw(Minecraft mc, int cursorX, int cursorY) {
         super.draw(mc, cursorX, cursorY);

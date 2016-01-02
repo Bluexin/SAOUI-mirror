@@ -34,3 +34,4 @@ Should allow other mods adding things to the UI
 Removed last thread bit 
 Optimized the VersionChecker 
 Fixed derpy texture 
+An empty inventory category now holds a unique element specifying "empty" 

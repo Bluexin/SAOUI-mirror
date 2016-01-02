@@ -15,8 +15,10 @@ public class SAOSlotGUI extends SAOButtonGUI {
     private Slot buttonSlot;
 
     private SAOSlotGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, Slot slot) {
-        super(gui, SAOID.SLOT, xPos, yPos, w, h, getCaption(slot), getIcon(slot));
+        super(gui, SAOID.SLOT, xPos, yPos, w, h);
         buttonSlot = slot;
+        super.caption = this.getCaption();
+        super.icon = this.getIcon();
     }
 
     private SAOSlotGUI(SAOParentGUI gui, int xPos, int yPos, int w, Slot slot) {
@@ -33,15 +35,15 @@ public class SAOSlotGUI extends SAOButtonGUI {
             else if (SAOInventory.EQUIPMENT.isFine(stack, false)) return SAOIcon.ARMOR;
             else if (SAOInventory.ACCESSORY.isFine(stack, false)) return SAOIcon.ACCESSORY;
             else return SAOIcon.ITEMS;
-        } else return SAOIcon.NONE;
+        } else return SAOIcon.HELP;
     }
 
-    private static SAOIcon getIcon(Slot slot) {
-        return slot.getHasStack() && slot.getStack().getItem() != null ? getIcon(slot.getStack()) : SAOIcon.HELP;
+    protected SAOIcon getIcon() {
+        return getIcon(buttonSlot.getStack());
     }
 
-    private static String getCaption(Slot slot) {
-        return slot.getHasStack() && slot.getStack().getItem() != null ? slot.getStack().getDisplayName() : UNKNOWN;
+    protected String getCaption() {
+        return buttonSlot.getHasStack() && buttonSlot.getStack().getItem() != null ? buttonSlot.getStack().getDisplayName() : UNKNOWN;
     }
 
     @Override
@@ -63,14 +65,14 @@ public class SAOSlotGUI extends SAOButtonGUI {
         if (slot != null) {
             buttonSlot = slot;
 
-            caption = getCaption(buttonSlot);
-            icon = getIcon(buttonSlot);
+            caption = getCaption();
+            icon = getIcon();
         }
 
         if (isEmpty()) remove();
     }
 
-    private boolean isEmpty() {
+    protected boolean isEmpty() {
         return (!buttonSlot.getHasStack());
     }
 

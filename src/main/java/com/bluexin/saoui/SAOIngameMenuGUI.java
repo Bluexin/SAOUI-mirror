@@ -533,14 +533,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         }
 
         if (sub != subMenu && subMenu != null) {
-            for (int i = menus.size() - 1; i >= 0; i--) {
-                final Entry<SAOID, SAOMenuGUI> entry = menus.get(i);
-
-                if (entry.getValue() == subMenu) {
-                    menus.remove(i);
-                    break;
-                }
-            }
+            menus.removeIf(entry -> entry.getValue() == subMenu);
 
             elements.remove(subMenu);
         }

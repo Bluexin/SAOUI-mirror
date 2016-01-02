@@ -1,1 +1,1 @@
-Fixed derpy texture 
+An empty inventory category now holds a unique element specifying "empty" 

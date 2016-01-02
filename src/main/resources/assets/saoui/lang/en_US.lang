@@ -27,6 +27,7 @@ guiAccessory=Accessory
 guiProfile=Profile
 guiEquipment=Equipment
 guiItems=Items
+gui.empty=empty
 
 
 #Skills
