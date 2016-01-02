@@ -15,9 +15,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -80,12 +78,6 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         if (flowY < height / 2) flowY = (flowY + height / 2 - 32) / 2;
         flowX /= 2;
         if (infoData[0] != null && infoData[1] != null) updateInfo(infoData[0].toString(), infoData[1].toString());
-    }
-
-    @Override
-    protected void keyTyped(char ch, int key) throws IOException {
-        if (parentInv != null) super.keyTyped(ch, Keyboard.KEY_ESCAPE);
-        else super.keyTyped(ch, key);
     }
 
     @Override
