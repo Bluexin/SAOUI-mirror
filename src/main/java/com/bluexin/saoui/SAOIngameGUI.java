@@ -412,6 +412,8 @@ public class SAOIngameGUI extends GuiIngameForge {
         final int levelStrWidth = fontRenderer.getStringWidth(levelStr);
         final int levelBoxes = (levelStrWidth + 4) / 5;
 
+        SAOGL.glAlpha(true);
+        SAOGL.glBlend(true);
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
         SAOGL.glTexturedRect(offsetHealth, 13 + offsetD, zLevel, 60, 15, 5, 13);
         SAOGL.glTexturedRect(offsetHealth + 5, 13 + offsetD, zLevel, levelBoxes * 5, 13, 65, 15, 5, 13);
