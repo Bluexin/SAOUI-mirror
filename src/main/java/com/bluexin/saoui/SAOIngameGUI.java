@@ -26,6 +26,10 @@ import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType
 @SideOnly(Side.CLIENT)
 public class SAOIngameGUI extends GuiIngameForge {
 
+    private final int HPXP_OFFSET_ORIG_R = 3; // Used to fine-tune UI elements positioning
+    private final int HPXP_OFFSET_ORIG_D = 1;
+    private final int HPXP_OFFSET_ALO_R = 0;
+    private final int HPXP_OFFSET_ALO_D = 4;
     private FontRenderer fontRenderer;
     private RenderGameOverlayEvent eventParent;
     private String username;
@@ -66,7 +70,6 @@ public class SAOIngameGUI extends GuiIngameForge {
             renderJumpBar = false;
             renderArmor = false;
             renderHealthMount = false;
-            renderExperiance = false;
             mc.entityRenderer.setupOverlayRendering();
         } // Basically adding what super doesn't render by default
 
@@ -262,14 +265,16 @@ public class SAOIngameGUI extends GuiIngameForge {
 
             healthBoxes = (healthStrWidth + 4) / 5;
 
+            final int offsetR = SAOOption.ORIGINAL_UI.value ? HPXP_OFFSET_ORIG_R : HPXP_OFFSET_ALO_R;
+            final int offsetD = SAOOption.ORIGINAL_UI.value ? HPXP_OFFSET_ORIG_D : HPXP_OFFSET_ALO_D;
             SAOGL.glColor(1, 1, 1, 1);
-            SAOGL.glTexturedRect(offsetUsername + 113, 13, zLevel, 60, 15, 5, 13);
-            SAOGL.glTexturedRect(offsetUsername + 118, 13, zLevel, healthBoxes * 5, 13, 65, 15, 5, 13);
-            SAOGL.glTexturedRect(offsetUsername + 118 + healthBoxes * 5, 13, zLevel, 70, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetUsername + 113 + offsetR, 13 + offsetD, zLevel, 60, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetUsername + 118 + offsetR, 13 + +offsetD, zLevel, healthBoxes * 5, 13, 65, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetUsername + 118 + offsetR + healthBoxes * 5, 13 + +offsetD, zLevel, 70, 15, 5, 13);
 
-            SAOGL.glString(strs[0], offsetUsername + 118, 16, 0xFFFFFFFF);
-            SAOGL.glString(strs[1], offsetUsername + 118 + fontRenderer.getStringWidth(strs[0]), 16, 0xFF55FFFF);
-            SAOGL.glString(strs[2], offsetUsername + 118 + fontRenderer.getStringWidth(strs[0] + strs[1]), 16, 0xFFFFFFFF);
+            SAOGL.glString(strs[0], offsetUsername + 118 + offsetR, 16 + offsetD, 0xFFFFFFFF);
+            SAOGL.glString(strs[1], offsetUsername + 118 + offsetR + fontRenderer.getStringWidth(strs[0]), 16 + offsetD, 0xFF55FFFF);
+            SAOGL.glString(strs[2], offsetUsername + 118 + offsetR + fontRenderer.getStringWidth(strs[0] + strs[1]), 16 + offsetD, 0xFFFFFFFF);
         }
 
         SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -400,17 +405,18 @@ public class SAOIngameGUI extends GuiIngameForge {
         if (!SAOOption.REMOVE_HPXP.value && replaceEvent(EXPERIENCE)) return;
         mc.mcProfiler.startSection("expLevel");
 
-        final int offsetHealth = offsetUsername + 113 + (healthBoxes + 2) * 5;
+        final int offsetR = SAOOption.ORIGINAL_UI.value ? HPXP_OFFSET_ORIG_R : HPXP_OFFSET_ALO_R;
+        final int offsetD = SAOOption.ORIGINAL_UI.value ? HPXP_OFFSET_ORIG_D : HPXP_OFFSET_ALO_D;
+        final int offsetHealth = offsetUsername + 113 + (healthBoxes + 2) * 5 + offsetR;
         final String levelStr = StatCollector.translateToLocal("displayLvShort") + ": " + String.valueOf(mc.thePlayer.experienceLevel);
         final int levelStrWidth = fontRenderer.getStringWidth(levelStr);
         final int levelBoxes = (levelStrWidth + 4) / 5;
 
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
-        SAOGL.glTexturedRect(offsetHealth, 13, zLevel, 60, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetHealth + 5, 13, zLevel, levelBoxes * 5, 13, 65, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13, zLevel, 75, 15, 5, 13);
-        SAOGL.glString(levelStr, offsetHealth + 5, 16, 0xFFFFFFFF);
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
+        SAOGL.glTexturedRect(offsetHealth, 13 + offsetD, zLevel, 60, 15, 5, 13);
+        SAOGL.glTexturedRect(offsetHealth + 5, 13 + offsetD, zLevel, levelBoxes * 5, 13, 65, 15, 5, 13);
+        SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13 + offsetD, zLevel, 75, 15, 5, 13);
+        SAOGL.glString(levelStr, offsetHealth + 5, 16 + offsetD, 0xFFFFFFFF);
 
         mc.mcProfiler.endSection();
         post(EXPERIENCE);
