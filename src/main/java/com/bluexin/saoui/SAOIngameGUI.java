@@ -29,7 +29,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     private final int HPXP_OFFSET_ORIG_R = 3; // Used to fine-tune UI elements positioning
     private final int HPXP_OFFSET_ORIG_D = 1;
     private final int HPXP_OFFSET_ALO_R = 0;
-    private final int HPXP_OFFSET_ALO_D = 4;
+    private final int HPXP_OFFSET_ALO_D = 6;
     private FontRenderer fontRenderer;
     private RenderGameOverlayEvent eventParent;
     private String username;
