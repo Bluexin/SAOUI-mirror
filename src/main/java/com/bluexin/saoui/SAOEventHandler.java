@@ -5,7 +5,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -47,20 +46,14 @@ class SAOEventHandler {
 
     @SubscribeEvent
     public void livingDeath(LivingDeathEvent e) {
-        if (e.entityLiving instanceof EntityPlayer) {
-            if (e.source.getEntity() instanceof EntityPlayer) {
-                SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
-            }
-        }
+        if (e.entityLiving instanceof EntityPlayer && e.source.getEntity() instanceof EntityPlayer)
+            SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
     }
 
     @SubscribeEvent
     public void livingDrop(LivingDropsEvent e) {
-        if (e.entityLiving instanceof EntityPlayer) {
-            if (e.source.getEntity() instanceof EntityPlayer) {
-                SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
-            }
-        }
+        if (e.entityLiving instanceof EntityPlayer && e.source.getEntity() instanceof EntityPlayer)
+            SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
     }
 
     @SubscribeEvent
@@ -68,29 +61,20 @@ class SAOEventHandler {
         if (e.target instanceof EntityPlayer) {
             final EntityPlayer player = (EntityPlayer) e.target;
 
-            if (player.getHealth() <= 0) {
-                SAOMod.onKillPlayer(e.entityPlayer);
-            } else {
-                SAOMod.onDamagePlayer(e.entityPlayer);
-            }
+            if (player.getHealth() <= 0) SAOMod.onKillPlayer(e.entityPlayer);
+            else SAOMod.onDamagePlayer(e.entityPlayer);
         }
     }
 
     @SubscribeEvent
     public void playerDrops(PlayerDropsEvent e) {
-        if (e.source.getEntity() instanceof EntityPlayer) {
-            SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
-        }
+        if (e.source.getEntity() instanceof EntityPlayer) SAOMod.onKillPlayer((EntityPlayer) e.source.getEntity());
     }
 
     @SubscribeEvent
     public void joinWorld(EntityJoinWorldEvent e) {
         if (!SAOMod.verChecked && e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer) {
-            VersionChecker vc = new VersionChecker();
-            vc.addListener((obs, oldV, newV) -> Minecraft.getMinecraft().addScheduledTask(() -> {
-                if (newV != null && !newV.equals("")) ((EntityPlayer) e.entity).addChatComponentMessage(new ChatComponentText(newV));
-                SAOMod.verChecked = true;
-            }));
+            VersionChecker vc = new VersionChecker((EntityPlayer) e.entity);
             vc.run();
         }
     }

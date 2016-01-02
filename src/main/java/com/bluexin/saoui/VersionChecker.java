@@ -1,16 +1,24 @@
 package com.bluexin.saoui;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class VersionChecker extends Thread { // TODO: handle indev vs public
-    private SimpleStringProperty msg = new SimpleStringProperty();
+
+    private WeakReference<EntityPlayer> playerRef;
+
+    public VersionChecker(EntityPlayer player) {
+        super("SAOUI Version Checker");
+        this.playerRef = new WeakReference<>(player);
+    }
 
     private static int getLocaleVer() throws IOException {
         InputStream input = VersionChecker.class.getResourceAsStream("/assets/saoui/version.txt");
@@ -70,14 +78,12 @@ public class VersionChecker extends Thread { // TODO: handle indev vs public
 
     @Override
     public void run() {
-        this.msg.set(getUpdateNotif());
-    }
+        final String msg = getUpdateNotif();
 
-    public void addListener(ChangeListener<? super String> listener) {
-        msg.addListener(listener);
-    }
-
-    public void removeListener(ChangeListener<? super String> listener) {
-        msg.removeListener(listener);
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            final EntityPlayer pl = this.playerRef.get();
+            if (pl != null) pl.addChatComponentMessage(new ChatComponentText(msg));
+            SAOMod.verChecked = true;
+        });
     }
 }
