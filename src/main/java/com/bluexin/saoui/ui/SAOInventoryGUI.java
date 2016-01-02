@@ -67,6 +67,10 @@ public class SAOInventoryGUI extends SAOListGUI {
         }
 
         if (elements.isEmpty()) elements.add(new SAOEmptySlot(this, 0, getOffset(elements.size())));
+        else {
+            final SAOSlotGUI slot = (SAOSlotGUI) elements.get(elements.size() - 1);
+            if (slot.getSlotNumber() == -1) slot.remove();
+        }
 
         slots.detectAndSendChanges();
     }

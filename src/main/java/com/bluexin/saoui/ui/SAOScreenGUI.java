@@ -210,7 +210,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
     }
 
     @Override
-    public boolean doesGuiPauseGame() {
+    public boolean doesGuiPauseGame() { // TODO: option?
         return true;
     }
 

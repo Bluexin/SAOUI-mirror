@@ -74,7 +74,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
     }
 
     @Override
-    public void updateScreen() {
+    public void updateScreen() { // TODO: when player holds a key (shift/alt/...) and moves his cursor it doesn't move the UI -> possibility to exit the mc screen
         super.updateScreen();
 
         if (flowY < height / 2) flowY = (flowY + height / 2 - 32) / 2;
