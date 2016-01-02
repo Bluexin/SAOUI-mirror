@@ -79,7 +79,7 @@ public class SAOTextGUI extends SAOElementGUI {
 
     @Override
     public void update(Minecraft mc) {
-        int w = Stream.of(lines).mapToInt(SAOGL::glStringWidth).max().getAsInt() + 16;
+        int w = lines.length > 0 ? Stream.of(lines).mapToInt(SAOGL::glStringWidth).max().getAsInt() + 16 : 0;
         if (w > width) width = w;
 
         final int linesHeight = lines.length * SAOGL.glStringHeight() + 16;
