@@ -74,12 +74,6 @@ public class SAOMod {
     private static String _PARTY_INVITATION_TEXT;
     private static int partyTicks;
 
-    @NetworkCheckHandler()
-    public boolean matchModVersions(Map<String, String> remoteVersions, Side side) { // This will at least detect if the server has SAOsoc forge mod. Now to detect plugin
-        System.out.println(side + " handshake.\nContains saoui: " + remoteVersions.containsKey("saoui") + "\nContains saosoc: " + remoteVersions.containsKey("saosoc"));
-        return true; // TODO: check if contains SAOSOC, which version?, save to some struct
-    }
-
     @SuppressWarnings("rawtypes")
     private static List<EntityPlayer> listOnlinePlayers(Minecraft mc, boolean search, double range) {
         final List<EntityPlayer> players = new ArrayList<>();
@@ -724,6 +718,12 @@ public class SAOMod {
 
         //return FMLCommonHandler.instance().getMinecraftServerInstance() != null && FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().canSendCommands((player).getGameProfile());
         // This should make it get if the player is OP on a sevrer
+    }
+
+    @NetworkCheckHandler()
+    public boolean matchModVersions(Map<String, String> remoteVersions, Side side) { // This will at least detect if the server has SAOsoc forge mod. Now to detect plugin
+//        System.out.println(side + " handshake.\nContains saoui: " + remoteVersions.containsKey("saoui") + "\nContains saosoc: " + remoteVersions.containsKey("saosoc"));
+        return true; // TODO: check if contains SAOSOC, which version?, save to some struct
     }
 
     @EventHandler
