@@ -269,7 +269,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             final int offsetD = SAOOption.ORIGINAL_UI.value ? HPXP_OFFSET_ORIG_D : HPXP_OFFSET_ALO_D;
             SAOGL.glColor(1, 1, 1, 1);
             SAOGL.glTexturedRect(offsetUsername + 113 + offsetR, 13 + offsetD, zLevel, 60, 15, 5, 13);
-            SAOGL.glTexturedRect(offsetUsername + 118 + offsetR, 13 + +offsetD, zLevel, healthBoxes * 5, 13, 65, 15, 5, 13);
+            SAOGL.glTexturedRect(offsetUsername + 118 + offsetR, 13 + offsetD, zLevel, healthBoxes * 5, 13, 66, 15, 5, 13);
             SAOGL.glTexturedRect(offsetUsername + 118 + offsetR + healthBoxes * 5, 13 + +offsetD, zLevel, 70, 15, 5, 13);
 
             SAOGL.glString(strs[0], offsetUsername + 118 + offsetR, 16 + offsetD, 0xFFFFFFFF);
@@ -402,7 +402,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @Override
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderExperience(int width, int height) {
-        if (!SAOOption.REMOVE_HPXP.value && replaceEvent(EXPERIENCE)) return;
+        if (SAOOption.REMOVE_HPXP.value || replaceEvent(EXPERIENCE)) return;
         mc.mcProfiler.startSection("expLevel");
 
         final int offsetR = SAOOption.ORIGINAL_UI.value ? HPXP_OFFSET_ORIG_R : HPXP_OFFSET_ALO_R;
@@ -415,9 +415,9 @@ public class SAOIngameGUI extends GuiIngameForge {
         SAOGL.glAlpha(true);
         SAOGL.glBlend(true);
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
-        SAOGL.glTexturedRect(offsetHealth, 13 + offsetD, zLevel, 60, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetHealth + 5, 13 + offsetD, zLevel, levelBoxes * 5, 13, 65, 15, 5, 13);
-        SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13 + offsetD, zLevel, 75, 15, 5, 13);
+        SAOGL.glTexturedRect(offsetHealth, 13 + offsetD, zLevel, 5, 13, 66, 15, 2, 13);
+        SAOGL.glTexturedRect(offsetHealth + 5, 13 + offsetD, zLevel, levelBoxes * 5, 13, 66, 15, 5, 13);
+        SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13 + offsetD, zLevel, 5, 13, 78, 15, 3, 13);
         SAOGL.glString(levelStr, offsetHealth + 5, 16 + offsetD, 0xFFFFFFFF);
 
         mc.mcProfiler.endSection();
