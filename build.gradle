@@ -17,8 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-// This is only for the automatic builder!
-version = "1.4DEV$DRONE_BUILD_NUMBER"
+version = DRONE_BUILD_NUMBER ? "1.4" : "1.4DEV${System.env.DRONE_BUILD_NUMBER}"
 group= "com.bluexin.saoui" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "saoui"
 
