@@ -48,19 +48,13 @@ public class SAOListGUI extends SAOMenuGUI {
         final int listY = getY(false);
         final int listSize = getSize();
 
-        if (elementY < listY) {
-            element.visibility = Math.max(1.0F - (float) (listY - elementY) / listSize, 0.0F);
-        } else if (elementY + elementSize > listY + listSize) {
+        if (elementY < listY) element.visibility = Math.max(1.0F - (float) (listY - elementY) / listSize, 0.0F);
+        else if (elementY + elementSize > listY + listSize)
             element.visibility = Math.max(1.0F - (float) ((elementY + elementSize) - (listY + listSize)) / listSize, 0.0F);
-        } else {
-            element.visibility = 1;
-        }
+        else element.visibility = 1;
 
-        if (element.visibility < 0.6F) {
-            element.visibility = 0;
-        } else {
-            element.visibility *= element.visibility;
-        }
+        if (element.visibility < 0.6F) element.visibility = 0;
+        else element.visibility *= element.visibility;
     }
 
     @Override
@@ -80,9 +74,7 @@ public class SAOListGUI extends SAOMenuGUI {
 
             dragging = false;
             return false;
-        } else {
-            return true;
-        }
+        } else return true;
     }
 
     @Override

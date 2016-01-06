@@ -1,1 +1,1 @@
-Updated UI a bit 
+Fixed a texture glitch. Blaez needs to fix things too! 
