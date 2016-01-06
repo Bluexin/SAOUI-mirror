@@ -106,7 +106,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             final int slotCount = 9;
 
             for (int i = 0; i < slotCount; i++) {
-                SAOGL.glColorRGBA(i == inv.currentItem ? 0xE0BE62FF : 0xCDCDCDFF);
+                SAOGL.glColorRGBA(i == inv.currentItem ? 0xE0BE62AA : 0xCDCDCDAA);
                 SAOGL.glTexturedRect(res.getScaledWidth() / 2 - 91 - 1 + i * 20, res.getScaledHeight() - 22 - 1, zLevel, 0, 25, 20, 20);
             }
 
@@ -136,7 +136,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             final int slotsY = (res.getScaledHeight() - (slotCount * 22)) / 2;
 
             for (int i = 0; i < slotCount; i++) {
-                SAOGL.glColorRGBA(i == inv.currentItem ? 0xE0BE62FF : 0xCDCDCDFF);
+                SAOGL.glColorRGBA(i == inv.currentItem ? 0xE0BE62AA : 0xCDCDCDAA);
                 SAOGL.glTexturedRect(res.getScaledWidth() - 24, slotsY + (22 * i), zLevel, 0, 25, 20, 20);
             }
 

@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -73,13 +74,10 @@ public class SAOMod {
     private static String _PARTY_INVITATION_TEXT;
     private static int partyTicks;
 
-    private static boolean sleep(long time) {
-        try {
-            Thread.sleep(time);
-            return true;
-        } catch (InterruptedException e) {
-            return false;
-        }
+    @NetworkCheckHandler()
+    public boolean matchModVersions(Map<String, String> remoteVersions, Side side) { // This will at least detect if the server has SAOsoc forge mod. Now to detect plugin
+        System.out.println(side + " handshake.\nContains saoui: " + remoteVersions.containsKey("saoui") + "\nContains saosoc: " + remoteVersions.containsKey("saosoc"));
+        return true; // TODO: check if contains SAOSOC, which version?, save to some struct
     }
 
     @SuppressWarnings("rawtypes")

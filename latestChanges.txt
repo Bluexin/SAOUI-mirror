@@ -1,1 +1,1 @@
-You can now have the mouse go out of the screen as usual (in the menus). 
+Updated UI a bit 
