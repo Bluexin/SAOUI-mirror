@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = DRONE_BUILD_NUMBER ? "1.4" : "1.4DEV${System.env.DRONE_BUILD_NUMBER}"
+version = hasProperty('DRONE_BUILD_NUMBER') ? "1.4" : "1.4DEV" + System.getEnv(DRONE_BUILD_NUMBER)
 group= "com.bluexin.saoui" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "saoui"
 
