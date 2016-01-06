@@ -19,9 +19,7 @@ apply plugin: 'forge'
 
 def v = "1.4"
 
-println "DBN: " + System.getenv("DRONE_BUILD_NUMBER")
-
-version = hasProperty("DRONE_BUILD_NUMBER") ? v + "DEV" + System.getenv("DRONE_BUILD_NUMBER") : v
+version = v + "DEV" + System.getenv("DRONE_BUILD_NUMBER") //hasProperty("DRONE_BUILD_NUMBER") ? v + "DEV" + System.getenv("DRONE_BUILD_NUMBER") : v
 group= "com.bluexin.saoui" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "saoui"
 
