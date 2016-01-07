@@ -1,27 +1,44 @@
 package com.bluexin.saoui.util;
 
 import com.bluexin.saoui.SAOMod;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 
 @SideOnly(Side.CLIENT)
 public enum SAOSkill {
 
-    SPRINTING(SAOIcon.SPRINTING, SAOID.SKILL, () -> SAOMod.IS_SPRINTING),
-    SNEAKING(SAOIcon.SNEAKING, SAOID.SKILL, () -> SAOMod.IS_SNEAKING),
-    CRAFTING(SAOIcon.CRAFTING, SAOID.SKILL, () -> false);
+    SPRINTING(SAOIcon.SPRINTING, SAOID.SKILL, () -> SAOMod.IS_SPRINTING, (mc, parent) -> SAOMod.IS_SPRINTING = !SAOMod.IS_SPRINTING),
+    SNEAKING(SAOIcon.SNEAKING, SAOID.SKILL, () -> SAOMod.IS_SNEAKING, (mc, parent) -> SAOMod.IS_SNEAKING = !SAOMod.IS_SNEAKING),
+    CRAFTING(SAOIcon.CRAFTING, SAOID.SKILL, () -> false, (mc, parent) -> {
+        if (parent != null) mc.displayGuiScreen(parent);
+        else {
+            SAOMod.REPLACE_GUI_DELAY = 1;
+            mc.displayGuiScreen(null);
+
+            final int invKeyCode = mc.gameSettings.keyBindInventory.getKeyCode();
+
+            KeyBinding.setKeyBindState(invKeyCode, true);
+            KeyBinding.onTick(invKeyCode);
+        }
+    });
 
     public final SAOIcon icon;
     public final SAOID id;
     private final BooleanSupplier shouldHighlight;
+    private final BiConsumer<Minecraft, GuiInventory> action;
 
-    SAOSkill(SAOIcon saoIcon, SAOID saoId, BooleanSupplier shouldHighlight) {
+    SAOSkill(SAOIcon saoIcon, SAOID saoId, BooleanSupplier shouldHighlight, BiConsumer<Minecraft, GuiInventory> action) {
         this.icon = saoIcon;
         this.id = saoId;
         this.shouldHighlight = shouldHighlight;
+        this.action = action;
     }
 
     public final String toString() {
@@ -38,4 +55,14 @@ public enum SAOSkill {
     public boolean shouldHighlight() {
         return shouldHighlight.getAsBoolean();
     } // Doing it this way might come in handy when building an API
+
+    /**
+     * Activate this skill.
+     *
+     * @param mc     The Minecraft instance
+     * @param parent The parent gui
+     */
+    public void activate(Minecraft mc, GuiInventory parent) {
+        this.action.accept(mc, parent);
+    }
 }

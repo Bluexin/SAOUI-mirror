@@ -6,7 +6,6 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -157,34 +156,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             final String message = SAOJ8String.join(" ", cmd, username, "");
 
             mc.displayGuiScreen(new GuiChat(message));*/
-        } else if (id == SAOID.SKILL && element instanceof SAOButtonGUI) {
-            final SAOButtonGUI button = (SAOButtonGUI) element;
-
-            switch (button.icon) {
-                case CRAFTING:
-                    if (parentInv != null) mc.displayGuiScreen(parentInv);
-                    else {
-                        SAOMod.REPLACE_GUI_DELAY = 1;
-                        mc.displayGuiScreen(null);
-
-                        final int invKeyCode = mc.gameSettings.keyBindInventory.getKeyCode();
-
-                        KeyBinding.setKeyBindState(invKeyCode, true);
-                        KeyBinding.onTick(invKeyCode);
-                    }
-
-                    break;
-                case SPRINTING:
-                    SAOMod.IS_SPRINTING = !SAOMod.IS_SPRINTING;
-                    button.highlight = SAOMod.IS_SPRINTING;
-                    break;
-                case SNEAKING:
-                    SAOMod.IS_SNEAKING = !SAOMod.IS_SNEAKING;
-                    button.highlight = SAOMod.IS_SNEAKING;
-                    break;
-                default:
-                    break;
-            }
+        } else if (id == SAOID.SKILL && element instanceof SkillButton) {
+            ((SkillButton) element).action(mc, parentInv);
         } else if (id == SAOID.INVITE_PLAYER && element instanceof SAOButtonGUI) {
             final String name = ((SAOButtonGUI) element).caption;
 
@@ -427,7 +400,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
             final SAOMenuGUI mnu = menu;
-            Stream.of(SAOSkill.values()).forEach(skill -> mnu.elements.add(new SAOButtonGUI(mnu, skill.id, 0, 0, skill.toString(), skill.icon, skill.shouldHighlight())));
+            Stream.of(SAOSkill.values()).forEach(skill -> mnu.elements.add(new SkillButton(mnu, 0, 0, skill)));
 
         } else if (id == SAOID.WEAPONS) { // TODO: Some optimization could be done here. Laterz.
             menu = new SAOInventoryGUI(element, menuOffsetX, menuOffsetY, 150, 100, mc.thePlayer.inventoryContainer, SAOInventory.WEAPONS);
