@@ -97,12 +97,12 @@ public enum SAOEffect {
     }
 
     public final void glDraw(int x, int y, float z) {
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.effects : SAOResources.effectsCustom);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.effects : SAOResources.effectsCustom);
         SAOGL.glTexturedRect(x, y, z, getSrcX(), getSrcY(), SRC_WIDTH, SRC_HEIGHT);
     }
 
     public final void glDraw(int x, int y) {
-        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.effects : SAOResources.effectsCustom);
+        SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.effects : SAOResources.effectsCustom);
         SAOGL.glTexturedRect(x, y, getSrcX(), getSrcY(), SRC_WIDTH, SRC_HEIGHT);
     }
 

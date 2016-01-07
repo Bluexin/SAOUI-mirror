@@ -22,7 +22,7 @@ public class SAORenderHandler {
     @SubscribeEvent
     public void checkingameGUI(TickEvent.RenderTickEvent e) {
         boolean b = mc.ingameGUI instanceof SAOIngameGUI;
-        if (mc.ingameGUI != null && SAOOption.DEFAULT_UI.value == b)
+        if (mc.ingameGUI != null && SAOOption.DEFAULT_UI.getValue() == b)
             mc.ingameGUI = b ? new GuiIngameForge(mc) : new SAOIngameGUI(mc);
     }
 
@@ -31,7 +31,7 @@ public class SAORenderHandler {
         if (replaceGUI) {
             if (mc.currentScreen != null && !(mc.currentScreen instanceof SAOScreenGUI)) {
                 if (SAOMod.REPLACE_GUI_DELAY > 0) SAOMod.REPLACE_GUI_DELAY--;
-                else if ((mc.currentScreen instanceof GuiIngameMenu) || ((mc.currentScreen instanceof GuiInventory) && (!SAOOption.DEFAULT_INVENTORY.value))) {
+                else if ((mc.currentScreen instanceof GuiIngameMenu) || ((mc.currentScreen instanceof GuiInventory) && (!SAOOption.DEFAULT_INVENTORY.getValue()))) {
                     final boolean inv = (mc.currentScreen instanceof GuiInventory);
 
                     mc.currentScreen.mc = mc;
@@ -43,7 +43,7 @@ public class SAORenderHandler {
                         replaceGUI = false;
                     } catch (NullPointerException ignored) {
                     }
-                } else if ((mc.currentScreen instanceof GuiGameOver) && (!SAOOption.DEFAULT_DEATH_SCREEN.value)) {
+                } else if ((mc.currentScreen instanceof GuiGameOver) && (!SAOOption.DEFAULT_DEATH_SCREEN.getValue())) {
                     mc.currentScreen.mc = mc;
 
                     if (mc.ingameGUI instanceof SAOIngameGUI) {

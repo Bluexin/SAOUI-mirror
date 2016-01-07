@@ -3,10 +3,7 @@ package com.bluexin.saoui;
 import com.bluexin.saoui.ui.SAOAlertGUI;
 import com.bluexin.saoui.ui.SAOElementGUI;
 import com.bluexin.saoui.ui.SAOScreenGUI;
-import com.bluexin.saoui.util.SAOAction;
-import com.bluexin.saoui.util.SAOColor;
-import com.bluexin.saoui.util.SAOCursorStatus;
-import com.bluexin.saoui.util.SAOID;
+import com.bluexin.saoui.util.*;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,7 +29,7 @@ public class SAODeathGUI extends SAOScreenGUI {
     protected void init() {
         super.init();
 
-        elements.add(new SAOAlertGUI(this, 0, 0, SAOMod._DEAD_ALERT, this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled() ? SAOColor.HARDCORE_DEAD_COLOR : SAOColor.DEAD_COLOR));
+        elements.add(new SAOAlertGUI(this, 0, 0, ConfigHandler._DEAD_ALERT, this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled() ? SAOColor.HARDCORE_DEAD_COLOR : SAOColor.DEAD_COLOR));
     }
 
     @Override

@@ -20,7 +20,7 @@ public class SAOVLineGUI extends SAOElementGUI {
         super.draw(mc, cursorX, cursorY);
 
         if (visibility > 0) {
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
             SAOGL.glColorRGBA(SAOColor.DEFAULT_FONT_COLOR.multiplyAlpha(visibility));
 
             final int left = getX(false) + (width - lineWidth) / 2;

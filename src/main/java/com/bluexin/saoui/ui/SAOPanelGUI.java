@@ -18,7 +18,7 @@ public class SAOPanelGUI extends SAOMenuGUI {
     @Override
     public void draw(Minecraft mc, int cursorX, int cursorY) {
         if ((visibility > 0) && (height > 0)) {
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
             final int left = getX(false);
             final int top = getY(false);

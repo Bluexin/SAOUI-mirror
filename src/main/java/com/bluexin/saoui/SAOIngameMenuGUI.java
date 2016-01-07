@@ -105,7 +105,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
     private void action(SAOElementGUI element, SAOID id, SAOAction action, int data) {
         if (id == SAOID.LOGOUT) {
-            if (SAOOption.LOGOUT.value) {
+            if (SAOOption.LOGOUT.getValue()) {
                 element.enabled = false;
                 mc.theWorld.sendQuittingDisconnectingPacket();
 
@@ -114,38 +114,13 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             }
         } else if (id == SAOID.MENU) {
             mc.displayGuiScreen(new GuiIngameMenu());
-        } else if (id == SAOID.OPTION && element instanceof SAOButtonGUI) {
-            final SAOButtonGUI button = (SAOButtonGUI) element;
+        } else if (id == SAOID.OPTION && element instanceof OptionButton) {
+            final OptionButton button = (OptionButton) element;
 
-            Optional<SAOOption> optionalOp = Stream.of(SAOOption.values()).filter(op -> button.caption.equals(op.toString())).findFirst();
-            final SAOOption option = optionalOp.orElse(null);
-
-            if (option == null) {
+            if (button.getOption() == SAOOption.VANILLA_OPTIONS) {
                 mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
-            } else if (element.parent instanceof SAOContainerGUI) {
-                final SAOContainerGUI parent = (SAOContainerGUI) element.parent;
-
-                option.value = !option.value;
-                button.highlight = option.value;
-
-                switch (option) {
-                    case DEFAULT_UI:
-                        parent.elements.stream().filter(el -> el instanceof SAOButtonGUI).map(el -> (SAOButtonGUI) el)
-                                .filter(btn -> btn.caption.equals(SAOOption.CROSS_HAIR.name)).forEach(btn -> {
-                            SAOOption.CROSS_HAIR.value = option.value;
-                            btn.highlight = SAOOption.CROSS_HAIR.value;
-                            btn.enabled = !option.value;
-
-                            SAOMod.setOption(SAOOption.CROSS_HAIR);
-                        });
-
-                        break;
-                    default:
-                        break;
-                }
-
-                SAOMod.setOption(option);
-                SAOMod.saveAllOptions();
+            } else {
+                button.action();
             }
         } else if (id == SAOID.MESSAGE && mc.ingameGUI instanceof SAOIngameGUI) {
             ((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
@@ -176,8 +151,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
             final boolean isLeader = SAOMod.isPartyLeader(SAOMod.getName(mc));
 
-            final String title = isLeader ? SAOMod._PARTY_DISSOLVING_TITLE : SAOMod._PARTY_LEAVING_TITLE;
-            final String text = isLeader ? SAOMod._PARTY_DISSOLVING_TEXT : SAOMod._PARTY_LEAVING_TEXT;
+            final String title = isLeader ? ConfigHandler._PARTY_DISSOLVING_TITLE : ConfigHandler._PARTY_LEAVING_TITLE;
+            final String text = isLeader ? ConfigHandler._PARTY_DISSOLVING_TEXT : ConfigHandler._PARTY_LEAVING_TEXT;
 
             mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(title, text, (element1, action1, data1) -> {
                 final SAOID id1 = element1.ID();
@@ -305,7 +280,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             final SAOString[] profile = SAOSub.addProfileContent(mc);
 
             setInfo(profile[0], profile[1]);
-        } else if (id == SAOID.SOCIAL) {/*
+        } else if (id == SAOID.SOCIAL) {/* // TODO: implement!
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
             menu.enabled = false;
 
@@ -335,8 +310,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
             menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTIONS, 0, 0, StatCollector.translateToLocal("guiOption"), SAOIcon.OPTION));
             menu.elements.add(new SAOButtonGUI(menu, SAOID.MENU, 0, 0, StatCollector.translateToLocal("guiMenu"), SAOIcon.HELP));
-            menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.value ? StatCollector.translateToLocal("guiLogout") : "", SAOIcon.LOGOUT, (mc1, button) -> {
-                if (SAOOption.LOGOUT.value) {
+            menu.elements.add(new SAOStateButtonGUI(menu, SAOID.LOGOUT, 0, 0, SAOOption.LOGOUT.getValue() ? StatCollector.translateToLocal("guiLogout") : "", SAOIcon.LOGOUT, (mc1, button) -> {
+                if (SAOOption.LOGOUT.getValue()) {
                     if (button.caption.length() == 0) button.caption = "Logout";
                 } else if (button.caption.length() > 0) button.caption = "";
 
@@ -344,26 +319,14 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             }));
         } else if (id == SAOID.OPTIONS) {
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 130, 100);
-
-            menu.elements.add(new SAOButtonGUI(menu, SAOID.OPTION, 0, 0, StatCollector.translateToLocal("guiOptions"), SAOIcon.HELP));
-
             final SAOMenuGUI mnu = menu;
-            Stream.of(SAOOption.values()).filter(opt -> opt.category == null).forEach(option -> {
-                final SAOButtonGUI button = new SAOButtonGUI(mnu, option.isCategory ? SAOID.OPT_CAT : SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
-                button.highlight = option.value;
-                if (option == SAOOption.CROSS_HAIR) button.enabled = !SAOOption.DEFAULT_UI.value;
-                mnu.elements.add(button);
-            });
+            Stream.of(SAOOption.values()).filter(opt -> opt.category == null).forEach(option -> mnu.elements.add(new OptionButton(mnu, 0, 0, option)));
         } else if (id == SAOID.OPT_CAT) {
-            openOptCat = SAOOption.fromString(((SAOButtonGUI) element).caption);
+            openOptCat = ((OptionButton) element).getOption();
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 130, 100);
 
             final SAOMenuGUI mnu = menu;
-            Stream.of(SAOOption.values()).filter(opt -> opt.category == openOptCat).forEach(option -> {
-                final SAOButtonGUI button = new SAOButtonGUI(mnu, option.isCategory ? SAOID.OPT_CAT : SAOID.OPTION, 0, 0, option.toString(), SAOIcon.OPTION);
-                button.highlight = option.value;
-                mnu.elements.add(button);
-            });
+            Stream.of(SAOOption.values()).filter(opt -> opt.category == openOptCat).forEach(option -> mnu.elements.add((new OptionButton(mnu, 0, 0, option))));
         } else if (id == SAOID.EQUIPMENT) {
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
@@ -417,7 +380,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             infoCaption = null;
             infoText = null;
         } else if ((id == SAOID.FRIEND) && (element instanceof SAOFriendGUI)) {/*
-            if (((SAOFriendGUI) element).highlight) {
+            if (((SAOFriendGUI) element).highlight) { // TODO: implement!
                 menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
                 menu.enabled = false;
 

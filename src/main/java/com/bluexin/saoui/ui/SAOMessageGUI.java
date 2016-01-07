@@ -1,6 +1,6 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.SAOMod;
+import com.bluexin.saoui.util.ConfigHandler;
 import com.bluexin.saoui.util.SAOAlign;
 import com.bluexin.saoui.util.SAOParentGUI;
 import net.minecraft.client.Minecraft;
@@ -15,28 +15,28 @@ public class SAOMessageGUI extends SAOWindowGUI {
     private final SAOLabelGUI fromLable;
 
     public SAOMessageGUI(SAOParentGUI gui, int xPos, int yPos, int w, int h, String text, String from) {
-        super(gui, xPos, yPos, w, h, SAOMod._MESSAGE_TITLE);
-        final String fromString = StatCollector.translateToLocalFormatted(SAOMod._MESSAGE_FROM, from);
+        super(gui, xPos, yPos, w, h, ConfigHandler._MESSAGE_TITLE);
+        final String fromString = StatCollector.translateToLocalFormatted(ConfigHandler._MESSAGE_FROM, from);
 
         elements.add(textText = new SAOTextGUI(this, 0, 0, text, width));
         elements.add(fromLable = new SAOLabelGUI(this, 0, 0, fromString, SAOAlign.RIGHT));
         textText.visibility = 0;
     }
 
-    public final void setText(String text) {
-        textText.setText(text);
-    }
-
     public final String getText() {
         return textText.getText();
     }
 
-    public final void setSender(String sender) {
-        fromLable.caption = sender;
+    public final void setText(String text) {
+        textText.setText(text);
     }
 
     public final String getSender() {
         return fromLable.caption;
+    }
+
+    public final void setSender(String sender) {
+        fromLable.caption = sender;
     }
 
     @Override

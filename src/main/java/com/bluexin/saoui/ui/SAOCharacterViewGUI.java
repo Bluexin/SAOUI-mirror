@@ -26,11 +26,11 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
         final float mouseX = (float) x - cursorX;
         final float mouseY = (float) y - size * 1.67F - cursorY;
 
-        final boolean value = SAOOption.COLOR_CURSOR.value;
+        final boolean value = SAOOption.COLOR_CURSOR.getValue();
 
-        SAOOption.COLOR_CURSOR.value = false;
+        SAOOption.COLOR_CURSOR.disable();
         GuiInventory.drawEntityOnScreen(x, y, size, mouseX, mouseY, character);
-        SAOOption.COLOR_CURSOR.value = value;
+        if (value) SAOOption.COLOR_CURSOR.flip();
 
         SAOGL.glRescaleNormal(true);
         SAOGL.glTexture2D(true);
@@ -46,7 +46,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
         clickIndex = -1;
 
         if (visibility > 0) {
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
             SAOGL.glColorRGBA(SAOColor.DEFAULT_COLOR.multiplyAlpha(visibility));
 
             int left = getX(false) + width / 2;
@@ -72,7 +72,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
                 final boolean hovered = ((cursorX >= x - 10) && (cursorY >= y - 10) && (cursorX <= x + 10) && (cursorY <= y + 10));
 
-                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value ? SAOResources.gui : SAOResources.guiCustom);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
                 SAOGL.glColorRGBA((hovered ? SAOColor.HOVER_COLOR : SAOColor.DEFAULT_FONT_COLOR).multiplyAlpha(visibility));
                 SAOGL.glTexturedRect(x - 10, y - 10, 0, 25, 20, 20);

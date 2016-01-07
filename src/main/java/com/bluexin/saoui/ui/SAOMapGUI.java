@@ -162,7 +162,7 @@ public class SAOMapGUI extends SAOElementGUI {
                 SAOGL.glTexture2D(true);
                 SAOGL.glBlend(true);
 
-                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
                 if (mc.thePlayer != character) {
                     SAOGL.glColorRGBA(SAOColor.CANCEL_COLOR.multiplyAlpha(visibility));

@@ -29,7 +29,7 @@ public class SAOIconGUI extends SAOElementGUI {
         super.draw(mc, cursorX, cursorY);
 
         if (visibility > 0) {
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
             final int hoverState = hoverState(cursorX, cursorY);
 

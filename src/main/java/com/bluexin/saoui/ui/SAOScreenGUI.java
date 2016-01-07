@@ -20,13 +20,12 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
     private static final float ROTATION_FACTOR = 0.25F;
     protected static SAOCursorStatus CURSOR_STATUS = SAOCursorStatus.SHOW;
     protected final List<SAOElementGUI> elements;
+    private final Cursor emptyCursor;
     private int mouseX, mouseY;
     private int mouseDown;
     private float mouseDownValue;
     private float[] rotationYaw, rotationPitch;
     private boolean cursorHidden = false;
-
-    private final Cursor emptyCursor;
 
     protected SAOScreenGUI() {
         super();
@@ -58,11 +57,11 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
     }
 
     private int getCursorX() {
-        return SAOOption.CURSOR_MOVEMENT.value ? (width / 2 - mouseX) / 2 : 0;
+        return SAOOption.CURSOR_MOVEMENT.getValue() ? (width / 2 - mouseX) / 2 : 0;
     }
 
     private int getCursorY() {
-        return SAOOption.CURSOR_MOVEMENT.value ? (height / 2 - mouseY) / 2 : 0;
+        return SAOOption.CURSOR_MOVEMENT.getValue() ? (height / 2 - mouseY) / 2 : 0;
     }
 
     @Override
@@ -111,7 +110,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
         for (int i = elements.size() - 1; i >= 0; i--) elements.get(i).draw(mc, cursorX, cursorY);
 
         if (CURSOR_STATUS == SAOCursorStatus.SHOW) {
-            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.value? SAOResources.gui: SAOResources.guiCustom);
+            SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
             SAOGL.glBlend(true);
             SAOGL.tryBlendFuncSeparate(770, 771, 1, 0);

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 @SideOnly(Side.CLIENT)
 public enum SAOOption {
 
+    VANILLA_OPTIONS(StatCollector.translateToLocal("guiOptions"), false, false, null),
     UI(StatCollector.translateToLocal("optCatUI"), false, true, null),
     RENDERER(StatCollector.translateToLocal("optCatRend"), false, true, null),
     INTERFACES(StatCollector.translateToLocal("optCatInterf"), false, true, null),
@@ -36,7 +37,7 @@ public enum SAOOption {
     public final String name;
     public final boolean isCategory;
     public final SAOOption category;
-    public boolean value;
+    private boolean value;
 
     SAOOption(String optionName, boolean defaultValue, boolean isCat, SAOOption category) {
         name = optionName;
@@ -54,4 +55,21 @@ public enum SAOOption {
         return name;
     }
 
+    public boolean flip() {
+        this.value = !this.getValue();
+        ConfigHandler.setOption(this);
+        return this.value;
+    }
+
+    public boolean getValue() {
+        return this.value;
+    }
+
+    public void disable() {
+        if (this.value) this.flip();
+    }
+
+    public void enable() {
+        if (!this.value) this.flip();
+    }
 }
