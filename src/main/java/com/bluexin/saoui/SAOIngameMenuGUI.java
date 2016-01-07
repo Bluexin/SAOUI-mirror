@@ -2,10 +2,12 @@ package com.bluexin.saoui;
 
 import com.bluexin.saoui.ui.*;
 import com.bluexin.saoui.util.*;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -146,16 +148,16 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                 SAOMod.saveAllOptions();
             }
         } else if (id == SAOID.MESSAGE && mc.ingameGUI instanceof SAOIngameGUI) {
-            //((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
+            ((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
         } else if (id == SAOID.MESSAGE_BOX && element.parent instanceof SAOMenuGUI && ((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI) {
-            /*final String username = ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption;
+            final String username = ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption;
 
             final String format = I18n.format("commands.message.usage");
             final String cmd = format.substring(0, format.indexOf(' '));
 
             final String message = SAOJ8String.join(" ", cmd, username, "");
 
-            mc.displayGuiScreen(new GuiChat(message));*/
+            mc.displayGuiScreen(new GuiChat(message));
         } else if (id == SAOID.SKILL && element instanceof SkillButton) {
             ((SkillButton) element).action(mc, parentInv);
         } else if (id == SAOID.INVITE_PLAYER && element instanceof SAOButtonGUI) {
@@ -163,9 +165,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
 
             if (!SAOMod.isPartyMember(name)) SAOMod.inviteParty(mc, name);
         } else if (id == SAOID.CREATE) {
-            element.enabled = false;//!SAOMod.createParty(mc, 2.5);
+            element.enabled = !SAOMod.createParty(mc, 2.5);
 
-            //noinspection ConstantConditions while party is bugged
             if (!element.enabled) {
                 mc.displayGuiScreen(null);
                 mc.setIngameFocus();
@@ -193,8 +194,6 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             final SAOInventory type = inventory.filter;
             final Container container = inventory.slots;
             final ItemStack stack = slot.getStack();
-
-            //System.out.println(action + " " + data);
 
             if (stack != null) {
                 if (action == SAOAction.LEFT_RELEASED) {

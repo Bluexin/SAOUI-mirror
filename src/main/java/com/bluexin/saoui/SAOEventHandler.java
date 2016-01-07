@@ -5,6 +5,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -102,6 +103,14 @@ class SAOEventHandler {
             if (SAOMod.IS_SNEAKING) KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
         }
     }
+
+    @SubscribeEvent
+    public void chatEvent2(ClientChatReceivedEvent evt) {
+        System.out.println("Got a ClientChatReceivedEvent containing " + evt.message.getFormattedText() + " as type " + evt.type + ".\nEquals ♠? " + evt.message.getFormattedText().equals("♠"));
+        // TODO: check other ones too
+        // evt.message.getFormattedText();evt.message.getUnformattedText();evt.message.getUnformattedTextForChat();
+    }
+
     /*
     @SubscribeEvent
     public void lowHealth(TickEvent.PlayerTickEvent e)

@@ -167,6 +167,7 @@ public class SAOMod {
         mc.thePlayer.sendChatMessage(message);
     }
 
+    //TODO: move this to the eventHandler
     public static void receiveSAOCommand(final Minecraft mc, SAOCommand command, final String username, final String... args) {
         if ((mc.thePlayer == null) || (!SAOOption.CLIENT_CHAT_PACKETS.value)) {
             return;

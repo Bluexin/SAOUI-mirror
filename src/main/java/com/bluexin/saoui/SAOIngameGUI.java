@@ -477,4 +477,9 @@ public class SAOIngameGUI extends GuiIngameForge {
     public boolean backgroundClicked(int cursorX, int cursorY, int button) {
         return !SAOOption.DEFAULT_UI.value;
     }
+
+    public void viewMessageAuto() {
+        // TODO: implement method
+        System.out.println("SAOIngameGUI#viewMessageAuto()");
+    }
 }

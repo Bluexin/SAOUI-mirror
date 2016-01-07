@@ -14,9 +14,9 @@ import java.util.function.BooleanSupplier;
 @SideOnly(Side.CLIENT)
 public enum SAOSkill {
 
-    SPRINTING(SAOIcon.SPRINTING, SAOID.SKILL, () -> SAOMod.IS_SPRINTING, (mc, parent) -> SAOMod.IS_SPRINTING = !SAOMod.IS_SPRINTING),
-    SNEAKING(SAOIcon.SNEAKING, SAOID.SKILL, () -> SAOMod.IS_SNEAKING, (mc, parent) -> SAOMod.IS_SNEAKING = !SAOMod.IS_SNEAKING),
-    CRAFTING(SAOIcon.CRAFTING, SAOID.SKILL, () -> false, (mc, parent) -> {
+    SPRINTING(SAOIcon.SPRINTING, () -> SAOMod.IS_SPRINTING, (mc, parent) -> SAOMod.IS_SPRINTING = !SAOMod.IS_SPRINTING),
+    SNEAKING(SAOIcon.SNEAKING, () -> SAOMod.IS_SNEAKING, (mc, parent) -> SAOMod.IS_SNEAKING = !SAOMod.IS_SNEAKING),
+    CRAFTING(SAOIcon.CRAFTING, () -> false, (mc, parent) -> {
         if (parent != null) mc.displayGuiScreen(parent);
         else {
             SAOMod.REPLACE_GUI_DELAY = 1;
@@ -30,13 +30,11 @@ public enum SAOSkill {
     });
 
     public final SAOIcon icon;
-    public final SAOID id;
     private final BooleanSupplier shouldHighlight;
     private final BiConsumer<Minecraft, GuiInventory> action;
 
-    SAOSkill(SAOIcon saoIcon, SAOID saoId, BooleanSupplier shouldHighlight, BiConsumer<Minecraft, GuiInventory> action) {
+    SAOSkill(SAOIcon saoIcon, BooleanSupplier shouldHighlight, BiConsumer<Minecraft, GuiInventory> action) {
         this.icon = saoIcon;
-        this.id = saoId;
         this.shouldHighlight = shouldHighlight;
         this.action = action;
     }
