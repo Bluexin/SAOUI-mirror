@@ -1,5 +1,7 @@
 package com.bluexin.saoui;
 
+import com.bluexin.saoui.commands.Command;
+import com.bluexin.saoui.commands.CommandType;
 import com.bluexin.saoui.ui.SAOConfirmGUI;
 import com.bluexin.saoui.ui.SAOWindowGUI;
 import com.bluexin.saoui.util.*;
@@ -18,7 +20,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -55,8 +56,7 @@ public class SAOMod {
     public static boolean replaceGUI;
     private static Map<UUID, Float> healthSmooth;
     private static Map<UUID, Float> hungerSmooth;
-    private static Configuration config;
-    private static File friendsFile;
+    private static File friendsFile; // TODO: move to friends class
     private static String[] friends;
     private static List<SAOFriendRequest> friendRequests;
     private static String[] party;
@@ -119,7 +119,7 @@ public class SAOMod {
         return isOnline(mc, new String[]{name})[0];
     }
 
-    private static void sendSAOCommand(Minecraft mc, SAOCommand command, String username, String... args) {
+    private static void sendSAOCommand(Minecraft mc, CommandType command, String username, String... args) {
         if (mc.thePlayer == null || !SAOOption.CLIENT_CHAT_PACKETS.getValue()) return;
 
         final String format = I18n.format("commands.message.usage");
@@ -130,11 +130,14 @@ public class SAOMod {
         mc.thePlayer.sendChatMessage(message);
     }
 
-    //TODO: move this to the eventHandler or some command processor (maybe in the enum)
-    public static void receiveSAOCommand(final Minecraft mc, SAOCommand command, final String username, final String... args) {
+    //TODO: move this to the eventHandler or some command processor
+    public static void receiveSAOCommand(final Minecraft mc, Command commandPure, final String... args) { // FIXME: most of these crash! not stable yet
         if (mc.thePlayer == null || !SAOOption.CLIENT_CHAT_PACKETS.getValue()) return;
 
-        if (command == SAOCommand.INVITE_PARTY) {
+        CommandType command = commandPure.getType(); // TODO: temp
+        final String username = commandPure.getFrom();
+
+        if (command == CommandType.INVITE_PARTY) {
             if (!isPartyMember(getName(mc))) {
                 final GuiScreen keepScreen = mc.currentScreen;
                 final boolean ingameFocus = mc.inGameHasFocus;
@@ -149,8 +152,8 @@ public class SAOMod {
 
                         if (party != null) partyTicks = 1000;
 
-                        sendSAOCommand(mc, SAOCommand.CONFIRM_INVITE_PARTY, username);
-                    } else sendSAOCommand(mc, SAOCommand.CANCEL_INVITE_PARTY, username);
+                        sendSAOCommand(mc, CommandType.CONFIRM_INVITE_PARTY, username);
+                    } else sendSAOCommand(mc, CommandType.CANCEL_INVITE_PARTY, username);
 
                     mc.displayGuiScreen(keepScreen);
 
@@ -160,7 +163,7 @@ public class SAOMod {
 
                 if (ingameFocus) mc.setIngameNotInFocus();
             }
-        } else if (command == SAOCommand.DISSOLVE_PARTY) {
+        } else if (command == CommandType.DISSOLVE_PARTY) {
             if (isPartyLeader(getName(mc))) removeParty(mc, username);
             else if (isPartyLeader(username)) {
                 final SAOWindowGUI window = getWindow(mc);
@@ -170,17 +173,17 @@ public class SAOMod {
 
                 party = null;
             }
-        } else if (command == SAOCommand.UPDATE_PARTY) { // TODO: check! (looks suspicious to me)
+        } else if (command == CommandType.UPDATE_PARTY) { // TODO: check! (looks suspicious to me)
             if (isPartyLeader(username)) party = args.length <= 1 ? null : args;
-        } else if (command == SAOCommand.CONFIRM_INVITE_PARTY) {
+        } else if (command == CommandType.CONFIRM_INVITE_PARTY) {
             if (isPartyLeader(getName(mc))) {
                 final boolean inParty = isPartyMember(username);
 
                 if ((inParty) && (args.length > 0)) addParty(mc, args[0]);
                 else addParty(mc, username);
             } else if (isPartyMember(getName(mc))) sendSAOCommand(mc, command, party[0], username);
-            else sendSAOCommand(mc, SAOCommand.DISSOLVE_PARTY, username);
-        } else if (command == SAOCommand.ADD_FRIEND_REQUEST) {
+            else sendSAOCommand(mc, CommandType.DISSOLVE_PARTY, username);
+        } else if (command == CommandType.ADD_FRIEND_REQUEST) {
             if (!isFriend(username)) {
                 final GuiScreen keepScreen = mc.currentScreen;
                 final boolean ingameFocus = mc.inGameHasFocus;
@@ -191,8 +194,8 @@ public class SAOMod {
                     final SAOID id = element.ID();
 
                     if (id == SAOID.CONFIRM && (isFriend(username) || addFriends(username)))
-                        sendSAOCommand(mc, SAOCommand.ACCEPT_ADD_FRIEND, username);
-                    else sendSAOCommand(mc, SAOCommand.CANCEL_ADD_FRIEND, username);
+                        sendSAOCommand(mc, CommandType.ACCEPT_ADD_FRIEND, username);
+                    else sendSAOCommand(mc, CommandType.CANCEL_ADD_FRIEND, username);
 
                     mc.displayGuiScreen(keepScreen);
 
@@ -201,8 +204,8 @@ public class SAOMod {
                 }));
 
                 if (ingameFocus) mc.setIngameNotInFocus();
-            } else sendSAOCommand(mc, SAOCommand.ACCEPT_ADD_FRIEND, username);
-        } else if (command == SAOCommand.ACCEPT_ADD_FRIEND) {
+            } else sendSAOCommand(mc, CommandType.ACCEPT_ADD_FRIEND, username);
+        } else if (command == CommandType.ACCEPT_ADD_FRIEND) {
             synchronized (friendRequests) {
                 int index = -1;
 
@@ -214,7 +217,7 @@ public class SAOMod {
 
                 if (index >= 0 && (isFriend(username) || addFriends(username))) friendRequests.remove(index);
             }
-        } else if (command == SAOCommand.CANCEL_ADD_FRIEND) {
+        } else if (command == CommandType.CANCEL_ADD_FRIEND) {
             synchronized (friendRequests) {
                 int index = -1;
 
@@ -268,7 +271,7 @@ public class SAOMod {
             for (final String name : names)
                 if (!friendRequests.contains(new SAOFriendRequest(name, 10000)) && !isFriend(name)) {
                     friendRequests.add(new SAOFriendRequest(name, 10000));
-                    sendSAOCommand(mc, SAOCommand.ADD_FRIEND_REQUEST, name);
+                    sendSAOCommand(mc, CommandType.ADD_FRIEND_REQUEST, name);
                 }
         }
     }
@@ -382,7 +385,7 @@ public class SAOMod {
     private static void updateParty(Minecraft mc) {
         if (party != null) {
             final String memberString = SAOJ8String.join(" ", party);
-            Stream.of(party).filter(pl -> !pl.equals(getName(mc))).forEach(member -> sendSAOCommand(mc, SAOCommand.UPDATE_PARTY, member, memberString));
+            Stream.of(party).filter(pl -> !pl.equals(getName(mc))).forEach(member -> sendSAOCommand(mc, CommandType.UPDATE_PARTY, member, memberString));
         }
     }
 
@@ -403,14 +406,14 @@ public class SAOMod {
     }
 
     public static void inviteParty(Minecraft mc, String username) {
-        if (party != null && !isPartyMember(username)) sendSAOCommand(mc, SAOCommand.INVITE_PARTY, username, party[0]);
+        if (party != null && !isPartyMember(username)) sendSAOCommand(mc, CommandType.INVITE_PARTY, username, party[0]);
     }
 
     public static void dissolveParty(Minecraft mc) {
         if (party != null) {
             if (party[0].equals(getName(mc)))
-                Stream.of(party).skip(1).forEach(member -> sendSAOCommand(mc, SAOCommand.DISSOLVE_PARTY, member));
-            else sendSAOCommand(mc, SAOCommand.DISSOLVE_PARTY, party[0]);
+                Stream.of(party).skip(1).forEach(member -> sendSAOCommand(mc, CommandType.DISSOLVE_PARTY, member));
+            else sendSAOCommand(mc, CommandType.DISSOLVE_PARTY, party[0]);
         }
 
         partyTicks = 0;
@@ -568,6 +571,7 @@ public class SAOMod {
         MinecraftForge.EVENT_BUS.register(new SAORenderHandler());
 
         ConfigHandler.preInit(event);
+        friendsFile = new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/saouifriends");
 
         friendRequests = new ArrayList<>();
     }

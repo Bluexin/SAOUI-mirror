@@ -1,5 +1,6 @@
 package com.bluexin.saoui;
 
+import com.bluexin.saoui.commands.Command;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -105,10 +106,12 @@ class SAOEventHandler {
     }
 
     @SubscribeEvent
-    public void chatEvent2(ClientChatReceivedEvent evt) {
-        System.out.println("Got a ClientChatReceivedEvent containing " + evt.message.getFormattedText() + " as type " + evt.type + ".\nEquals ♠? " + evt.message.getFormattedText().equals("♠"));
-        // TODO: check other ones too
-        // evt.message.getFormattedText();evt.message.getUnformattedText();evt.message.getUnformattedTextForChat();
+    public void chatEvent(ClientChatReceivedEvent evt) {
+        System.out.println("Got a ClientChatReceivedEvent type " + evt.type);
+//        System.out.println("getFormattedText() " + evt.message.getFormattedText());
+        System.out.println("getUnformattedText() " + evt.message.getUnformattedText());
+//        System.out.println("getUnformattedTextForChat() " + evt.message.getUnformattedTextForChat());
+        if (!Command.processCommand(evt.message.getUnformattedText())) ;// TODO: add pm feature
     }
 
     /*
