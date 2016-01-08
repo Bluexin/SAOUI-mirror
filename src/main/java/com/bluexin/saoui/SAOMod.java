@@ -58,7 +58,7 @@ public class SAOMod {
     private static Map<UUID, Float> hungerSmooth;
     private static File friendsFile; // TODO: move to friends class
     private static String[] friends;
-    private static List<SAOFriendRequest> friendRequests;
+    private static final List<SAOFriendRequest> friendRequests = new ArrayList<>();
     private static String[] party;
     private static int partyTicks;
 
@@ -572,8 +572,6 @@ public class SAOMod {
 
         ConfigHandler.preInit(event);
         friendsFile = new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/saouifriends");
-
-        friendRequests = new ArrayList<>();
     }
 
     @EventHandler

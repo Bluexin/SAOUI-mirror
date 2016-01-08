@@ -21,7 +21,6 @@ public enum CommandType {
     public static final String PREFIX = "[SAOUI "; // TODO: config-based
     public static final String SUFFIX = "]";
 
-    // TODO: add info (for non-saoui users) and data (parser)
     static CommandType getCommand(String id) {
         try {
             return valueOf(id);
@@ -32,6 +31,10 @@ public enum CommandType {
 
     public final String toString() {
         return (PREFIX + name() + SUFFIX);
+    }
+
+    public final String key() {
+        return this.name().replace("_", "");
     }
 
 }
