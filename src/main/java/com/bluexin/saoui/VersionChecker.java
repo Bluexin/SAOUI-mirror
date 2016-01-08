@@ -45,7 +45,7 @@ public class VersionChecker extends Thread { // TODO: handle indev vs public
         return content;
     }
 
-    public static String getUpdateNotif() {
+    private static String getUpdateNotif() {
         String msg = "";
         int locale = -1, remote = -1;
 

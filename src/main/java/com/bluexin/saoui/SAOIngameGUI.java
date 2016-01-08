@@ -403,6 +403,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderExperience(int width, int height) {
         if (SAOOption.REMOVE_HPXP.getValue() || replaceEvent(EXPERIENCE)) return;
+        if (!SAOOption.FORCE_HUD.getValue() && !this.mc.playerController.shouldDrawHUD()) return;
         mc.mcProfiler.startSection("expLevel");
 
         final int offsetR = SAOOption.ORIGINAL_UI.getValue() ? HPXP_OFFSET_ORIG_R : HPXP_OFFSET_ALO_R;
