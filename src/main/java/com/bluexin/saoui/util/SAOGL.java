@@ -75,6 +75,12 @@ public final class SAOGL {
         glString(string, x, y, argb, false);
     }
 
+    public static void setSAOFont() {
+        Minecraft mc = Minecraft.getMinecraft();
+        ResourceLocation fontLocation = new ResourceLocation(SAOMod.MODID, "textures/ascii.png");
+        mc.fontRendererObj = new FontRenderer(mc.gameSettings, fontLocation, mc.getTextureManager(), false);
+    }
+
     private static int glStringWidth(FontRenderer font, String string) {
         if (font != null) return font.getStringWidth(string);
         else return 0;
