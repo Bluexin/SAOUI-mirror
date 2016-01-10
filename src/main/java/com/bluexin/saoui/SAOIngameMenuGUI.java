@@ -138,9 +138,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.INVITE_PLAYER && element instanceof SAOButtonGUI) {
             final String name = ((SAOButtonGUI) element).caption;
 
-            if (!SAOMod.isPartyMember(name)) SAOMod.inviteParty(mc, name);
+            if (!PartyHelper.instance().isPartyMember(name)) PartyHelper.instance().inviteParty(mc, name);
         } else if (id == SAOID.CREATE) {
-            element.enabled = !SAOMod.createParty(mc, 2.5);
+            element.enabled = !PartyHelper.instance().createParty(mc, 2.5);
 
             if (!element.enabled) {
                 mc.displayGuiScreen(null);
@@ -149,7 +149,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.DISSOLVE) {
             element.enabled = false;
 
-            final boolean isLeader = SAOMod.isPartyLeader(SAOMod.getName(mc));
+            final boolean isLeader = PartyHelper.instance().isPartyLeader(StaticPlayerHelper.getName(mc));
 
             final String title = isLeader ? ConfigHandler._PARTY_DISSOLVING_TITLE : ConfigHandler._PARTY_LEAVING_TITLE;
             final String text = isLeader ? ConfigHandler._PARTY_DISSOLVING_TEXT : ConfigHandler._PARTY_LEAVING_TEXT;
@@ -157,7 +157,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(title, text, (element1, action1, data1) -> {
                 final SAOID id1 = element1.ID();
 
-                if (id1 == SAOID.CONFIRM) SAOMod.dissolveParty(mc);
+                if (id1 == SAOID.CONFIRM) PartyHelper.instance().dissolveParty(mc);
 
                 mc.displayGuiScreen(null);
                 mc.setIngameFocus();
@@ -342,9 +342,9 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
             final SAOMenuGUI mnu = menu;
-            SAOMod.listOnlinePlayers(mc).stream().map(SAOMod::getName).forEach(name -> {
-                final SAOButtonGUI button = new SAOStateButtonGUI(mnu, SAOID.INVITE_PLAYER, 0, 0, name, SAOIcon.INVITE, (mc1, button1) -> !SAOMod.isPartyMember(button1.caption));
-                button.enabled = !SAOMod.isPartyMember(name);
+            StaticPlayerHelper.listOnlinePlayers(mc).stream().map(StaticPlayerHelper::getName).forEach(name -> {
+                final SAOButtonGUI button = new SAOStateButtonGUI(mnu, SAOID.INVITE_PLAYER, 0, 0, name, SAOIcon.INVITE, (mc1, button1) -> !PartyHelper.instance().isPartyMember(button1.caption));
+                button.enabled = !PartyHelper.instance().isPartyMember(name);
                 mnu.elements.add(button);
             });
         } else if (id == SAOID.ITEMS) {
@@ -380,12 +380,12 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             } else {
                 menu = null;
 
-                SAOMod.addFriendRequest(mc, ((SAOFriendGUI) element).caption);
+                FriendsHandler.instance().addFriendRequest(mc, ((SAOFriendGUI) element).caption);
             }
         } else if (id == SAOID.OTHER_PROFILE && element.parent instanceof SAOMenuGUI && ((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI) {
             menu = null;
 
-            final EntityPlayer player = SAOMod.findOnlinePlayer(mc, ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption);
+            final EntityPlayer player = StaticPlayerHelper.findOnlinePlayer(mc, ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption);
 
             if (player != null) {
                 sub = SAOSub.resetProfileSub(mc, sub, player);
@@ -401,7 +401,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.POSITION_CHECK && element.parent instanceof SAOMenuGUI && ((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI) {
             menu = null;
 
-            final EntityPlayer player = SAOMod.findOnlinePlayer(mc, ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption);
+            final EntityPlayer player = StaticPlayerHelper.findOnlinePlayer(mc, ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption);
 
             if (player != null) {
                 sub = SAOSub.resetCheckPositionSub(mc, sub, player, 1, null);

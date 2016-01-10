@@ -1,7 +1,7 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.SAOMod;
 import com.bluexin.saoui.util.SAOParentGUI;
+import com.bluexin.saoui.util.StaticPlayerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,13 +19,13 @@ public class SAOFriendsGUI extends SAOListGUI {
     }
 
     private void init(Minecraft mc) {
-        final List<EntityPlayer> list = SAOMod.listOnlinePlayers(mc);
+        final List<EntityPlayer> list = StaticPlayerHelper.listOnlinePlayers(mc);
 
         if (list.contains(mc.thePlayer)) {
             list.remove(mc.thePlayer);
         }
 
-        elements.addAll(list.stream().map(player -> new SAOFriendGUI(this, 0, 0, SAOMod.getName(player))).collect(Collectors.toList()));
+        elements.addAll(list.stream().map(player -> new SAOFriendGUI(this, 0, 0, StaticPlayerHelper.getName(player))).collect(Collectors.toList()));
     }
 
 }

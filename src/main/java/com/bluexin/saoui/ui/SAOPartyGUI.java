@@ -1,10 +1,6 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.util.SAOIcon;
-import com.bluexin.saoui.SAOMod;
-import com.bluexin.saoui.util.SAOID;
-import com.bluexin.saoui.util.SAOParentGUI;
-import com.bluexin.saoui.util.SAOStateHandler;
+import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,7 +30,7 @@ public class SAOPartyGUI extends SAOStateButtonGUI {
 
         @Override
         public boolean isStateEnabled(Minecraft mc, SAOStateButtonGUI button) {
-            return (SAOMod.isPartyMember(mc.thePlayer.getName()) == flag);
+            return (PartyHelper.instance().isPartyMember(mc.thePlayer.getName()) == flag);
         }
 
     }

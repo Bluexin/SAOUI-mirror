@@ -66,7 +66,7 @@ class SAORenderBase extends Render {
         if (entity instanceof EntityLivingBase) {
             final EntityLivingBase living = (EntityLivingBase) entity;
 
-            dead = SAOMod.getHealth(mc, living, SAOMod.UNKNOWN_TIME_DELAY) <= 0;
+            dead = StaticPlayerHelper.getHealth(mc, living, SAOMod.UNKNOWN_TIME_DELAY) <= 0;
             deadStart = (living.deathTime == 1);
             deadExactly = (living.deathTime >= 18);
 
@@ -127,7 +127,7 @@ class SAORenderBase extends Render {
 
     private void doRenderColorCursor(Minecraft mc, Entity entity, double x, double y, double z, int distance) {
         if (entity instanceof EntityArmorStand || entity.riddenByEntity != null) return;
-        if (SAOOption.LESS_VISUALS.getValue() && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer))
+        if (SAOOption.LESS_VISUALS.getValue() && !(entity instanceof IMob || StaticPlayerHelper.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != StaticPlayerHelper.getMaxHealth(entity)) && !(entity instanceof EntityPlayer))
             return;
 
         double d3 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
@@ -214,8 +214,8 @@ class SAORenderBase extends Render {
     private void doRenderHealthBar(Minecraft mc, Entity entity, double x, double y, double z, float f0, float f1) {
         if (entity instanceof EntityArmorStand) return;
         if (entity.riddenByEntity != null && entity.riddenByEntity == mc.thePlayer) return;
-        if (entity instanceof EntityPlayer && SAOMod.isCreative((AbstractClientPlayer) entity)) return;
-        if (SAOOption.LESS_VISUALS.getValue() && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer))
+        if (entity instanceof EntityPlayer && StaticPlayerHelper.isCreative((AbstractClientPlayer) entity)) return;
+        if (SAOOption.LESS_VISUALS.getValue() && !(entity instanceof IMob || StaticPlayerHelper.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != StaticPlayerHelper.getMaxHealth(entity)) && !(entity instanceof EntityPlayer))
             return;
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.entities : SAOResources.entitiesCustom);
 
@@ -308,7 +308,7 @@ class SAORenderBase extends Render {
     }
 
     private float getHealthFactor(Minecraft mc, Entity entity, float time) {
-        final float normalFactor = SAOMod.getHealth(mc, entity, time) / SAOMod.getMaxHealth(entity);
+        final float normalFactor = StaticPlayerHelper.getHealth(mc, entity, time) / StaticPlayerHelper.getMaxHealth(entity);
         final float delta = 1.0F - normalFactor;
 
         return normalFactor + (delta * delta / 2) * normalFactor;

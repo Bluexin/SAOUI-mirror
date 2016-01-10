@@ -192,7 +192,7 @@ public class SAOIngameGUI extends GuiIngameForge {
         final int healthWidth = 216;
         final int healthHeight = SAOOption.ORIGINAL_UI.getValue() ? 9 : 4;
 
-        final int healthValue = (int) (SAOMod.getHealth(mc, mc.thePlayer, time) / SAOMod.getMaxHealth(mc.thePlayer) * healthWidth);
+        final int healthValue = (int) (StaticPlayerHelper.getHealth(mc, mc.thePlayer, time) / StaticPlayerHelper.getMaxHealth(mc.thePlayer) * healthWidth);
         SAOHealthStep.getStep(mc, mc.thePlayer, time).glColor();
 
         int stepOne = (int) (healthWidth / 3.0F - 3);
@@ -251,7 +251,7 @@ public class SAOIngameGUI extends GuiIngameForge {
                 absorb += SAOOption.ALT_ABSORB_POS.getValue() ? ' ' : "";
             }
 
-            final String healthStr = String.valueOf((SAOOption.ALT_ABSORB_POS.getValue() ? absorb : "") + (int) Math.ceil(SAOMod.getHealth(mc, mc.thePlayer, time))) + (SAOOption.ALT_ABSORB_POS.getValue() ? "" : absorb) + " / " + String.valueOf((int) Math.ceil(SAOMod.getMaxHealth(mc.thePlayer)));
+            final String healthStr = String.valueOf((SAOOption.ALT_ABSORB_POS.getValue() ? absorb : "") + (int) Math.ceil(StaticPlayerHelper.getHealth(mc, mc.thePlayer, time))) + (SAOOption.ALT_ABSORB_POS.getValue() ? "" : absorb) + " / " + String.valueOf((int) Math.ceil(StaticPlayerHelper.getMaxHealth(mc.thePlayer)));
             final int healthStrWidth = fontRenderer.getStringWidth(healthStr);
 
             final int absStart = healthStr.indexOf('(');
@@ -368,7 +368,7 @@ public class SAOIngameGUI extends GuiIngameForge {
     private void renderFood(int healthWidth, int healthHeight, int offsetUsername, int stepOne, int stepTwo, int stepThree) {
         if (replaceEvent(FOOD)) return;
         mc.mcProfiler.startSection("food");
-        final int foodValue = (int) (SAOMod.getHungerFract(mc, mc.thePlayer, time) * healthWidth);
+        final int foodValue = (int) (StaticPlayerHelper.getHungerFract(mc, mc.thePlayer, time) * healthWidth);
         int h = foodValue < 12? 12 - foodValue: 0;
         int o = healthHeight;
         SAOGL.glColorRGBA(0x8EE1E8);

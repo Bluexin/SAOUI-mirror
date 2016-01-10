@@ -1,10 +1,12 @@
 package com.bluexin.saoui.commands;
 
-import com.bluexin.saoui.SAOMod;
+import com.bluexin.saoui.util.SAOOption;
+import com.bluexin.saoui.util.StaticPlayerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.StatCollector;
 
+import java.util.Arrays;
 import java.util.MissingFormatArgumentException;
 
 /**
@@ -16,21 +18,26 @@ public class Command {
     private final CommandType type;
     private final String from;
     private final String to;
+    private final String[] args;
+    // TODO: add info for update (to check)
 
     private Command(String raw) {
         if (!raw.contains("<") || !raw.contains(">")) throw new MissingFormatArgumentException("<username> not found in \"" + raw + '"');
         this.from = raw.substring(raw.indexOf('<') + 1, raw.indexOf('>')); // TODO: check with team/chat plugins prefixes!
         this.type = CommandType.getCommand(raw.substring(raw.indexOf(CommandType.PREFIX) + CommandType.PREFIX.length(), raw.indexOf(CommandType.SUFFIX)));
-        this.to = SAOMod.getName(Minecraft.getMinecraft());
+        this.to = StaticPlayerHelper.getName(Minecraft.getMinecraft());
+        this.args = getContent(raw);
     }
 
-    public Command(CommandType type, String to) {
+    public Command(CommandType type, String to, String... args) {
         this.type = type;
         this.to = to;
-        this.from = SAOMod.getName(Minecraft.getMinecraft());
+        this.from = StaticPlayerHelper.getName(Minecraft.getMinecraft());
+        this.args = args;
     }
 
     public static boolean processCommand(String raw) {
+        if (Minecraft.getMinecraft().thePlayer == null || !SAOOption.CLIENT_CHAT_PACKETS.getValue()) return false;
         if (raw.contains(CommandType.PREFIX) && raw.contains(CommandType.SUFFIX)) {
             final Command command;
             try {
@@ -38,9 +45,16 @@ public class Command {
             } catch (MissingFormatArgumentException e) {
                 return false;
             }
-            if (command.type != null && !command.from.equals(SAOMod.getName(Minecraft.getMinecraft()))) SAOMod.receiveSAOCommand(Minecraft.getMinecraft(), command);
-            return true;
-        } else return false;
+            if (command.type != null && !command.from.equals(StaticPlayerHelper.getName(Minecraft.getMinecraft()))) {
+                command.activate();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String[] getContent(String data) {
+        return !data.contains("{[") || !data.contains("]}") ? null : data.substring(data.indexOf("{[") + 2, data.indexOf("]}")).split(", ");
     }
 
     public CommandType getType() {
@@ -55,17 +69,21 @@ public class Command {
         return to;
     }
 
-    public String[] getContent(String data) { // Only used for update atm I think, keeping it for later
-        final int index = toString().length() + 1;
-
-        if (index >= data.length()) return new String[0];
-        else return data.substring(index).split(" ");
-    }
-
     public String toChat() { // TODO: use this instead of the old methods (everywhere in the mod)
         final String format = I18n.format("commands.message.usage");
         final String cmd = format.substring(0, format.indexOf(' '));
 
-        return cmd + ' ' + this.to + ' ' + this.type.toString() + ' ' + '<' + this.from + '>' + ' ' + StatCollector.translateToLocalFormatted(this.type.key(), this.from);
+        final String args = this.args != null ? Arrays.toString(this.args) : "[]";
+
+        return cmd + ' ' + this.to + ' ' + this.type.toString() + ' ' + '<' + this.from + '>' + ' ' + '{' + args + '}' + StatCollector.translateToLocalFormatted(this.type.key(), this.from, this.to);
+    }
+
+    public void send(Minecraft mc) {
+        if (mc.thePlayer == null || !SAOOption.CLIENT_CHAT_PACKETS.getValue()) return;
+        mc.thePlayer.sendChatMessage(this.toChat());
+    }
+
+    private void activate() {
+        type.action(Minecraft.getMinecraft(), from, args);
     }
 }

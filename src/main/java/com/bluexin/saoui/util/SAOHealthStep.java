@@ -1,6 +1,5 @@
 package com.bluexin.saoui.util;
 
-import com.bluexin.saoui.SAOMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +27,7 @@ public enum SAOHealthStep {
 
     public static SAOHealthStep getStep(Minecraft mc, EntityLivingBase entity, float time) {
         if (entity instanceof EntityPlayer && (((EntityPlayer) entity).capabilities.isCreativeMode || ((EntityPlayer) entity).isSpectator())) return CREATIVE;
-        final float value = SAOMod.getHealth(mc, entity, time) / SAOMod.getMaxHealth(entity);
+        final float value = StaticPlayerHelper.getHealth(mc, entity, time) / StaticPlayerHelper.getMaxHealth(entity);
         SAOHealthStep step = first();
 
         while ((value > step.getLimit()) && (step.ordinal() + 1 < values().length)) step = next(step);

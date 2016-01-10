@@ -1,6 +1,5 @@
 package com.bluexin.saoui.util;
 
-import com.bluexin.saoui.SAOMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
@@ -52,10 +51,10 @@ public enum SAOColorState {
     }
 
     private static SAOColorState getPlayerColorState(Minecraft mc, EntityPlayer player, float time) {
-        if (isDev(SAOMod.getName(player))) return GAMEMASTER;
+        if (isDev(StaticPlayerHelper.getName(player))) return GAMEMASTER;
 //        else if (FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().canSendCommands((player).getGameProfile())) return OP;
-        else if (SAOMod.isCreative((AbstractClientPlayer) player)) return CREATIVE;
-        else return SAOMod.getColorState(player);
+        else if (StaticPlayerHelper.isCreative((AbstractClientPlayer) player)) return CREATIVE;
+        else return ColorStateHandler.instance().get(player);
     }
 
     private static boolean isDev(final String pl) {
