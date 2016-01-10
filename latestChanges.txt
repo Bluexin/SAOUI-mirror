@@ -1,1 +1,1 @@
-Fixed players not rendering a health bar! Without using an event :) 
+Fixed reflexion used to access skinMap (hopefully) 

@@ -11,6 +11,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -18,7 +19,6 @@ import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 @Mod(modid = SAOMod.MODID, name = SAOMod.NAME, version = SAOMod.VERSION)
@@ -81,24 +81,16 @@ public class SAOMod {
                 render.func_177068_d();
             }
         });
-        try {
-            Class<? extends RenderManager> mgCl = manager.getClass();
-            Field skinField = mgCl.getDeclaredField("skinMap");
-            skinField.setAccessible(true);
-            Map skinMap = (Map) skinField.get(manager);
-            skinMap.keySet().stream().forEach(key -> {
-                final Object value = skinMap.get(key);
+        Map skinMap = (Map) ObfuscationReflectionHelper.getPrivateValue((Class) manager.getClass(), manager, "skinMap");
+        skinMap.keySet().stream().forEach(key -> {
+            final Object value = skinMap.get(key);
 
-                if (value instanceof Render && !(value instanceof SAORenderPlayer)) {
-                    final Render render = new SAORenderPlayer((Render) value);
-                    skinMap.put(key, render);
-                    render.func_177068_d();
-                }
-            });
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-            System.err.println("SAOUI Couldn't change the PlayerRenderer!");
-        }
+            if (value instanceof Render && !(value instanceof SAORenderPlayer)) {
+                final Render render = new SAORenderPlayer((Render) value);
+                skinMap.put(key, render);
+                render.func_177068_d();
+            }
+        });
 
         // FMLInterModComms?
     }
