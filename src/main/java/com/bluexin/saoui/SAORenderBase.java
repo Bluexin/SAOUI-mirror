@@ -57,7 +57,8 @@ class SAORenderBase extends Render {
         return parent.shouldRender(p_177071_1_, p_177071_2_, p_177071_3_, p_177071_5_, p_177071_7_);
     }
 
-	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
+	@Override
+    public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
         final Minecraft mc = Minecraft.getMinecraft();
 
         boolean dead = false, deadStart = false, deadExactly = false;
@@ -104,7 +105,8 @@ class SAORenderBase extends Render {
         }
     }
 
-	public void bindTexture(ResourceLocation location) {
+	@Override
+    public void bindTexture(ResourceLocation location) {
         parent.bindTexture(location);
     }
 
@@ -124,8 +126,7 @@ class SAORenderBase extends Render {
     }
 
     private void doRenderColorCursor(Minecraft mc, Entity entity, double x, double y, double z, int distance) {
-        if (entity instanceof EntityArmorStand) return;
-        if (entity.riddenByEntity != null) return;
+        if (entity instanceof EntityArmorStand || entity.riddenByEntity != null) return;
         if (SAOOption.LESS_VISUALS.getValue() && !(entity instanceof IMob || SAOMod.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != SAOMod.getMaxHealth(entity)) && !(entity instanceof EntityPlayer))
             return;
 
@@ -320,7 +321,6 @@ class SAORenderBase extends Render {
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        // TODO Auto-generated method stub
         return null;
     }
 }

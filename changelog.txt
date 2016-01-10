@@ -43,3 +43,4 @@ Fixed UI O:-)
 Fixed the bug that made infos appear in the wrong tab
 Reactivated social menus (they aren't working yet, but can't make you crash)
 Added a testing skill which will load a custom font. For Blaez to test things. 
+Fixed players not rendering a health bar! Without using an event :) 

@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -551,7 +552,7 @@ public class SAOMod {
         else colorStates.put(uuid, new SAOColorCursor(SAOColorState.KILLER, true));
     }
 
-    public static boolean isCreative(AbstractClientPlayer player) {
+    public static boolean isCreative(AbstractClientPlayer player) { // TODO: test this!
         NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(player.getGameProfile().getId());
         return networkplayerinfo != null && networkplayerinfo.getGameType() == WorldSettings.GameType.SPECTATOR;
     }
@@ -613,6 +614,24 @@ public class SAOMod {
             }
 
         });
+        try {
+            Class<? extends RenderManager> mgCl = manager.getClass();
+            Field skinField = mgCl.getDeclaredField("skinMap");
+            skinField.setAccessible(true);
+            Map skinMap = (Map) skinField.get(manager);
+            skinMap.keySet().stream().forEach(key -> {
+                final Object value = skinMap.get(key);
+
+                if (value instanceof Render && !(value instanceof SAORenderPlayer)) {
+                    final Render render = new SAORenderPlayer((Render) value);
+                    skinMap.put(key, render);
+                    render.func_177068_d();
+                }
+            });
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            System.err.println("SAOUI Couldn't change the PlayerRenderer!");
+        }
     }
 
 }
