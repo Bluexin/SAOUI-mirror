@@ -81,7 +81,7 @@ public class SAOMod {
                 render.func_177068_d();
             }
         });
-        Map skinMap = (Map) ObfuscationReflectionHelper.getPrivateValue((Class) manager.getClass(), manager, "skinMap");
+        Map skinMap = (Map) ObfuscationReflectionHelper.getPrivateValue((Class) manager.getClass(), manager, "skinMap", "field_178636_l", "l");
         skinMap.keySet().stream().forEach(key -> {
             final Object value = skinMap.get(key);
 
