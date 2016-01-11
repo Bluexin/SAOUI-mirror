@@ -13,7 +13,6 @@ import java.util.function.BooleanSupplier;
 
 @SideOnly(Side.CLIENT)
 public enum SAOSkill {
-// TODO: implement common interface with SAOOption and the like to use a single button class in a better way (~IActivable)
     SPRINTING(SAOIcon.SPRINTING, () -> SAOMod.IS_SPRINTING, (mc, parent) -> SAOMod.IS_SPRINTING = !SAOMod.IS_SPRINTING),
     SNEAKING(SAOIcon.SNEAKING, () -> SAOMod.IS_SNEAKING, (mc, parent) -> SAOMod.IS_SNEAKING = !SAOMod.IS_SNEAKING),
     CRAFTING(SAOIcon.CRAFTING, () -> false, (mc, parent) -> {

@@ -138,11 +138,11 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
         } else if (id == SAOID.INVITE_PLAYER && element instanceof SAOButtonGUI) {
             final String name = ((SAOButtonGUI) element).caption;
 
-            if (!PartyHelper.instance().isPartyMember(name)) PartyHelper.instance().inviteParty(mc, name);
+            PartyHelper.instance().invite(mc, name);
         } else if (id == SAOID.DISSOLVE) {
             element.enabled = false;
 
-            final boolean isLeader = PartyHelper.instance().isPartyLeader(StaticPlayerHelper.getName(mc));
+            final boolean isLeader = PartyHelper.instance().isLeader(StaticPlayerHelper.getName(mc));
 
             final String title = isLeader ? ConfigHandler._PARTY_DISSOLVING_TITLE : ConfigHandler._PARTY_LEAVING_TITLE;
             final String text = isLeader ? ConfigHandler._PARTY_DISSOLVING_TEXT : ConfigHandler._PARTY_LEAVING_TEXT;
@@ -150,7 +150,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(title, text, (element1, action1, data1) -> {
                 final SAOID id1 = element1.ID();
 
-                if (id1 == SAOID.CONFIRM) PartyHelper.instance().dissolveParty(mc);
+                if (id1 == SAOID.CONFIRM) PartyHelper.instance().dissolve(mc);
 
                 mc.displayGuiScreen(null);
                 mc.setIngameFocus();
@@ -325,8 +325,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             setInfo(null, null);
             menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
 
-            menu.elements.add(new SAOPartyGUI(menu, SAOID.INVITE_LIST, 0, 0, StatCollector.translateToLocal("guiInvite"), SAOIcon.INVITE, true));
-            menu.elements.add(new SAOPartyGUI(menu, SAOID.DISSOLVE, 0, 0, StatCollector.translateToLocal("guiDissolve"), SAOIcon.CANCEL, false));
+            menu.elements.add(new SAOPartyGUI(menu, SAOID.INVITE_LIST, 0, 0, StatCollector.translateToLocal("guiInvite"), SAOIcon.INVITE));
+            menu.elements.add(new SAOPartyGUI(menu, SAOID.DISSOLVE, 0, 0, StatCollector.translateToLocal("guiDissolve"), SAOIcon.CANCEL));
 
             sub = SAOSub.resetPartySub(mc, sub);
             info = SAOSub.addInfo(sub);
@@ -334,8 +334,8 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             menu = new SAOListGUI(element, menuOffsetX, menuOffsetY, 100, 60);
             final SAOMenuGUI mnu = menu;
             StaticPlayerHelper.listOnlinePlayers(mc, true, 5).stream().map(StaticPlayerHelper::getName).forEach(name -> {
-                final SAOButtonGUI button = new SAOStateButtonGUI(mnu, SAOID.INVITE_PLAYER, 0, 0, name, SAOIcon.INVITE, (mc1, button1) -> !PartyHelper.instance().isPartyMember(button1.caption));
-                button.enabled = !PartyHelper.instance().isPartyMember(name);
+                final SAOButtonGUI button = new SAOStateButtonGUI(mnu, SAOID.INVITE_PLAYER, 0, 0, name, SAOIcon.INVITE, (mc1, button1) -> !PartyHelper.instance().isMember(button1.caption));
+                button.enabled = !PartyHelper.instance().isMember(name);
                 mnu.elements.add(button);
             });
         } else if (id == SAOID.ITEMS) {

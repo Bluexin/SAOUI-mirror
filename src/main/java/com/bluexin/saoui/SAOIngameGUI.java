@@ -292,7 +292,7 @@ public class SAOIngameGUI extends GuiIngameForge {
 
         mc.mcProfiler.endSection();
         /*
-        if (SAOMod.isPartyMember(username)) {
+        if (SAOMod.isMember(username)) {
             mc.mcProfiler.startSection("party");
 
             final List<EntityPlayer> players = SAOMod.listOnlinePlayers(mc);
@@ -305,7 +305,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             for (final EntityPlayer player : players) {
                 final String playerName = player.getName();
 
-                if (!SAOMod.isPartyMember(playerName)) {
+                if (!SAOMod.isMember(playerName)) {
                     continue;
                 }
 
@@ -448,12 +448,6 @@ public class SAOIngameGUI extends GuiIngameForge {
         }
         return false;
     }
-
-    /*@Override
-    protected void renderChat(int width, int height) {
-        super.renderChat(width, height);
-        // TODO: change this if need to use a custom chat system again!
-    }*/
 
     @Override
     protected void renderHealthMount(int width, int height) {

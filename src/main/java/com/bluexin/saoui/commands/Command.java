@@ -15,11 +15,10 @@ import java.util.MissingFormatArgumentException;
  * @author Bluexin
  */
 public class Command {
-    private final CommandType type;
+    private final CommandType type; // TODO: add some sort of rng code in exchanges (especially PT infos) to prevent anyone sending random shit
     private final String from;
     private final String to;
     private final String[] args;
-    // TODO: add info for update (to check)
 
     private Command(String raw) {
         if (!raw.contains("<") || !raw.contains(">")) throw new MissingFormatArgumentException("<username> not found in \"" + raw + '"');
@@ -69,7 +68,7 @@ public class Command {
         return to;
     }
 
-    public String toChat() { // TODO: use this instead of the old methods (everywhere in the mod)
+    public String toChat() {
         final String format = I18n.format("commands.message.usage");
         final String cmd = format.substring(0, format.indexOf(' '));
 

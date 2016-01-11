@@ -33,7 +33,7 @@ public final class SAOSub {
 
     public static SAOMenuGUI createSocialSub(Minecraft mc, SAOElementGUI element, int x, int y) {
         final SAOMenuGUI sub = createSub(mc, element, x, y);
-        final String[] party = PartyHelper.instance().listPartyMembers();
+        final String[] party = PartyHelper.instance().listMembers();
 
         return party != null ? setPartySub(mc, sub) : setFriendsSub(mc, sub);
     }
@@ -117,7 +117,7 @@ public final class SAOSub {
     }
 
     private static SAOMenuGUI setPartySub(Minecraft mc, SAOMenuGUI sub) {
-        final String[] party = PartyHelper.instance().listPartyMembers();
+        final String[] party = PartyHelper.instance().listMembers();
 
         if (party != null) {
             final boolean[] online = StaticPlayerHelper.isOnline(mc, party);
