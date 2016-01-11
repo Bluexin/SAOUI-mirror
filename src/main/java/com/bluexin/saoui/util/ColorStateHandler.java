@@ -10,7 +10,7 @@ import java.util.UUID;
  *
  * @author Bluexin
  */
-public class ColorStateHandler {
+public class ColorStateHandler { // FIXME all of this seems broken af
     private static ColorStateHandler instance = new ColorStateHandler();
     private ColorStatesMap colorStates = new ColorStatesMap();
 

@@ -10,14 +10,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public enum CommandType {
 
-    INVITE_PARTY((mc, username, args) -> PartyHelper.instance().inviteParty(mc, username, args)),
+    INVITE_PARTY((mc, username, args) -> PartyHelper.instance().inviteParty(mc, username, args)), // Confirmed to work!
     DISSOLVE_PARTY((mc, username, args) -> PartyHelper.instance().dissolveParty(mc, username)),
     UPDATE_PARTY((mc, username, args) -> PartyHelper.instance().updateParty(username, args)),
 
-    CONFIRM_INVITE_PARTY((mc, username, args) -> PartyHelper.instance().confirmInviteParty(mc, username, args)),
+    CONFIRM_INVITE_PARTY((mc, username, args) -> PartyHelper.instance().confirmInviteParty(mc, username, args)), // Confirmed to work!
     CANCEL_INVITE_PARTY((mc, username, args) -> PartyHelper.instance()),
 
-    ADD_FRIEND_REQUEST((mc, username, args) -> FriendsHandler.instance().addFriendRequest(mc, username)),
+    ADD_FRIEND_REQUEST((mc, username, args) -> FriendsHandler.instance().addFriendRequest(mc, username)), // Confirmed to work! (except it crashes the receiver)
 
     ACCEPT_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().acceptAddFriend(username)),
     CANCEL_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().cancelAddFriend(username));
@@ -43,7 +43,7 @@ public enum CommandType {
     }
 
     public final String key() {
-        return this.name().replace("_", "");
+        return "saouiCommand" + this.name().replace("_", "");
     }
 
     public void action(Minecraft mc, String username, String[] args) {

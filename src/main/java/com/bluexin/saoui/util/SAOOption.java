@@ -32,7 +32,8 @@ public enum SAOOption {
     SPINNING_CRYSTALS(StatCollector.translateToLocal("optionSpinning"), true, false, RENDERER),
     FORCE_HUD(StatCollector.translateToLocal("optionForceHud"), false, false, UI),
     REMOVE_HPXP(StatCollector.translateToLocal("optionLightHud"), false, false, UI),
-    ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false, false, UI);
+    ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false, false, UI),
+    GUI_PAUSE(StatCollector.translateToLocal("optionGuiPause"), true, false, INTERFACES);
 
     public final String name;
     public final boolean isCategory;

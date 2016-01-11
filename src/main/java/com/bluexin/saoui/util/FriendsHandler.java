@@ -176,7 +176,7 @@ public class FriendsHandler {
         }
     }
 
-    public void addFriendRequest(Minecraft mc, String username) {
+    public void addFriendRequest(Minecraft mc, String username) { // FIXME this crashes >.<
         if (!FriendsHandler.instance().isFriend(username)) {
             final GuiScreen keepScreen = mc.currentScreen;
             final boolean ingameFocus = mc.inGameHasFocus;

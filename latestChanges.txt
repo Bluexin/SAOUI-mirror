@@ -1,1 +1,1 @@
-Fixed reflexion used to access skinMap (hopefully) 
+Added pausing the game in menu as an option

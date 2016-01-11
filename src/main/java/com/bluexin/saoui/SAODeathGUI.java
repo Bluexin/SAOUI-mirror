@@ -82,4 +82,8 @@ public class SAODeathGUI extends SAOScreenGUI {
         CURSOR_STATUS = oldCursorStatus;
     }
 
+    @Override
+    public boolean doesGuiPauseGame() {
+        return true;
+    }
 }

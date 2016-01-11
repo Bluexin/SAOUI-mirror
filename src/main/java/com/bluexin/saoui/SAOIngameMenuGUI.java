@@ -372,15 +372,17 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             infoText = null;
         } else if ((id == SAOID.FRIEND) && (element instanceof SAOFriendGUI)) {
             setInfo(null, null);
-            if (((SAOFriendGUI) element).highlight) { // FIXME
+            if (((SAOFriendGUI) element).highlight) {
+                System.out.println("Add friends menu request");
                 menu = new SAOMenuGUI(element, menuOffsetX, menuOffsetY, 100, 60);
                 menu.elements.add(new SAOButtonGUI(menu, SAOID.MESSAGE_BOX, 0, 0, StatCollector.translateToLocal("guiMessageBox"), SAOIcon.MESSAGE));
                 menu.elements.add(new SAOButtonGUI(menu, SAOID.POSITION_CHECK, 0, 0, StatCollector.translateToLocal("guiPositionCheck"), SAOIcon.FIELD_MAP));
                 menu.elements.add(new SAOButtonGUI(menu, SAOID.OTHER_PROFILE, 0, 0, StatCollector.translateToLocal("guiProfile"), SAOIcon.PARTY));
             } else {
                 menu = null;
+                System.out.println("Add friend request");
 
-                FriendsHandler.instance().addFriendRequest(mc, ((SAOFriendGUI) element).caption);
+                FriendsHandler.instance().addFriendRequests(mc, ((SAOFriendGUI) element).caption);
             }
         } else if (id == SAOID.OTHER_PROFILE && element.parent instanceof SAOMenuGUI && ((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI) {
             menu = null;

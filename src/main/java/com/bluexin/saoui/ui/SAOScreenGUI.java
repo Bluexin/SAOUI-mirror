@@ -214,8 +214,8 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
     }
 
     @Override // Might be only in the options part? Check if doable
-    public boolean doesGuiPauseGame() { // TODO: option?
-        return true;
+    public boolean doesGuiPauseGame() {
+        return SAOOption.GUI_PAUSE.getValue();
     }
 
     @Override
