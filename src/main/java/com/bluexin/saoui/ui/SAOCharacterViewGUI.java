@@ -13,6 +13,8 @@ import java.util.Objects;
 @SideOnly(Side.CLIENT)
 public class SAOCharacterViewGUI extends SAOElementGUI {
 
+    public static boolean IS_VIEWING = false;
+
     private final EntityPlayer character;
 
     private int clickIndex;
@@ -22,15 +24,13 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
         character = player;
     }
 
-    private static void drawCharacter(EntityPlayer character, int x, int y, int size, int cursorX, int cursorY) {
+    private void drawCharacter(int x, int y, int size, int cursorX, int cursorY) {
         final float mouseX = (float) x - cursorX;
         final float mouseY = (float) y - size * 1.67F - cursorY;
 
-        final boolean value = SAOOption.COLOR_CURSOR.getValue();
-
-        SAOOption.COLOR_CURSOR.disable();
+        IS_VIEWING = true;
         GuiInventory.drawEntityOnScreen(x, y, size, mouseX, mouseY, character);
-        if (value) SAOOption.COLOR_CURSOR.flip();
+        IS_VIEWING = false;
 
         SAOGL.glRescaleNormal(true);
         SAOGL.glTexture2D(true);
@@ -58,7 +58,7 @@ public class SAOCharacterViewGUI extends SAOElementGUI {
 
             SAOGL.glTexturedRect(left - size / 2, (top - shadowY / 2), size, shadowY, 200, 85, 56, 30);
 
-            drawCharacter(character, left, top, size, cursorX, cursorY);
+            drawCharacter(left, top, size, cursorX, cursorY);
 
             left = getX(false) + width / 2;
             top = getY(false) + height / 2;

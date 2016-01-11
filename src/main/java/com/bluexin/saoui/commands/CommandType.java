@@ -10,19 +10,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public enum CommandType {
 
-    INVITE_PARTY((mc, username, args) -> PartyHelper.instance().inviteParty(mc, username, args)), // Confirmed to work!
+    INVITE_PARTY((mc, username, args) -> PartyHelper.instance().inviteParty(mc, username, args)),
     DISSOLVE_PARTY((mc, username, args) -> PartyHelper.instance().dissolveParty(mc, username)),
     UPDATE_PARTY((mc, username, args) -> PartyHelper.instance().updateParty(username, args)),
 
-    CONFIRM_INVITE_PARTY((mc, username, args) -> PartyHelper.instance().confirmInviteParty(mc, username, args)), // Confirmed to work!
+    CONFIRM_INVITE_PARTY((mc, username, args) -> PartyHelper.instance().confirmInviteParty(mc, username, args)),
     CANCEL_INVITE_PARTY((mc, username, args) -> PartyHelper.instance()),
 
-    ADD_FRIEND_REQUEST((mc, username, args) -> FriendsHandler.instance().addFriendRequest(mc, username)), // Confirmed to work! (except it crashes the receiver)
+    ADD_FRIEND_REQUEST((mc, username, args) -> FriendsHandler.instance().addFriendRequest(mc, username)),
 
     ACCEPT_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().acceptAddFriend(username)),
     CANCEL_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().cancelAddFriend(username));
 
-    public static final String PREFIX = "[SAOUI "; // TODO: config-based
+    public static final String PREFIX = "[SAOUI ";
     public static final String SUFFIX = "]";
     private final TriConsumer<Minecraft, String, String[]> action;
 

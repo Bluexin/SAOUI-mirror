@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -102,13 +103,13 @@ class SAOEventHandler {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void chatEvent(ClientChatReceivedEvent evt) {
-        System.out.println("Got a ClientChatReceivedEvent type " + evt.type);
+//        System.out.println("Got a ClientChatReceivedEvent type " + evt.type);
 //        System.out.println("getFormattedText() " + evt.message.getFormattedText());
-        System.out.println("getUnformattedText() " + evt.message.getUnformattedText());
+//        System.out.println("getUnformattedText() " + evt.message.getUnformattedText());
 //        System.out.println("getUnformattedTextForChat() " + evt.message.getUnformattedTextForChat());
-        if (Command.processCommand(evt.message.getUnformattedText())) evt.setCanceled(true);// TODO: add pm feature
+        if (Command.processCommand(evt.message.getUnformattedText())) evt.setCanceled(true);// TODO: add pm feature and PT chat
     }
 
     /*

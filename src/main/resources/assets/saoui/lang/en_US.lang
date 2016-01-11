@@ -12,7 +12,6 @@ guiMessageTitle=Message
 guiMessageFrom=from %s
 guiDeadAlert=You are Dead
 guiInvite=Invite
-guiCreate=Create
 guiDissolve=Dissolve
 guiMessageBox=Message Box
 guiGuild=Guild
@@ -95,3 +94,7 @@ displayHpLong=Health
 displayStrLong=Strength
 displayDexLong=Agility
 displayResLong=Resistance
+
+# Messages
+saouiCommandINVITEPARTY=You received a party invite from someone using the SAO UI. To know more about this mod, visit http://minecraft.curseforge.com/projects/sao-ui. To join his party, reply in a PM to %1$s containing at least "[SAOUI CONFIRM_INVITE_PARTY] <%2$s>".
+saouiCommandADDFRIENDREQUEST=You received a friend request from someone using the SAO UI. To know more about this mod, visit http://minecraft.curseforge.com/projects/sao-ui. To accept the request, reply in a PM to %1$s containing at least "[SAOUI ACCEPT_ADD_FRIEND] <%2$s>".

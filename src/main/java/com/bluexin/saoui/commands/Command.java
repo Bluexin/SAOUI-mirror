@@ -45,8 +45,8 @@ public class Command {
             } catch (MissingFormatArgumentException e) {
                 return false;
             }
-            if (command.type != null && !command.from.equals(StaticPlayerHelper.getName(Minecraft.getMinecraft()))) {
-                command.activate();
+            if (command.type != null) {
+                if (!command.from.equals(StaticPlayerHelper.getName(Minecraft.getMinecraft()))) command.activate();
                 return true;
             }
         }
@@ -75,7 +75,7 @@ public class Command {
 
         final String args = this.args != null ? Arrays.toString(this.args) : "[]";
 
-        return cmd + ' ' + this.to + ' ' + this.type.toString() + ' ' + '<' + this.from + '>' + ' ' + '{' + args + '}' + StatCollector.translateToLocalFormatted(this.type.key(), this.from, this.to);
+        return cmd + ' ' + this.to + ' ' + this.type.toString() + " <" + this.from + "> {" + args + "} " + StatCollector.translateToLocalFormatted(this.type.key(), this.from, this.to);
     }
 
     public void send(Minecraft mc) {

@@ -1,5 +1,6 @@
 package com.bluexin.saoui;
 
+import com.bluexin.saoui.ui.SAOCharacterViewGUI;
 import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -82,7 +83,7 @@ class SAORenderBase extends Render {
 
         parent.doRender(entity, x, y, z, f0, f1);
 
-        if ((entity instanceof EntityLivingBase) && (!dead) && (!entity.isInvisibleToPlayer(mc.thePlayer))) {
+        if (!SAOCharacterViewGUI.IS_VIEWING && entity instanceof EntityLivingBase && !dead && !entity.isInvisibleToPlayer(mc.thePlayer)) {
             if (SAOOption.COLOR_CURSOR.getValue()) {
                 doRenderColorCursor(mc, entity, x, y, z, 64);
             }

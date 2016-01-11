@@ -55,6 +55,6 @@ public class SAORenderPlayer extends RenderPlayer {
 
     @Override
     public void renderName(Entity entity, double x, double y, double z) {
-        if (entity instanceof EntityLivingBase) super.renderName(entity, x, y, z);
+        if (entity instanceof EntityLivingBase) trueRenderer.renderName(entity, x, y, z);
     }
 }

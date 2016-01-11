@@ -8,10 +8,8 @@ import com.bluexin.saoui.ui.SAOConfirmGUI;
 import com.bluexin.saoui.ui.SAOWindowGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -19,10 +17,10 @@ import java.util.stream.Stream;
  *
  * @author Bluexin
  */
-public class PartyHelper {
+public class PartyHelper { // TODO: add some chat feedback, like "you joined [player]'s party with [members...]", ...
     private static PartyHelper instance = new PartyHelper();
     private String[] party;
-    private int partyTicks;
+    private int partyTicks; // TODO: not sure what this is for?
 
     private PartyHelper() {
 
@@ -43,7 +41,12 @@ public class PartyHelper {
                 final SAOID id = element.ID();
 
                 if (id == SAOID.CONFIRM) {
-                    party = args.length > 0 ? args : null;
+                    if (args.length > 0) {
+                        party = new String[args.length + 1];
+                        System.arraycopy(args, 0, party, 0, args.length);
+                        party[party.length - 1] = StaticPlayerHelper.getName(mc);
+                    }
+                    else party = null;
 
                     if (party != null) partyTicks = 1000;
 
@@ -69,11 +72,11 @@ public class PartyHelper {
     }
 
     public boolean isPartyLeader(String username) {
-        return (party != null) && (party[0].equals(username));
+        return party != null && party[0].equals(username);
     }
 
     private void addParty(Minecraft mc, String username) {
-        if ((party != null) && (!isPartyMember(username))) {
+        if (party != null && !isPartyMember(username)) {
             final String[] resized = new String[party.length + 1];
 
             System.arraycopy(party, 0, resized, 0, party.length);
@@ -86,22 +89,16 @@ public class PartyHelper {
     }
 
     private void removeParty(Minecraft mc, String username) {
-        if (isPartyMember(username)) {
+        if (isPartyMember(username)) { // TODO: kick member
             final String[] resized = new String[party.length - 1];
             int index = 0;
 
-            for (final String member : party) {
-                if (!member.equals(username)) {
-                    resized[index++] = member;
-                }
-            }
+            for (final String member : party) if (!member.equals(username)) resized[index++] = member;
 
             if (resized.length > 1) {
                 party = resized;
                 updateParty(mc);
-            } else {
-                party = null;
-            }
+            } else party = null;
         }
     }
 
@@ -110,20 +107,10 @@ public class PartyHelper {
             Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, member, party));
     }
 
-    public boolean createParty(Minecraft mc, double range) {
-        // TODO: this looks suspicious...
-        final List<EntityPlayer> found = StaticPlayerHelper.listOnlinePlayers(mc, true, range);
-
-        if (found.contains(mc.thePlayer)) found.remove(mc.thePlayer);
-
-        if (found.size() > 0) {
-            party = new String[]{StaticPlayerHelper.getName(mc)};
-
-            partyTicks = 10000;
-            found.forEach(player -> inviteParty(mc, StaticPlayerHelper.getName(player)));
-
-            return true;
-        } else return false;
+    public void createParty(Minecraft mc) {
+        if (hasParty()) return;
+        party = new String[]{StaticPlayerHelper.getName(mc)};
+        partyTicks = 10000;
     }
 
     public void inviteParty(Minecraft mc, String username) {
@@ -167,5 +154,9 @@ public class PartyHelper {
         } else if (isPartyMember(StaticPlayerHelper.getName(mc)))
             new Command(CommandType.CONFIRM_INVITE_PARTY, username, party[0]).send(mc);
         else new Command(CommandType.DISSOLVE_PARTY, username).send(mc);
+    }
+
+    public boolean hasParty() {
+        return party != null;
     }
 }

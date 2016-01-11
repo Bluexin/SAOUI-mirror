@@ -34,9 +34,7 @@ public class StaticPlayerHelper {
         @SuppressWarnings("unchecked")
         Collection<Object> list = nethandlerplayclient.func_175106_d();
 
-        if (!search) {
-            range = SAOMod.MAX_RANGE;
-        }
+        if (!search) range = SAOMod.MAX_RANGE;
 
         final AxisAlignedBB box = AxisAlignedBB.fromBounds(
                 mc.thePlayer.posX - range, mc.thePlayer.posY - range, mc.thePlayer.posZ - range,

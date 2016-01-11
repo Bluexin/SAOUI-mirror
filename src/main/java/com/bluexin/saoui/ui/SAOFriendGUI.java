@@ -23,7 +23,7 @@ public class SAOFriendGUI extends SAOButtonGUI {
     }
 
     public SAOFriendGUI(SAOParentGUI gui, int xPos, int yPos, String name) {
-        this(gui, xPos, yPos, 150, name);
+        this(gui, xPos, yPos, 100, name);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SAOFriendGUI extends SAOButtonGUI {
         final EntityPlayer player = getPlayer(mc);
         enabled = (player != null);
 
-        if ((enabled) && (FriendsHandler.instance().isFriend(player))) {
+        if (enabled && FriendsHandler.instance().isFriend(player)) {
             highlight = true;
             icon = SAOIcon.NONE;
         } else {
@@ -43,9 +43,7 @@ public class SAOFriendGUI extends SAOButtonGUI {
     }
 
     private EntityPlayer getPlayer(Minecraft mc) {
-        if ((friend == null) || (friend.isDead) || (!friend.isEntityAlive())) {
-            friend = findPlayer(mc);
-        }
+        if (friend == null || friend.isDead || !friend.isEntityAlive()) friend = findPlayer(mc);
 
         return friend;
     }

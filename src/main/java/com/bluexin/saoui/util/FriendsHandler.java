@@ -95,7 +95,10 @@ public class FriendsHandler {
             if (Stream.of(friends).noneMatch(friend -> friend.equals(name))) newNames.add(name);
         });
 
-        return newNames.size() <= 0 || addRawFriends((String[]) newNames.toArray());
+        String[] bb = new String[newNames.size()];
+        System.arraycopy(newNames.toArray(), 0, bb, 0, bb.length);
+
+        return newNames.size() <= 0 || addRawFriends(bb);
     }
 
     public boolean isFriend(String name) {
