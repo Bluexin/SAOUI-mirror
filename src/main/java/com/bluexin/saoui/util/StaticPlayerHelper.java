@@ -3,14 +3,15 @@ package com.bluexin.saoui.util;
 import com.bluexin.saoui.SAOMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Part of SAOUI
@@ -24,16 +25,6 @@ public class StaticPlayerHelper {
     public static Map<UUID, Float> hungerSmooth = new HashMap<>();
 
     public static List<EntityPlayer> listOnlinePlayers(Minecraft mc, boolean search, double range) {
-        final List<EntityPlayer> players = new ArrayList<>();
-
-        if (mc.thePlayer == null) {
-            return players;
-        }
-
-        NetHandlerPlayClient nethandlerplayclient = mc.thePlayer.sendQueue;
-        @SuppressWarnings("unchecked")
-        Collection<Object> list = nethandlerplayclient.func_175106_d();
-
         if (!search) range = SAOMod.MAX_RANGE;
 
         final AxisAlignedBB box = AxisAlignedBB.fromBounds(
@@ -42,16 +33,9 @@ public class StaticPlayerHelper {
         );
 
         @SuppressWarnings("unchecked")
-        final List<Object> entities = mc.theWorld.getEntitiesWithinAABB(EntityPlayer.class, box);
+        final List<EntityPlayer> entities = mc.theWorld.getEntitiesWithinAABB(EntityPlayer.class, box);
 
-        list.stream().filter(element -> element instanceof NetworkPlayerInfo).forEach(element -> {
-            final NetworkPlayerInfo info = (NetworkPlayerInfo) element;
-            final String infoName = unformatName(info.getGameProfile().getName());
-            entities.stream().filter(ent -> ent instanceof EntityPlayer).map(ent -> (EntityPlayer) ent)
-                    .filter(pl -> infoName.equals(getName(pl))).forEach(players::add);
-        });
-
-        return players;
+        return entities;
     }
 
     public static List<EntityPlayer> listOnlinePlayers(Minecraft mc) {
