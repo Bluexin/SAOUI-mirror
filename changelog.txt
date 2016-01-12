@@ -47,3 +47,4 @@ Fixed players not rendering a health bar! Without using an event :)
 Fixed reflexion used to access skinMap (hopefully)
 Added pausing the game in menu as an option
 Added social features (party hp rendering is still a bit off, ALO theme far off) 
+Added a custom SAO font option 

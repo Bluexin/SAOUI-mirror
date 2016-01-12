@@ -6,6 +6,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -75,10 +77,16 @@ public final class SAOGL {
         glString(string, x, y, argb, false);
     }
 
-    public static void setSAOFont() {
-        Minecraft mc = Minecraft.getMinecraft();
-        ResourceLocation fontLocation = new ResourceLocation(SAOMod.MODID, "textures/ascii.png");
-        mc.fontRendererObj = new FontRenderer(mc.gameSettings, fontLocation, mc.getTextureManager(), false);
+    public static void setFont(Minecraft mc, boolean custom) {
+        if (mc.fontRendererObj == null) return;
+        ResourceLocation fontLocation = custom? new ResourceLocation(SAOMod.MODID, "textures/ascii.png"): new ResourceLocation("textures/font/ascii.png");
+        GameSettings gs = mc.gameSettings;
+        mc.fontRendererObj = new FontRenderer(gs, fontLocation, mc.getTextureManager(), false);
+        if (gs.language != null) {
+            mc.fontRendererObj.setUnicodeFlag(mc.isUnicode());
+            mc.fontRendererObj.setBidiFlag(mc.getLanguageManager().isCurrentLanguageBidirectional());
+        }
+        ((IReloadableResourceManager) mc.getResourceManager()).registerReloadListener(mc.fontRendererObj);
     }
 
     private static int glStringWidth(FontRenderer font, String string) {

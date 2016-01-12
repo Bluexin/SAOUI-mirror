@@ -3,6 +3,8 @@ package com.bluexin.saoui;
 import com.bluexin.saoui.ui.SAOWindowGUI;
 import com.bluexin.saoui.util.ConfigHandler;
 import com.bluexin.saoui.util.FriendsHandler;
+import com.bluexin.saoui.util.SAOGL;
+import com.bluexin.saoui.util.SAOOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -91,6 +93,8 @@ public class SAOMod {
                 render.func_177068_d();
             }
         });
+
+        SAOGL.setFont(mc, SAOOption.CUSTOM_FONT.getValue());
 
         // FMLInterModComms?
     }

@@ -1,5 +1,6 @@
 package com.bluexin.saoui.util;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +34,8 @@ public enum SAOOption {
     FORCE_HUD(StatCollector.translateToLocal("optionForceHud"), false, false, UI),
     REMOVE_HPXP(StatCollector.translateToLocal("optionLightHud"), false, false, UI),
     ALT_ABSORB_POS(StatCollector.translateToLocal("optionAltAbsorbPos"), false, false, UI),
-    GUI_PAUSE(StatCollector.translateToLocal("optionGuiPause"), true, false, INTERFACES);
+    GUI_PAUSE(StatCollector.translateToLocal("optionGuiPause"), true, false, INTERFACES),
+    CUSTOM_FONT(StatCollector.translateToLocal("optionCustomFont"), false, false, null);
 
     public final String name;
     public final boolean isCategory;
@@ -59,6 +61,7 @@ public enum SAOOption {
     public boolean flip() {
         this.value = !this.getValue();
         ConfigHandler.setOption(this);
+        if (this == CUSTOM_FONT) SAOGL.setFont(Minecraft.getMinecraft(), this.value);
         return this.value;
     }
 

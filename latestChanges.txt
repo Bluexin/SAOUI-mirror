@@ -1,1 +1,1 @@
-Added social features (party hp rendering is still a bit off, ALO theme far off) 
+Added a custom SAO font option 

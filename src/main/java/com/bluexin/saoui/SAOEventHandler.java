@@ -105,9 +105,9 @@ class SAOEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void chatEvent(ClientChatReceivedEvent evt) {
-        System.out.println("Got a ClientChatReceivedEvent type " + evt.type);
+//        System.out.println("Got a ClientChatReceivedEvent type " + evt.type);
 //        System.out.println("getFormattedText() " + evt.message.getFormattedText());
-        System.out.println("getUnformattedText() " + evt.message.getUnformattedText());
+//        System.out.println("getUnformattedText() " + evt.message.getUnformattedText());
 //        System.out.println("getUnformattedTextForChat() " + evt.message.getUnformattedTextForChat());
         if (Command.processCommand(evt.message.getUnformattedText())) evt.setCanceled(true);// TODO: add pm feature and PT chat
     }
