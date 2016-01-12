@@ -11,8 +11,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public enum CommandType {
 
     INVITE_PARTY((mc, username, args) -> PartyHelper.instance().receiveInvite(mc, username, args)),
-    DISSOLVE_PARTY((mc, username, args) -> PartyHelper.instance().dissolve(mc, username)),
-    UPDATE_PARTY((mc, username, args) -> PartyHelper.instance().receiveUpdate(username, args)),
+    DISSOLVE_PARTY((mc, username, args) -> PartyHelper.instance().receiveDissolve(mc, username)),
+    UPDATE_PARTY((mc, username, args) -> PartyHelper.instance().receiveUpdate(mc, username, args)),
 
     CONFIRM_INVITE_PARTY((mc, username, args) -> PartyHelper.instance().receiveConfirmation(mc, username, args)),
     CANCEL_INVITE_PARTY((mc, username, args) -> PartyHelper.instance()),

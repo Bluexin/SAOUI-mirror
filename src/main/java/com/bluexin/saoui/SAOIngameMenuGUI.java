@@ -150,7 +150,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
             mc.displayGuiScreen(SAOWindowViewGUI.viewConfirm(title, text, (element1, action1, data1) -> {
                 final SAOID id1 = element1.ID();
 
-                if (id1 == SAOID.CONFIRM) PartyHelper.instance().dissolve(mc);
+                if (id1 == SAOID.CONFIRM) PartyHelper.instance().sendDissolve(mc);
 
                 mc.displayGuiScreen(null);
                 mc.setIngameFocus();

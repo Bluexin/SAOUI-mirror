@@ -303,6 +303,8 @@ public class SAOIngameGUI extends GuiIngameForge {
             SAOGL.glBlend(true);
 
             int index = 0;
+            final int baseY = 35;
+            final int h = 15;
             for (final EntityPlayer player : players) {
                 final String playerName = player.getName();
 
@@ -310,19 +312,19 @@ public class SAOIngameGUI extends GuiIngameForge {
 
                 SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
-                SAOGL.glTexturedRect(2, 19 + index * 15, zLevel, 85, 15, 10, 13);
-                SAOGL.glTexturedRect(13, 19 + index * 15, zLevel, 80, 15, 5, 13);
+                SAOGL.glTexturedRect(2, baseY + index * h, zLevel, 85, 15, 10, 13);
+                SAOGL.glTexturedRect(13, baseY + index * h, zLevel, 80, 15, 5, 13);
 
                 final int nameWidth = fontRenderer.getStringWidth(playerName);
                 final int nameBoxes = (nameWidth + 4) / 5 + 1;
 
                 if (nameWidth > maxNameWidth) maxNameWidth = nameWidth;
 
-                SAOGL.glTexturedRect(18, 19 + index * 15, zLevel, nameBoxes * 5, 13, 65, 15, 5, 13);
+                SAOGL.glTexturedRect(18, baseY + index * h, zLevel, nameBoxes * 5, 13, 65, 15, 5, 13);
 
                 int offset = 18 + nameBoxes * 5;
 
-                SAOGL.glTexturedRect(offset, 19 + index * 15, zLevel, 40, 28, 100, 13);
+                SAOGL.glTexturedRect(offset, baseY + index * h, zLevel, 40, 28, 100, 13);
 
                 final int hpWidth = 97;
                 final int hpHeight = 3;
@@ -332,7 +334,7 @@ public class SAOIngameGUI extends GuiIngameForge {
 
                 int hp = hpHeight;
                 for (int j = 0; j < hpValue; j++) {
-                    SAOGL.glTexturedRect(offset + 1 + j, 24 + index * 15, zLevel, (hpHeight - hp), 15, 1, hp);
+                    SAOGL.glTexturedRect(offset + 1 + j, baseY + 5 + index * h, zLevel, (hpHeight - hp), 15, 1, hp);
 
                     if (j >= hpValue - hp) {
                         hp--;
@@ -343,8 +345,8 @@ public class SAOIngameGUI extends GuiIngameForge {
                 offset += 100;
 
                 SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
-                SAOGL.glTexturedRect(offset, 19 + index * 15, zLevel, 70, 15, 5, 13);
-                SAOGL.glString(playerName, 18, 20 + index * 15 + (13 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF);
+                SAOGL.glTexturedRect(offset, baseY + index * h, zLevel, 70, 15, 5, 13);
+                SAOGL.glString(playerName, 18, baseY + 1 + index * h + (13 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF);
 
                 index++;
             }

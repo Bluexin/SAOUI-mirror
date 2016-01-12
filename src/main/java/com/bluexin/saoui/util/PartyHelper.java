@@ -81,11 +81,14 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
             System.arraycopy(party, 0, resized, 0, party.length);
             resized[party.length] = username;
             party = resized;
-            sendUpdates(mc);
+            if (isLeader(StaticPlayerHelper.getName(mc))) {
+                Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, member, '+' + username).send(mc));
+                Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, username, '+' + member).send(mc));
+            }
         }
     }
 
-    private void remove(Minecraft mc, String username) {
+    private void removePlayer(Minecraft mc, String username) {
         if (isMember(username)) { // TODO: kick member
             final String[] resized = new String[party.length - 1];
             int index = 0;
@@ -94,18 +97,18 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
 
             if (resized.length > 1) {
                 party = resized;
-                sendUpdates(mc);
+                if (isLeader(StaticPlayerHelper.getName(mc))) Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, member, '-' + username).send(mc));
             } else party = null;
         }
     }
 
-    public void sendUpdates(Minecraft mc) {
-        if (hasParty())
-            Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, member, party));
-    }
-
-    public void receiveUpdate(String username, String[] args) {
-        if (isLeader(username)) party = args.length <= 1 ? null : args;
+    public void receiveUpdate(Minecraft mc, String username, String[] args) {
+        if (isLeader(username)) {
+            for(String a: args) {
+                if (a.charAt(0) == '+') addPlayer(mc, a.substring(1));
+                else if (a.charAt(0) == '-') removePlayer(mc, a.substring(1));
+            }
+        }
     }
 
     public void create(Minecraft mc) {
@@ -119,7 +122,7 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
             new Command(CommandType.INVITE_PARTY, username, hasParty() ? party[0] : StaticPlayerHelper.getName(mc)).send(mc);
     }
 
-    public void dissolve(Minecraft mc) {
+    public void sendDissolve(Minecraft mc) {
         if (hasParty()) {
             if (party[0].equals(StaticPlayerHelper.getName(mc)))
                 Stream.of(party).skip(1).forEach(member -> new Command(CommandType.DISSOLVE_PARTY, member).send(mc));
@@ -130,8 +133,8 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
         party = null;
     }
 
-    public void dissolve(Minecraft mc, String username) {
-        if (isLeader(StaticPlayerHelper.getName(mc))) remove(mc, username);
+    public void receiveDissolve(Minecraft mc, String username) {
+        if (isLeader(StaticPlayerHelper.getName(mc))) removePlayer(mc, username);
         else if (isLeader(username)) {
             final SAOWindowGUI window = SAOMod.getWindow(mc);
 
@@ -153,7 +156,7 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
     }
 
     public boolean shouldHighlight(SAOID id) {
-        return id.equals(SAOID.DISSOLVE) ? isEffective() : id.equals(SAOID.INVITE_LIST);
+        return id.equals(SAOID.DISSOLVE) ? isEffective() : id.equals(SAOID.INVITE_LIST) && isLeader(StaticPlayerHelper.getName(Minecraft.getMinecraft()));
     }
 
     public boolean isEffective() {
