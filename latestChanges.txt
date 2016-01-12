@@ -1,1 +1,1 @@
-Added pausing the game in menu as an option
+Added social features (party hp rendering is still a bit off, ALO theme far off) 

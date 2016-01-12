@@ -26,8 +26,8 @@ public enum SAOSkill {
             KeyBinding.setKeyBindState(invKeyCode, true);
             KeyBinding.onTick(invKeyCode);
         }
-    }),
-    FONT(SAOIcon.CANCEL, () -> false, (mc, parent) -> SAOGL.setSAOFont());
+    });//,
+//    FONT(SAOIcon.CANCEL, () -> false, (mc, parent) -> SAOGL.setSAOFont());
 
     public final SAOIcon icon;
     private final BooleanSupplier shouldHighlight;

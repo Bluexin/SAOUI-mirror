@@ -299,13 +299,16 @@ public class SAOIngameGUI extends GuiIngameForge {
 
             if (players.contains(mc.thePlayer)) players.remove(mc.thePlayer);
 
+            SAOGL.glAlpha(true);
+            SAOGL.glBlend(true);
+
             int index = 0;
             for (final EntityPlayer player : players) {
                 final String playerName = player.getName();
 
                 if (!PartyHelper.instance().isMember(playerName)) continue;
 
-                SAOGL.glBindTexture(/*SAOOption.ORIGINAL_UI.getValue() ? */SAOResources.gui/* : SAOResources.guiCustom*/);
+                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
 
                 SAOGL.glTexturedRect(2, 19 + index * 15, zLevel, 85, 15, 10, 13);
                 SAOGL.glTexturedRect(13, 19 + index * 15, zLevel, 80, 15, 5, 13);
@@ -339,7 +342,7 @@ public class SAOIngameGUI extends GuiIngameForge {
 
                 offset += 100;
 
-                SAOGL.glColor(1, 1, 1, 1);
+                SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
                 SAOGL.glTexturedRect(offset, 19 + index * 15, zLevel, 70, 15, 5, 13);
                 SAOGL.glString(playerName, 18, 20 + index * 15 + (13 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF);
 

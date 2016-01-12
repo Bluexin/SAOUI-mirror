@@ -46,3 +46,4 @@ Added a testing skill which will load a custom font. For Blaez to test things.
 Fixed players not rendering a health bar! Without using an event :) 
 Fixed reflexion used to access skinMap (hopefully)
 Added pausing the game in menu as an option
+Added social features (party hp rendering is still a bit off, ALO theme far off) 

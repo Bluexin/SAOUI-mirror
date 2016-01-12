@@ -65,4 +65,5 @@ public enum SAOColorState {
         SAOGL.glColorRGBA(color);
     }
 
+    // TODO: Custom color for PT members?
 }
