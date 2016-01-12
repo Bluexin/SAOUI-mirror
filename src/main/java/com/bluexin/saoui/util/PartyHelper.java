@@ -153,6 +153,10 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
     }
 
     public boolean shouldHighlight(SAOID id) {
-        return id.equals(SAOID.DISSOLVE) ? hasParty() && party.length > 1 : id.equals(SAOID.INVITE_LIST);
+        return id.equals(SAOID.DISSOLVE) ? isEffective() : id.equals(SAOID.INVITE_LIST);
+    }
+
+    public boolean isEffective() {
+        return hasParty() && party.length > 1;
     }
 }

@@ -291,25 +291,21 @@ public class SAOIngameGUI extends GuiIngameForge {
         }
 
         mc.mcProfiler.endSection();
-        /*
-        if (SAOMod.isMember(username)) {
+
+        if (PartyHelper.instance().isEffective()) { // FIXME this is a bit broken rn, but already a big step forward! :p
             mc.mcProfiler.startSection("party");
 
-            final List<EntityPlayer> players = SAOMod.listOnlinePlayers(mc);
+            final List<EntityPlayer> players = StaticPlayerHelper.listOnlinePlayers(mc);
 
-            if (players.contains(mc.thePlayer)) {
-                players.remove(mc.thePlayer);
-            }
+            if (players.contains(mc.thePlayer)) players.remove(mc.thePlayer);
 
             int index = 0;
             for (final EntityPlayer player : players) {
                 final String playerName = player.getName();
 
-                if (!SAOMod.isMember(playerName)) {
-                    continue;
-                }
+                if (!PartyHelper.instance().isMember(playerName)) continue;
 
-                SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
+                SAOGL.glBindTexture(/*SAOOption.ORIGINAL_UI.getValue() ? */SAOResources.gui/* : SAOResources.guiCustom*/);
 
                 SAOGL.glTexturedRect(2, 19 + index * 15, zLevel, 85, 15, 10, 13);
                 SAOGL.glTexturedRect(13, 19 + index * 15, zLevel, 80, 15, 5, 13);
@@ -317,9 +313,7 @@ public class SAOIngameGUI extends GuiIngameForge {
                 final int nameWidth = fontRenderer.getStringWidth(playerName);
                 final int nameBoxes = (nameWidth + 4) / 5 + 1;
 
-                if (nameWidth > maxNameWidth) {
-                    maxNameWidth = nameWidth;
-                }
+                if (nameWidth > maxNameWidth) maxNameWidth = nameWidth;
 
                 SAOGL.glTexturedRect(18, 19 + index * 15, zLevel, nameBoxes * 5, 13, 65, 15, 5, 13);
 
@@ -330,7 +324,7 @@ public class SAOIngameGUI extends GuiIngameForge {
                 final int hpWidth = 97;
                 final int hpHeight = 3;
 
-                final int hpValue = (int) (SAOMod.getHealth(mc, player, time) / SAOMod.getMaxHealth(player) * hpWidth);
+                final int hpValue = (int) (StaticPlayerHelper.getHealth(mc, player, time) / StaticPlayerHelper.getMaxHealth(player) * hpWidth);
                 SAOHealthStep.getStep(mc, player, time).glColor();
 
                 int hp = hpHeight;
@@ -339,10 +333,7 @@ public class SAOIngameGUI extends GuiIngameForge {
 
                     if (j >= hpValue - hp) {
                         hp--;
-
-                        if (hp <= 0) {
-                            break;
-                        }
+                        if (hp <= 0) break;
                     }
                 }
 
@@ -356,7 +347,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             }
 
             mc.mcProfiler.endSection();
-        }*/
+        }
     }
 
     @Override
