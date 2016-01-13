@@ -4,7 +4,6 @@ import com.bluexin.saoui.util.SAOOption;
 import com.bluexin.saoui.util.StaticPlayerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.StatCollector;
 
 import java.util.Arrays;
 import java.util.MissingFormatArgumentException;
@@ -15,14 +14,14 @@ import java.util.MissingFormatArgumentException;
  * @author Bluexin
  */
 public class Command {
-    private final CommandType type; // TODO: add some sort of rng code in exchanges (especially PT infos) to prevent anyone sending random shit
+    private final CommandType type;
     private final String from;
     private final String to;
     private final String[] args;
 
     private Command(String raw) {
         if (!raw.contains("<") || !raw.contains(">")) throw new MissingFormatArgumentException("<username> not found in \"" + raw + '"');
-        this.from = raw.substring(raw.indexOf('<') + 1, raw.indexOf('>')); // TODO: check with team/chat plugins prefixes!
+        this.from = raw.substring(raw.indexOf('<') + 1, raw.indexOf('>'));
         this.type = CommandType.getCommand(raw.substring(raw.indexOf(CommandType.PREFIX) + CommandType.PREFIX.length(), raw.indexOf(CommandType.SUFFIX)));
         this.to = StaticPlayerHelper.getName(Minecraft.getMinecraft());
         this.args = getContent(raw);
@@ -74,7 +73,7 @@ public class Command {
 
         final String args = this.args != null ? Arrays.toString(this.args) : "[]";
 
-        return cmd + ' ' + this.to + ' ' + this.type.toString() + " <" + this.from + "> {" + args + "} " + StatCollector.translateToLocalFormatted(this.type.key(), this.from, this.to);
+        return cmd + ' ' + this.to + ' ' + this.type.toString() + " <" + this.from + "> {" + args + '}';
     }
 
     public void send(Minecraft mc) {

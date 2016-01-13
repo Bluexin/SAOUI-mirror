@@ -292,7 +292,7 @@ public class SAOIngameGUI extends GuiIngameForge {
 
         mc.mcProfiler.endSection();
 
-        if (PartyHelper.instance().isEffective()) { // FIXME this is a bit broken rn, but already a big step forward! :p
+        if (PartyHelper.instance().isEffective()) {
             mc.mcProfiler.startSection("party");
 
             final List<EntityPlayer> players = StaticPlayerHelper.listOnlinePlayers(mc);

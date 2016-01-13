@@ -123,7 +123,7 @@ public class SAOIngameMenuGUI extends SAOScreenGUI {
                 button.action();
             }
         } else if (id == SAOID.MESSAGE && mc.ingameGUI instanceof SAOIngameGUI) {
-            ((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
+//            ((SAOIngameGUI) mc.ingameGUI).viewMessageAuto();
         } else if (id == SAOID.MESSAGE_BOX && element.parent instanceof SAOMenuGUI && ((SAOMenuGUI) element.parent).parent instanceof SAOFriendGUI) {
             final String username = ((SAOFriendGUI) ((SAOMenuGUI) element.parent).parent).caption;
 

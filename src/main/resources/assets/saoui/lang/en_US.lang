@@ -80,10 +80,13 @@ optionForceHud=Force HUD (gm 1)
 optionLightHud=Lighter HUD
 optionBossBar=Force Boss HP bar
 optionAltAbsorbPos=Alt Absorb Value Pos
+optionGuiPause=GUIs pause the game
+optionCustomFont=Use SAO Font
 
 optCatUI=UI category
 optCatRend=Renderer category
 optCatInterf=Interface category
+
 
 # Display
 displayLvShort=LV
@@ -95,6 +98,11 @@ displayStrLong=Strength
 displayDexLong=Agility
 displayResLong=Resistance
 
-# Messages
-saouiCommandINVITEPARTY=You received a party invite from someone using the SAO UI. To know more about this mod, visit http://minecraft.curseforge.com/projects/sao-ui. To join his party, reply in a PM to %1$s containing at least "[SAOUI CONFIRM_INVITE_PARTY] <%2$s>".
-saouiCommandADDFRIENDREQUEST=You received a friend request from someone using the SAO UI. To know more about this mod, visit http://minecraft.curseforge.com/projects/sao-ui. To accept the request, reply in a PM to %1$s containing at least "[SAOUI ACCEPT_ADD_FRIEND] <%2$s>".
+
+# PT
+ptLeave=You left your party.
+ptDissolve=You dissolved your party.
+ptJoin=%s joined your party.
+ptDecline=%s declined the party invite.
+ptLeft=%s left your party.
+ptNew=You joined a new party.

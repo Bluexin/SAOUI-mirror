@@ -38,8 +38,9 @@ public class StaticPlayerHelper {
         return entities;
     }
 
+    @SuppressWarnings("unchecked")
     public static List<EntityPlayer> listOnlinePlayers(Minecraft mc) {
-        return listOnlinePlayers(mc, true, mc.gameSettings.renderDistanceChunks * 16.0D);
+        return mc.theWorld.getEntities(EntityPlayer.class, (o) -> true);
     }
 
     public static EntityPlayer findOnlinePlayer(Minecraft mc, String username) {

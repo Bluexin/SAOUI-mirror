@@ -4,6 +4,8 @@ import com.bluexin.saoui.util.FriendsHandler;
 import com.bluexin.saoui.util.PartyHelper;
 import com.bluexin.saoui.util.TriConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,14 +17,14 @@ public enum CommandType {
     UPDATE_PARTY((mc, username, args) -> PartyHelper.instance().receiveUpdate(mc, username, args)),
 
     CONFIRM_INVITE_PARTY((mc, username, args) -> PartyHelper.instance().receiveConfirmation(mc, username, args)),
-    CANCEL_INVITE_PARTY((mc, username, args) -> PartyHelper.instance()),
+    CANCEL_INVITE_PARTY((mc, username, args) -> mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("ptDecline", username)))),
 
     ADD_FRIEND_REQUEST((mc, username, args) -> FriendsHandler.instance().addFriendRequest(mc, username)),
 
     ACCEPT_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().acceptAddFriend(username)),
     CANCEL_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().cancelAddFriend(username));
 
-    public static final String PREFIX = "[SAOUI ";
+    public static final String PREFIX = "[♠SAOUI ";
     public static final String SUFFIX = "]";
     private final TriConsumer<Minecraft, String, String[]> action;
 

@@ -1,1 +1,1 @@
-Added a custom SAO font option 
+Added some chat feedback about PTs 

@@ -8,6 +8,7 @@ import com.bluexin.saoui.ui.SAOConfirmGUI;
 import com.bluexin.saoui.ui.SAOWindowGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
 import java.util.stream.Stream;
@@ -17,10 +18,9 @@ import java.util.stream.Stream;
  *
  * @author Bluexin
  */
-public class PartyHelper { // TODO: add some chat feedback, like "you joined [player]'s party with [members...]", ...
+public class PartyHelper {
     private static PartyHelper instance = new PartyHelper();
     private String[] party;
-    private int partyTicks; // TODO: not sure what this is for?
 
     private PartyHelper() {
 
@@ -46,8 +46,7 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
                         System.arraycopy(args, 0, party, 0, args.length);
                         party[party.length - 1] = StaticPlayerHelper.getName(mc);
                     } else party = null;
-
-                    if (hasParty()) partyTicks = 1000;
+                    mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("ptJoin")));
 
                     new Command(CommandType.CONFIRM_INVITE_PARTY, username).send(mc);
                 } else new Command(CommandType.CANCEL_INVITE_PARTY, username).send(mc);
@@ -85,6 +84,7 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
                 Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, member, '+' + username).send(mc));
                 Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, username, '+' + member).send(mc));
             }
+            mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("ptJoin", username)));
         }
     }
 
@@ -99,6 +99,7 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
                 party = resized;
                 if (isLeader(StaticPlayerHelper.getName(mc))) Stream.of(party).filter(pl -> !pl.equals(StaticPlayerHelper.getName(mc))).forEach(member -> new Command(CommandType.UPDATE_PARTY, member, '-' + username).send(mc));
             } else party = null;
+            mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("ptLeft", username)));
         }
     }
 
@@ -114,7 +115,6 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
     public void create(Minecraft mc) {
         if (hasParty()) return;
         party = new String[]{StaticPlayerHelper.getName(mc)};
-        partyTicks = 10000;
     }
 
     public void invite(Minecraft mc, String username) {
@@ -124,12 +124,16 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
 
     public void sendDissolve(Minecraft mc) {
         if (hasParty()) {
-            if (party[0].equals(StaticPlayerHelper.getName(mc)))
+            if (isLeader(StaticPlayerHelper.getName(mc))) {
                 Stream.of(party).skip(1).forEach(member -> new Command(CommandType.DISSOLVE_PARTY, member).send(mc));
-            else new Command(CommandType.DISSOLVE_PARTY, party[0]).send(mc);
+                mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("ptDissolve")));
+            }
+            else {
+                new Command(CommandType.DISSOLVE_PARTY, party[0]).send(mc);
+                mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("ptLeave")));
+            }
         }
 
-        partyTicks = 0;
         party = null;
     }
 
@@ -142,6 +146,7 @@ public class PartyHelper { // TODO: add some chat feedback, like "you joined [pl
                 ((SAOConfirmGUI) window).cancel();
 
             party = null;
+            mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("ptLeave")));
         }
     }
 
