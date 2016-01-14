@@ -32,10 +32,8 @@ public class StaticPlayerHelper {
                 mc.thePlayer.posX + range, mc.thePlayer.posY + range, mc.thePlayer.posZ + range
         );
 
-        @SuppressWarnings("unchecked")
-        final List<EntityPlayer> entities = mc.theWorld.getEntitiesWithinAABB(EntityPlayer.class, box);
-
-        return entities;
+        //noinspection unchecked
+        return mc.theWorld.getEntitiesWithinAABB(EntityPlayer.class, box);
     }
 
     @SuppressWarnings("unchecked")

@@ -36,13 +36,9 @@ class SAOEntityPiecesFX extends EntityFX {
     public void renderParticle(WorldRenderer renderer, Entity e, float time, float x, float y, float z, float f0, float f1) {
         float particle = ((float) this.particleAge + time) / (float) this.particleMaxAge * 32.0F;
 
-        if (particle < 0.0F) {
-            particle = 0.0F;
-        }
+        if (particle < 0.0F) particle = 0.0F;
 
-        if (particle > 1.0F) {
-            particle = 1.0F;
-        }
+        if (particle > 1.0F) particle = 1.0F;
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
