@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-def v = "1.4"
+def v = "1.4.1"
 def build_num = System.getenv("DRONE_BUILD_NUMBER")
 
 version = build_num == null ? v : v + "DEV" + build_num
