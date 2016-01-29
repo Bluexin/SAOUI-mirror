@@ -50,3 +50,4 @@ Added social features (party hp rendering is still a bit off, ALO theme far off)
 Added a custom SAO font option 
 Added some chat feedback about PTs 
 Release 1.4 
+One can no longer intrude in a party 
