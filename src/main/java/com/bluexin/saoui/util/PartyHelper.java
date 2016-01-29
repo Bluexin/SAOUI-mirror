@@ -46,7 +46,7 @@ public class PartyHelper {
                         System.arraycopy(args, 0, party, 0, args.length);
                         party[party.length - 1] = StaticPlayerHelper.getName(mc);
                     } else party = null;
-                    mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("ptJoin")));
+                    mc.thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted("ptJoin", username))); // Might change that later
 
                     new Command(CommandType.CONFIRM_INVITE_PARTY, username).send(mc);
                 } else new Command(CommandType.CANCEL_INVITE_PARTY, username).send(mc);

@@ -24,7 +24,7 @@ public enum CommandType {
     ACCEPT_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().acceptAddFriend(username)),
     CANCEL_ADD_FRIEND((mc, username, args) -> FriendsHandler.instance().cancelAddFriend(username));
 
-    public static final String PREFIX = "[♠SAOUI ";
+    public static final String PREFIX = "[SAOUI ";
     public static final String SUFFIX = "]";
     private final TriConsumer<Minecraft, String, String[]> action;
 
