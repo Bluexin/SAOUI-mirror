@@ -119,7 +119,7 @@ public class PartyHelper {
 
     public void invite(Minecraft mc, String username) {
         if (!isMember(username))
-            new Command(CommandType.INVITE_PARTY, username, hasParty() ? party[0] : StaticPlayerHelper.getName(mc)).send(mc);
+            new Command(CommandType.INVITE_TO_PARTY, username, hasParty() ? party[0] : StaticPlayerHelper.getName(mc)).send(mc);
     }
 
     public void sendDissolve(Minecraft mc) {

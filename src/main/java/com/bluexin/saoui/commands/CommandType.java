@@ -9,10 +9,12 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.stream.Stream;
+
 @SideOnly(Side.CLIENT)
 public enum CommandType {
 
-    INVITE_PARTY((mc, username, args) -> PartyHelper.instance().receiveInvite(mc, username, args)),
+    INVITE_TO_PARTY((mc, username, args) -> PartyHelper.instance().receiveInvite(mc, username, args)),
     DISSOLVE_PARTY((mc, username, args) -> PartyHelper.instance().receiveDissolve(mc, username)),
     UPDATE_PARTY((mc, username, args) -> PartyHelper.instance().receiveUpdate(mc, username, args)),
 
@@ -33,11 +35,7 @@ public enum CommandType {
     }
 
     static CommandType getCommand(String id) {
-        try {
-            return valueOf(id);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+        return Stream.of(values()).filter(t -> id.contains(t.name())).findAny().orElse(null);
     }
 
     public final String toString() {
