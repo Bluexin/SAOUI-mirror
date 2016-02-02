@@ -20,9 +20,13 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @SideOnly(Side.CLIENT)
 class SAORenderBase extends Render {
@@ -322,6 +326,16 @@ class SAORenderBase extends Render {
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
+        try {
+            @SuppressWarnings("unchecked")
+            Method m = ReflectionHelper.findMethod((Class) parent.getClass(), parent, new String[]{"getEntityTexture", "func_110775_a", "a"}, (Class) Entity.class);
+            return (ResourceLocation) m.invoke(parent, entity);
+        } catch (ReflectionHelper.UnableToFindMethodException e) {
+            System.err.println("Unable to find {\"getEntityTexture\", \"func_110775_a\", \"a\"} in parent");
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            System.err.println("Unable to invoke {\"getEntityTexture\", \"func_110775_a\", \"a\"} on parent");
+        }
+
         return null;
     }
 }
