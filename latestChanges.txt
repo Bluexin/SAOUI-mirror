@@ -1,1 +1,1 @@
-One can no longer intrude in a party 
+Added VersionChecker support 

@@ -51,3 +51,4 @@ Added a custom SAO font option
 Added some chat feedback about PTs 
 Release 1.4 
 One can no longer intrude in a party 
+Added VersionChecker support 

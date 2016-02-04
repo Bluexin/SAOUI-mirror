@@ -96,7 +96,7 @@ public class SAOMod {
 
         SAOGL.setFont(mc, SAOOption.CUSTOM_FONT.getValue());
 
-        // FMLInterModComms?
+        FMLInterModComms.sendRuntimeMessage(SAOMod.MODID, "VersionChecker", "addVersionCheck", https://gitlab.com/saomc/PublicVersions/raw/master/saoui1.8ver.json)
     }
 
 }
