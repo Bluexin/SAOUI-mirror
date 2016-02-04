@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
@@ -96,7 +97,7 @@ public class SAOMod {
 
         SAOGL.setFont(mc, SAOOption.CUSTOM_FONT.getValue());
 
-        FMLInterModComms.sendRuntimeMessage(SAOMod.MODID, "VersionChecker", "addVersionCheck", https://gitlab.com/saomc/PublicVersions/raw/master/saoui1.8ver.json)
+        FMLInterModComms.sendRuntimeMessage(SAOMod.MODID, "VersionChecker", "addVersionCheck", "https://gitlab.com/saomc/PublicVersions/raw/master/saoui1.8ver.json"")
     }
 
 }
