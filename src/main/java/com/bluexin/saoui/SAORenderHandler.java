@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -16,9 +17,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class SAORenderHandler {
 
+    public static final List<EntityLivingBase> deadHandlers = new ArrayList<>();
     public static boolean replaceGUI;
     public static int REPLACE_GUI_DELAY = 0;
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -28,6 +33,21 @@ public class SAORenderHandler {
         boolean b = mc.ingameGUI instanceof SAOIngameGUI;
         if (mc.ingameGUI != null && SAOOption.DEFAULT_UI.getValue() == b)
             mc.ingameGUI = b ? new GuiIngameForge(mc) : new SAOIngameGUI(mc);
+
+        deadHandlers.forEach(ent -> {
+            final boolean deadStart = (ent.deathTime == 1);
+            final boolean deadExactly = (ent.deathTime >= 18);
+            if (deadStart) {
+                ent.deathTime++;
+                SAOSound.playAtEntity(ent, SAOSound.PARTICLES_DEATH);
+            }
+
+            if (deadExactly) {
+                StaticRenderer.doSpawnDeathParticles(mc, ent);
+                ent.setDead();
+            }
+        });
+        deadHandlers.removeIf(ent -> ent.isDead);
     }
 
     @SubscribeEvent

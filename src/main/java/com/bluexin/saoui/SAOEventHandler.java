@@ -3,6 +3,7 @@ package com.bluexin.saoui;
 import com.bluexin.saoui.commands.Command;
 import com.bluexin.saoui.util.ColorStateHandler;
 import com.bluexin.saoui.util.SAOColorState;
+import com.bluexin.saoui.util.SAOOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -58,6 +59,8 @@ class SAOEventHandler {
 
     @SubscribeEvent
     public void livingDeath(LivingDeathEvent e) {
+        if (SAOOption.PARTICLES.getValue()) SAORenderHandler.deadHandlers.add(e.entityLiving);
+
         if (e.entityLiving instanceof EntityPlayer && e.source.getEntity() instanceof EntityPlayer)
             onKillPlayer((EntityPlayer) e.source.getEntity());
     }

@@ -65,18 +65,6 @@ class StaticRenderer {
                     doRenderHealthBar(renderManager, mc, (EntityLivingBase) entity, x, y, z);
             }
         }
-
-        if (SAOOption.PARTICLES.getValue()) {
-            if (deadStart && entity instanceof EntityLivingBase) {
-                SAOSound.playAtEntity(entity, SAOSound.PARTICLES_DEATH);
-            }
-
-            if (deadExactly) {
-                doSpawnDeathParticles(mc, entity);
-
-                entity.setDead();
-            }
-        }
     }
 
     private static void doRenderColorCursor(RenderManager renderManager, Minecraft mc, EntityLivingBase entity, double x, double y, double z, int distance) {
@@ -221,7 +209,7 @@ class StaticRenderer {
         SAOGL.glCullFace(true);
     }
 
-    private static void doSpawnDeathParticles(Minecraft mc, Entity entity) {
+    public static void doSpawnDeathParticles(Minecraft mc, Entity entity) {
         final World world = entity.worldObj;
 
         if (world != null) {
