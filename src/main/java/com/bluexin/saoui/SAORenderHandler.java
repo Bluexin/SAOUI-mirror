@@ -7,13 +7,10 @@ import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -67,24 +64,14 @@ public class SAORenderHandler {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void RenderEntities(EntityEvent.EntityConstructing e) {
-        /*
-        If some mobs don't get registered this way, that means the mods don't register their renderers at the right place.
-         */
-        RenderManager manager = mc.getRenderManager();
-        final Object value = manager.entityRenderMap.get(e.entity.getClass());
-        if (value instanceof Render) {
-            if (e.entity instanceof EntityPlayer && !(value instanceof SAORenderPlayer)) {
-                final Render render = new SAORenderPlayer((Render) value);
-                manager.entityRenderMap.put(e.entity.getClass(), render);
-                render.getRenderManager();
-            } else if (!(value instanceof SAORenderBase)) {
-                final Render render = new SAORenderBase((Render) value);
-                manager.entityRenderMap.put(e.entity.getClass(), render);
-                render.getRenderManager();
-            }
-        }
+    @SubscribeEvent
+    public void renderPlayer(RenderPlayerEvent.Pre e) {
+        StaticRenderer.render(e.renderer.getRenderManager(), e.entity, e.x, e.y, e.z);
+    }
+
+    @SubscribeEvent
+    public void renderEntity(RenderLivingEvent.Pre e) {
+        StaticRenderer.render(e.renderer.getRenderManager(), e.entity, e.x, e.y, e.z);
     }
 
     @SubscribeEvent

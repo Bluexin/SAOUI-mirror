@@ -1,1 +1,1 @@
-Added VersionChecker support 
+Rewrote the way we render stuff 

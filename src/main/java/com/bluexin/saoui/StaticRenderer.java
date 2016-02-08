@@ -4,12 +4,8 @@ import com.bluexin.saoui.ui.SAOCharacterViewGUI;
 import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.culling.ICamera;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,52 +14,21 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 @SideOnly(Side.CLIENT)
-class SAORenderBase extends Render {
+class StaticRenderer {
 
     private static final int HEALTH_COUNT = 32;
     private static final double HEALTH_ANGLE = 0.35F;
     private static final double HEALTH_RANGE = 0.975F;
     private static final float HEALTH_OFFSET = 0.75F;
-    @SuppressWarnings("unused")
-    private static final float HEALTH_OFFSET_PLAYER = -0.125F;
     private static final double HEALTH_HEIGHT = 0.21F;
 
-    @SuppressWarnings("unused")
-    private static final double PIECES_X_OFFSET = 0.02;
-    @SuppressWarnings("unused")
-    private static final double PIECES_Y_OFFSET = -0.02;
-    @SuppressWarnings("unused")
-    private static final int PIECES_COUNT = 150;
-    @SuppressWarnings("unused")
-    private static final double PIECES_SPEED = 1.4;
-    @SuppressWarnings("unused")
-    private static final double PIECES_GRAVITY = 0.4;
-
-    private final Render parent;
-
-    public SAORenderBase(Render render) {
-        super(render.getRenderManager());
-        parent = render;
-    }
-
-    @Override
-    public boolean shouldRender(Entity p_177071_1_, ICamera p_177071_2_, double p_177071_3_, double p_177071_5_, double p_177071_7_) {
-        return parent.shouldRender(p_177071_1_, p_177071_2_, p_177071_3_, p_177071_5_, p_177071_7_);
-    }
-
-	@Override
-    public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
+    public static void render(RenderManager renderManager, Entity entity, double x, double y, double z) {
         final Minecraft mc = Minecraft.getMinecraft();
 
         boolean dead = false, deadStart = false, deadExactly = false;
@@ -85,21 +50,19 @@ class SAORenderBase extends Render {
             deadExactly = (item.getAge() >= item.lifespan);
         }
 
-        parent.doRender(entity, x, y, z, f0, f1);
-
         if (!SAOCharacterViewGUI.IS_VIEWING && entity instanceof EntityLivingBase && !dead && !entity.isInvisibleToPlayer(mc.thePlayer)) {
             if (SAOOption.COLOR_CURSOR.getValue()) {
                 if (!(SAOOption.DEBUG_MODE.getValue() && SAOColorState.checkValidState((EntityLivingBase) entity))) {
-                    doRenderColorCursor(mc, (EntityLivingBase) entity, x, y, z, 64);
+                    doRenderColorCursor(renderManager, mc, (EntityLivingBase) entity, x, y, z, 64);
                 } else if (SAOOption.DEBUG_MODE.getValue())
-                    doRenderColorCursor(mc, (EntityLivingBase) entity, x, y, z, 64);
+                    doRenderColorCursor(renderManager, mc, (EntityLivingBase) entity, x, y, z, 64);
             }
 
             if ((SAOOption.HEALTH_BARS.getValue()) && (!entity.equals(mc.thePlayer))) {
                 if (!(SAOOption.DEBUG_MODE.getValue() && SAOColorState.checkValidState((EntityLivingBase) entity))) {
-                    doRenderHealthBar(mc, (EntityLivingBase) entity, x, y, z, f0, f1);
+                    doRenderHealthBar(renderManager, mc, (EntityLivingBase) entity, x, y, z);
                 } else if (SAOOption.DEBUG_MODE.getValue())
-                    doRenderHealthBar(mc, (EntityLivingBase) entity, x, y, z, f0, f1);
+                    doRenderHealthBar(renderManager, mc, (EntityLivingBase) entity, x, y, z);
             }
         }
 
@@ -116,27 +79,7 @@ class SAORenderBase extends Render {
         }
     }
 
-	@Override
-    public void bindTexture(ResourceLocation location) {
-        parent.bindTexture(location);
-    }
-
-    @Override
-	public void doRenderShadowAndFire(Entity p_76979_1_, double p_76979_2_, double p_76979_4_, double p_76979_6_, float p_76979_8_, float p_76979_9_) {
-        parent.doRenderShadowAndFire(p_76979_1_, p_76979_2_, p_76979_4_, p_76979_6_, p_76979_8_, p_76979_9_);
-    }
-
-    @Override
-	public FontRenderer getFontRendererFromRenderManager() {
-        return parent.getFontRendererFromRenderManager();
-    }
-
-    @Override
-    public RenderManager getRenderManager() {
-        return parent.getRenderManager();
-    }
-
-    private void doRenderColorCursor(Minecraft mc, EntityLivingBase entity, double x, double y, double z, int distance) {
+    private static void doRenderColorCursor(RenderManager renderManager, Minecraft mc, EntityLivingBase entity, double x, double y, double z, int distance) {
         if (entity instanceof EntityArmorStand || entity.riddenByEntity != null) return;
         if (SAOOption.LESS_VISUALS.getValue() && !(entity instanceof IMob || StaticPlayerHelper.getHealth(mc, entity, SAOMod.UNKNOWN_TIME_DELAY) != StaticPlayerHelper.getMaxHealth(entity)) && !(entity instanceof EntityPlayer))
             return;
@@ -144,7 +87,7 @@ class SAORenderBase extends Render {
         double d3 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
 
         if (d3 <= (double) (distance * distance)) {
-            final float sizeMult = ((EntityLivingBase) entity).isChild() && entity instanceof EntityMob? 0.5F: 1.0F;
+            final float sizeMult = entity.isChild() && entity instanceof EntityMob? 0.5F: 1.0F;
 
             float f = 1.6F;
             float f1 = 0.016666668F * f;
@@ -165,8 +108,6 @@ class SAORenderBase extends Render {
             SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.entities : SAOResources.entitiesCustom);
 
             Tessellator tessellator = Tessellator.getInstance();
-
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
             tessellator.getWorldRenderer().startDrawingQuads();
             SAOColorState.getSavedState(mc, entity).glColor();
@@ -221,7 +162,7 @@ class SAORenderBase extends Render {
         }
     }
 
-    private void doRenderHealthBar(Minecraft mc, EntityLivingBase entity, double x, double y, double z, float f0, float f1) {
+    private static void doRenderHealthBar(RenderManager renderManager, Minecraft mc, EntityLivingBase entity, double x, double y, double z) {
         if (entity instanceof EntityArmorStand) return;
         if (entity.riddenByEntity != null && entity.riddenByEntity == mc.thePlayer) return;
         if (entity instanceof EntityPlayer && StaticPlayerHelper.isCreative((AbstractClientPlayer) entity)) return;
@@ -230,7 +171,6 @@ class SAORenderBase extends Render {
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.entities : SAOResources.entitiesCustom);
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
         SAOGL.glDepthTest(true);
         SAOGL.glCullFace(false);
@@ -243,7 +183,7 @@ class SAORenderBase extends Render {
 
         tessellator.getWorldRenderer().startDrawing(GL11.GL_TRIANGLE_STRIP);
 
-        final float sizeMult = ((EntityLivingBase) entity).isChild() && entity instanceof EntityMob? 0.5F: 1.0F;
+        final float sizeMult = entity.isChild() && entity instanceof EntityMob? 0.5F: 1.0F;
 
         for (int i = 0; i <= hitPoints; i++) {
             final double value = (double) (i + HEALTH_COUNT - hitPoints) / HEALTH_COUNT;
@@ -281,7 +221,7 @@ class SAORenderBase extends Render {
         SAOGL.glCullFace(true);
     }
 
-    private void doSpawnDeathParticles(Minecraft mc, Entity entity) {
+    private static void doSpawnDeathParticles(Minecraft mc, Entity entity) {
         final World world = entity.worldObj;
 
         if (world != null) {
@@ -310,7 +250,7 @@ class SAORenderBase extends Render {
         }
     }
 
-    private void useColor(Minecraft mc, Entity entity, float time) {
+    private static void useColor(Minecraft mc, Entity entity, float time) {
         if (entity instanceof EntityLivingBase) {
             SAOHealthStep.getStep(mc, (EntityLivingBase) entity, time).glColor();
         } else {
@@ -318,34 +258,10 @@ class SAORenderBase extends Render {
         }
     }
 
-    private float getHealthFactor(Minecraft mc, Entity entity, float time) {
+    private static float getHealthFactor(Minecraft mc, Entity entity, float time) {
         final float normalFactor = StaticPlayerHelper.getHealth(mc, entity, time) / StaticPlayerHelper.getMaxHealth(entity);
         final float delta = 1.0F - normalFactor;
 
         return normalFactor + (delta * delta / 2) * normalFactor;
-    }
-
-    @Override
-    public void renderName(Entity entity, double x, double y, double z) {
-        if (entity instanceof EntityLivingBase && canRenderName(entity)) super.renderName(entity, x, y, z);
-    }
-
-    @Override
-    public boolean canRenderName(Entity entity) {
-        return SAOOption.RENDER_NAMES.getValue() && super.canRenderName(entity);
-    }
-
-    @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
-        try {
-            @SuppressWarnings("unchecked")
-            Method m = ReflectionHelper.findMethod((Class) parent.getClass(), parent, new String[]{"getEntityTexture", "func_110775_a", "a"}, (Class) Entity.class);
-            return (ResourceLocation) m.invoke(parent, entity);
-        } catch (ReflectionHelper.UnableToFindMethodException e) {
-            System.err.println("Unable to find {\"getEntityTexture\", \"func_110775_a\", \"a\"} in parent");
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            System.err.println("Unable to invoke {\"getEntityTexture\", \"func_110775_a\", \"a\"} on parent");
-        }
-        return null;
     }
 }
