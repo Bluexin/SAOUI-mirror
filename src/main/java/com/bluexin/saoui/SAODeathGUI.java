@@ -67,7 +67,7 @@ public class SAODeathGUI extends SAOScreenGUI {
 
     @Override
     protected void backgroundClicked(int cursorX, int cursorY, int button) {
-
+        gameOver.confirmClicked(this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled(), -1);
     }
 
     @Override

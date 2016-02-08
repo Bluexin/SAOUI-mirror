@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
@@ -61,7 +62,7 @@ public final class SAOGL {
         return (alpha << 24) | (red << 16) | (blue << 8) | (green);
     }
 
-    private static void glString(FontRenderer font, String string, int x, int y, int argb, boolean shadow) {
+    public static void glString(FontRenderer font, String string, int x, int y, int argb, boolean shadow) {
         if (font != null) font.drawString(string, x, y, glFontColor(argb), shadow);
     }
 
@@ -115,15 +116,16 @@ public final class SAOGL {
         glBindTexture(glTextureManager(), location);
     }
 
-    public static void glTexturedRect(int x, int y, float z, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
+    public static void glTexturedRect(double x, double y, double z, double width, double height, double srcX, double srcY, double srcWidth, double srcHeight) {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.getInstance();
-        tessellator.getWorldRenderer().startDrawingQuads();
-        tessellator.getWorldRenderer().addVertexWithUV((double) (x), (double) (y + height), (double) z, (double) ((float) (srcX) * f), (double) ((float) (srcY + srcHeight) * f1));
-        tessellator.getWorldRenderer().addVertexWithUV((double) (x + width), (double) (y + height), (double) z, (double) ((float) (srcX + srcWidth) * f), (double) ((float) (srcY + srcHeight) * f1));
-        tessellator.getWorldRenderer().addVertexWithUV((double) (x + width), (double) (y), (double) z, (double) ((float) (srcX + srcWidth) * f), (double) ((float) (srcY) * f1));
-        tessellator.getWorldRenderer().addVertexWithUV((double) (x), (double) (y), (double) z, (double) ((float) (srcX) * f), (double) ((float) (srcY) * f1));
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.startDrawingQuads();
+        worldrenderer.addVertexWithUV((double) (x), (double) (y + height), (double) z, (double) ((float) (srcX) * f), (double) ((float) (srcY + srcHeight) * f1));
+        worldrenderer.addVertexWithUV((double) (x + width), (double) (y + height), (double) z, (double) ((float) (srcX + srcWidth) * f), (double) ((float) (srcY + srcHeight) * f1));
+        worldrenderer.addVertexWithUV((double) (x + width), (double) (y), (double) z, (double) ((float) (srcX + srcWidth) * f), (double) ((float) (srcY) * f1));
+        worldrenderer.addVertexWithUV((double) (x), (double) (y), (double) z, (double) ((float) (srcX) * f), (double) ((float) (srcY) * f1));
         tessellator.draw();
     }
 
@@ -141,11 +143,12 @@ public final class SAOGL {
 
     public static void glRect(int x, int y, int width, int height) {
         Tessellator tessellator = Tessellator.getInstance();
-        tessellator.getWorldRenderer().startDrawingQuads();
-        tessellator.getWorldRenderer().addVertex((double) (x), (double) (y + height), 0.0D);
-        tessellator.getWorldRenderer().addVertex((double) (x + width), (double) (y + height), 0.0D);
-        tessellator.getWorldRenderer().addVertex((double) (x + width), (double) (y), 0.0D);
-        tessellator.getWorldRenderer().addVertex((double) (x), (double) (y), 0.0D);
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.startDrawingQuads();
+        worldrenderer.addVertex((double) (x), (double) (y + height), 0.0D);
+        worldrenderer.addVertex((double) (x + width), (double) (y + height), 0.0D);
+        worldrenderer.addVertex((double) (x + width), (double) (y), 0.0D);
+        worldrenderer.addVertex((double) (x), (double) (y), 0.0D);
         tessellator.draw();
     }
 

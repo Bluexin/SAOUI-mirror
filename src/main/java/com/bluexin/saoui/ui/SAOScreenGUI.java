@@ -1,6 +1,5 @@
 package com.bluexin.saoui.ui;
 
-import com.bluexin.saoui.SAOIngameGUI;
 import com.bluexin.saoui.util.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
@@ -185,7 +184,7 @@ public abstract class SAOScreenGUI extends GuiScreen implements SAOParentGUI {
     }
 
     protected void backgroundClicked(int cursorX, int cursorY, int button) {
-        if (button == 0 && ((SAOIngameGUI) mc.ingameGUI).backgroundClicked(cursorX, cursorY, button)) {
+        if (button == 0) {
             mc.displayGuiScreen(null);
             mc.setIngameFocus();
         }

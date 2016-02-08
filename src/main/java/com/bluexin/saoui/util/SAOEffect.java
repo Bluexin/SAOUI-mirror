@@ -1,5 +1,6 @@
 package com.bluexin.saoui.util;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -45,10 +46,10 @@ public enum SAOEffect {
     private static final int SRC_HEIGHT = 10;
 
     @SuppressWarnings("unchecked")
-    public static List<SAOEffect> getEffects(EntityPlayer player) {
+    public static List<SAOEffect> getEffects(EntityLivingBase entity) {
         final List<SAOEffect> effects = new ArrayList<>();
 
-        player.getActivePotionEffects().stream().filter(potionEffect0 -> potionEffect0 instanceof PotionEffect).forEach(potionEffect0 -> {
+        entity.getActivePotionEffects().stream().filter(potionEffect0 -> potionEffect0 != null).forEach(potionEffect0 -> {
             final PotionEffect potionEffect = (PotionEffect) potionEffect0;
 
             if (potionEffect.getPotionID() == Potion.moveSlowdown.getId() && potionEffect.getAmplifier() > 5)
@@ -75,15 +76,19 @@ public enum SAOEffect {
             else if (potionEffect.getPotionID() == Potion.resistance.getId()) effects.add(RESIST);
         });
 
-        if (player.getFoodStats().getFoodLevel() <= 6) effects.add(STARVING);
-        else if (player.getFoodStats().getFoodLevel() <= 18) effects.add(HUNGRY);
-
-        if (player.isInWater()) {
-            if (player.getAir() <= 0) effects.add(DROWNING);
-            else if (player.getAir() < 300) effects.add(WET);
+        if (entity instanceof EntityPlayer) {
+            if (((EntityPlayer) entity).getFoodStats().getFoodLevel() <= 6)
+                effects.add(STARVING);
+            else if (((EntityPlayer) entity).getFoodStats().getFoodLevel() <= 18)
+                effects.add(HUNGRY);
         }
 
-        if (player.isBurning()) effects.add(BURNING);
+        if (entity.isInWater()) {
+            if (entity.getAir() <= 0) effects.add(DROWNING);
+            else if (entity.getAir() < 300) effects.add(WET);
+        }
+
+        if (entity.isBurning()) effects.add(BURNING);
 
         return effects;
     }

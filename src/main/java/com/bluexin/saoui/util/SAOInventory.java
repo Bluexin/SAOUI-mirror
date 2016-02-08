@@ -1,5 +1,6 @@
 package com.bluexin.saoui.util;
 
+import baubles.api.IBauble;
 import net.minecraft.block.BlockPumpkin;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.relauncher.Side;
@@ -14,30 +15,57 @@ public enum SAOInventory {
         return (item instanceof ItemArmor) || ((item instanceof ItemBlock) && (((ItemBlock) item).block instanceof BlockPumpkin));
     }),
 
-    WEAPONS((stack, state) -> {
+    WEAPONS((ItemFilter) (stack, state) -> {
         final Item item = stack.getItem();
 
-        return (item instanceof ItemSword) || (item instanceof ItemTool) || (item instanceof ItemBow);
+        return item instanceof ItemSword;
     }),
 
-    ACCESSORY((stack, state) -> {
+    BOWS((ItemFilter) (stack, state) -> {
+        final Item item = stack.getItem();
+
+        return item instanceof ItemBow;
+    }),
+
+    PICKAXE((ItemFilter) (stack, state) -> {
+        final Item item = stack.getItem();
+
+        return item instanceof ItemPickaxe;
+    }),
+
+    AXE((ItemFilter) (stack, state) -> {
+        final Item item = stack.getItem();
+
+        return item instanceof ItemAxe;
+    }),
+
+    SHOVEL((ItemFilter) (stack, state) -> {
+        final Item item = stack.getItem();
+
+        return item instanceof ItemSpade;
+    }),
+
+    COMPATTOOLS((ItemFilter) (stack, state) -> {
+        final Item item = stack.getItem();
+
+        return ((item instanceof ItemTool) || (item instanceof ItemBow) || (item instanceof ItemSword));
+    }),
+
+    ACCESSORY((ItemFilter) (stack, state) -> {
+        final Item item = stack.getItem();
+
+        return (
+                (item instanceof IBauble)
+        );
+    }),
+
+    CONSUMABLES((ItemFilter) (stack, state) -> {
         final Item item = stack.getItem();
 
         return (
                 (item instanceof ItemExpBottle) ||
-                        (item instanceof ItemBucket) ||
                         (item instanceof ItemPotion) ||
-                        (item instanceof ItemFishingRod) ||
-                        (item instanceof ItemCarrotOnAStick) ||
-                        (item instanceof ItemEnchantedBook) ||
-                        (item instanceof ItemEditableBook) ||
-                        (item instanceof ItemMapBase) ||
-                        (item instanceof ItemNameTag) ||
-                        (item instanceof ItemSaddle) ||
-                        (item instanceof ItemWritableBook) ||
-                        (item instanceof ItemLead) ||
-                        (item instanceof ItemFlintAndSteel) ||
-                        (item instanceof ItemShears)
+                        (item instanceof ItemFood)
         );
     }),
 

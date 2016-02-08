@@ -7,6 +7,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
@@ -14,8 +15,11 @@ import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -34,7 +38,8 @@ public class SAOIngameGUI extends GuiIngameForge {
     private int maxNameWidth;
     private int usernameBoxes;
     private int offsetUsername;
-    private ScaledResolution res = null;
+    private int width;
+    private int height;
     private float time;
     private int healthBoxes;
 
@@ -42,17 +47,21 @@ public class SAOIngameGUI extends GuiIngameForge {
         super(mc);
     }
 
+    private static long bytesToMb(long bytes) {
+        return bytes / 1024L / 1024L;
+    }
+
     @Override
     public void renderGameOverlay(float partialTicks) {
         fontRenderer = mc.fontRendererObj;
-        username = mc.thePlayer.getName();
+        username = mc.thePlayer.getCommandSenderName();
         maxNameWidth = fontRenderer.getStringWidth(username);
         usernameBoxes = 1 + (maxNameWidth + 4) / 5;
         offsetUsername = 18 + usernameBoxes * 5;
-        res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         eventParent = new RenderGameOverlayEvent(partialTicks, res);
-        int width = res.getScaledWidth();
-        int height = res.getScaledHeight();
+        width = res.getScaledWidth();
+        height = res.getScaledHeight();
 
         time = partialTicks;
 
@@ -65,18 +74,18 @@ public class SAOIngameGUI extends GuiIngameForge {
             if (renderFood)   renderFood(width, height);
             if (renderHealthMount) renderHealthMount(width, height);
             if (renderAir)    renderAir(width, height);
-            renderJumpBar = false;
-            renderArmor = false;
-            renderHealthMount = false;
             mc.entityRenderer.setupOverlayRendering();
         } // Basically adding what super doesn't render by default
 
     }
 
     @Override
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     protected void renderCrosshairs(int width, int height) {
+        if (pre(CROSSHAIRS)) return;
         SAOGL.glBlend(true);
-        if (SAOOption.CROSS_HAIR.getValue()) super.renderCrosshairs(width, height);
+        if (SAOOption.CROSS_HAIR.getValue())
+            post(CROSSHAIRS);
     }
 
     @Override
@@ -101,7 +110,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             final int slotCount = 9;
 
             for (int i = 0; i < slotCount; i++) {
-                SAOGL.glColorRGBA(i == inv.currentItem ? 0xE0BE62AA : 0xCDCDCDAA);
+                SAOGL.glColorRGBA(i == inv.currentItem ? 0xFFBA66AA : 0xCDCDCDAA);
                 SAOGL.glTexturedRect(res.getScaledWidth() / 2 - 91 - 1 + i * 20, res.getScaledHeight() - 22 - 1, zLevel, 0, 25, 20, 20);
             }
 
@@ -131,7 +140,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             final int slotsY = (res.getScaledHeight() - (slotCount * 22)) / 2;
 
             for (int i = 0; i < slotCount; i++) {
-                SAOGL.glColorRGBA(i == inv.currentItem ? 0xE0BE62AA : 0xCDCDCDAA);
+                SAOGL.glColorRGBA(i == inv.currentItem ? 0xFFBA66AA : 0xCDCDCDAA);
                 SAOGL.glTexturedRect(res.getScaledWidth() - 24, slotsY + (22 * i), zLevel, 0, 25, 20, 20);
             }
 
@@ -161,6 +170,62 @@ public class SAOIngameGUI extends GuiIngameForge {
     }
 
     @Override
+    public void renderBossHealth() {
+        if (pre(BOSSHEALTH)) return;
+
+        mc.mcProfiler.startSection("bossHealth");
+        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
+            SAOGL.glAlpha(true);
+            SAOGL.glBlend(true);
+            --BossStatus.statusBarTime;
+
+            double scale = 1.00;
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+            SAOGL.glBindTexture(SAOResources.gui);
+
+            final int healthBarWidth = 234;
+            final double healthWidth = 216 * scale;
+            double j = width / 2 - healthBarWidth / 2 * scale;
+            byte b0 = 15;
+            final double healthValue = BossStatus.healthScale * healthWidth;
+
+            //bar background
+            SAOGL.glTexturedRect((int) j, b0, zLevel, (int) (healthBarWidth * scale), (int) (15 * scale), 21, 0, healthBarWidth, 15);
+            SAOGL.glTexturedRect((int) j, b0, zLevel, (int) (healthBarWidth * scale), (int) (5 * scale), 21, 0, healthBarWidth, 5);
+
+            final int healthHeight = 9;
+            SAOHealthStep.getStep(mc, BossStatus.healthScale, time).glColor();
+
+            //render
+            int h = healthHeight;
+            //GL11.glPushMatrix();
+            //GL11.glScalef((float)scale, (float)scale, (float)scale);
+            for (int i = 0; i < healthValue; i++) {
+                SAOGL.glTexturedRect((int) j + 1 + i, b0 + (int) (3 * scale), zLevel, 1, h * scale, (healthHeight - h), 15, (int) (1 * scale), h);
+
+                if (((i >= 105 * scale) && (i <= 110 * scale)) || (i >= healthValue - h)) {
+                    h--;
+
+                    if (h <= 0) break;
+                }
+            }
+            //GL11.glPopMatrix();
+
+            //name
+            String s = BossStatus.bossName;
+            fontRenderer.drawStringWithShadow(s, width / 2 - fontRenderer.getStringWidth(s) / 2, b0 - 10, 16777215);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+            SAOGL.glAlpha(false);
+            SAOGL.glBlend(false);
+
+        }
+        mc.mcProfiler.endSection();
+
+    }
+
+    @Override
     public void renderHealth(int width, int height) {
         if (pre(HEALTH)) return;
         mc.mcProfiler.startSection("health");
@@ -173,7 +238,7 @@ public class SAOIngameGUI extends GuiIngameForge {
         SAOGL.glTexturedRect(2, 2, zLevel, 0, 0, 16, 15);
 
         SAOGL.glTexturedRect(18, 2, zLevel, usernameBoxes * 5, 15, 16, 0, 5, 15);
-        SAOGL.glString(fontRenderer, username, 18, 3 + (15 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF);
+        SAOGL.glString(fontRenderer, username, 18, 3 + (15 - fontRenderer.FONT_HEIGHT) / 2, 0xFFFFFFFF, true);
 
         SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.gui : SAOResources.guiCustom);
         SAOGL.glColor(1, 1, 1, 1);
@@ -265,9 +330,9 @@ public class SAOIngameGUI extends GuiIngameForge {
             SAOGL.glTexturedRect(offsetUsername + 118 + offsetR, 13 + offsetD, zLevel, healthBoxes * 5, 13, 66, 15, 5, 13);
             SAOGL.glTexturedRect(offsetUsername + 118 + offsetR + healthBoxes * 5, 13 + +offsetD, zLevel, 70, 15, 5, 13);
 
-            SAOGL.glString(strs[0], offsetUsername + 118 + offsetR, 16 + offsetD, 0xFFFFFFFF);
-            SAOGL.glString(strs[1], offsetUsername + 118 + offsetR + fontRenderer.getStringWidth(strs[0]), 16 + offsetD, 0xFF55FFFF);
-            SAOGL.glString(strs[2], offsetUsername + 118 + offsetR + fontRenderer.getStringWidth(strs[0] + strs[1]), 16 + offsetD, 0xFFFFFFFF);
+            SAOGL.glString(strs[0], offsetUsername + 118 + offsetR, 16 + offsetD, 0xFFFFFFFF, true);
+            SAOGL.glString(strs[1], offsetUsername + 118 + offsetR + fontRenderer.getStringWidth(strs[0]), 16 + offsetD, 0xFF55FFFF, true);
+            SAOGL.glString(strs[2], offsetUsername + 118 + offsetR + fontRenderer.getStringWidth(strs[0] + strs[1]), 16 + offsetD, 0xFFFFFFFF, true);
         }
 
         SAOGL.glColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -299,7 +364,7 @@ public class SAOIngameGUI extends GuiIngameForge {
             final int baseY = 35;
             final int h = 15;
             for (final EntityPlayer player : players) {
-                final String playerName = player.getName();
+                final String playerName = player.getCommandSenderName();
 
                 if (!PartyHelper.instance().isMember(playerName)) continue;
 
@@ -406,7 +471,7 @@ public class SAOIngameGUI extends GuiIngameForge {
         SAOGL.glTexturedRect(offsetHealth, 13 + offsetD, zLevel, 5, 13, 66, 15, 2, 13);
         SAOGL.glTexturedRect(offsetHealth + 5, 13 + offsetD, zLevel, levelBoxes * 5, 13, 66, 15, 5, 13);
         SAOGL.glTexturedRect(offsetHealth + (1 + levelBoxes) * 5, 13 + offsetD, zLevel, 5, 13, 78, 15, 3, 13);
-        SAOGL.glString(levelStr, offsetHealth + 5, 16 + offsetD, 0xFFFFFFFF);
+        SAOGL.glString(levelStr, offsetHealth + 5, 16 + offsetD, 0xFFFFFFFF, true);
 
         mc.mcProfiler.endSection();
         post(EXPERIENCE);
@@ -414,10 +479,11 @@ public class SAOIngameGUI extends GuiIngameForge {
 
     @Override
     protected void renderJumpBar(int width, int height) {
+        if (pre(JUMPBAR)) return;
+        renderExperience(width, height);
         super.renderJumpBar(width, height);
-//        if (pre(JUMPBAR)) return;
         // Nothing happens here (not implemented yet)
-//        post(JUMPBAR);
+        post(JUMPBAR);
     }
 
     @Override
@@ -438,14 +504,5 @@ public class SAOIngameGUI extends GuiIngameForge {
 
     private void post(ElementType type) {
         MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Post(eventParent, type));
-    }
-
-    public boolean backgroundClicked(int cursorX, int cursorY, int button) {
-        return !SAOOption.DEFAULT_UI.getValue();
-    }
-
-    public void viewMessageAuto() {
-        // TODO: implement method
-        System.out.println("SAOIngameGUI#viewMessageAuto()");
     }
 }

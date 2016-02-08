@@ -1,6 +1,7 @@
 package com.bluexin.saoui.util;
 
 import com.bluexin.saoui.SAOMod;
+import com.bluexin.saoui.SAORenderHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
@@ -18,7 +19,7 @@ public enum SAOSkill {
     CRAFTING(SAOIcon.CRAFTING, () -> false, (mc, parent) -> {
         if (parent != null) mc.displayGuiScreen(parent);
         else {
-            SAOMod.REPLACE_GUI_DELAY = 1;
+            SAORenderHandler.REPLACE_GUI_DELAY = 1;
             mc.displayGuiScreen(null);
 
             final int invKeyCode = mc.gameSettings.keyBindInventory.getKeyCode();

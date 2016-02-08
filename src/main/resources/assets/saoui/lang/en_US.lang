@@ -21,9 +21,19 @@ guiFriends=Friends
 
 # Inventory
 guiWeapons=Weapons
-guiEquipped=Equipped
+guiEquipped=Armor
 guiAccessory=Accessory
 guiProfile=Profile
+guiEquipment=Equipment
+guiTools=Tools
+guiBows=Bows
+guiPickaxes=Pickaxes
+guiAxes=Axes
+guiShovels=Shovels
+guiConsumable=Consumables
+guiEquipment=Equipment
+guiEquipment=Equipment
+guiEquipment=Equipment
 guiEquipment=Equipment
 guiItems=Items
 gui.empty=empty
@@ -82,10 +92,16 @@ optionBossBar=Force Boss HP bar
 optionAltAbsorbPos=Alt Absorb Value Pos
 optionGuiPause=GUIs pause the game
 optionCustomFont=Use SAO Font
+optionDebugMode=Debug Mode
+optionDefaultDebuge=Default Debug
+optionCompatInv=Compact Inventory
+optionMountStatView=Show Mount Stats
 
-optCatUI=UI category
-optCatRend=Renderer category
-optCatInterf=Interface category
+optCatUI=UI Options
+optCatHealth=Health Bar Options
+optCatHotBar=Hotbar Options
+optCatEffects=Effects
+optCatMisc=Misc
 
 
 # Display
@@ -97,7 +113,9 @@ displayHpLong=Health
 displayStrLong=Strength
 displayDexLong=Agility
 displayResLong=Resistance
-
+displaySpdLong=Speed
+displayJmpLong=Jump Strength
+displayName=Name
 
 # PT
 ptLeave=You left your party.

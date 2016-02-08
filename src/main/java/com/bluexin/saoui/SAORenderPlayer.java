@@ -1,5 +1,6 @@
 package com.bluexin.saoui;
 
+import com.bluexin.saoui.util.SAOOption;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
@@ -19,7 +20,7 @@ public class SAORenderPlayer extends RenderPlayer {
     private SAORenderBase trueRenderer;
 
     public SAORenderPlayer(Render render) {
-        super(render.func_177068_d());
+        super(render.getRenderManager());
         this.trueRenderer = new SAORenderBase(render);
     }
 
@@ -49,12 +50,16 @@ public class SAORenderPlayer extends RenderPlayer {
     }
 
     @Override
-    public RenderManager func_177068_d() {
-        return this.trueRenderer.func_177068_d();
+    public RenderManager getRenderManager() {
+        return this.trueRenderer.getRenderManager();
     }
 
     @Override
     public void renderName(Entity entity, double x, double y, double z) {
-        if (entity instanceof EntityLivingBase) trueRenderer.renderName(entity, x, y, z);
+        if (entity instanceof EntityLivingBase && canRenderPlayerName(entity)) trueRenderer.renderName(entity, x, y, z);
+    }
+
+    public boolean canRenderPlayerName(Entity entity) {
+        return SAOOption.RENDER_NAMES.getValue() && super.canRenderName(entity);
     }
 }

@@ -161,9 +161,9 @@ public final class SAOSub {
         final StatFileWriter stats = mc.thePlayer.getStatFileWriter();
 
         if (stats != null) {
-            @SuppressWarnings("unchecked") final List<Object> ach = AchievementList.achievementList;
+            final List<Achievement> ach = AchievementList.achievementList;
             ach.stream()
-                    .filter(obj0 -> obj0 instanceof Achievement).map(obj0 -> (Achievement) obj0)
+                    .filter(obj0 -> obj0 instanceof Achievement).map(obj0 -> obj0)
                     .filter(ach0 -> ach0.isAchievement() && !stats.hasAchievementUnlocked(ach0) && stats.canUnlockAchievement(ach0))
                     .forEach(ach0 -> questList.elements.add(new SAOQuestGUI(questList, 0, 0, questList.width, ach0)));
         }

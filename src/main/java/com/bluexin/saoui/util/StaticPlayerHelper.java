@@ -62,7 +62,7 @@ public class StaticPlayerHelper {
     }
 
     public static String getName(EntityPlayer player) {
-        return player == null ? "" : player.getName();
+        return player == null ? "" : player.getCommandSenderName();
     }
 
     public static String getName(Minecraft mc) {
