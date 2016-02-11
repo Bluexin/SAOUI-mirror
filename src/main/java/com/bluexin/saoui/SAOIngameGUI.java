@@ -3,14 +3,18 @@ package com.bluexin.saoui;
 import com.bluexin.saoui.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiOverlayDebug;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -21,6 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.*;
@@ -42,9 +47,11 @@ public class SAOIngameGUI extends GuiIngameForge {
     private int height;
     private float time;
     private int healthBoxes;
+    private GuiOverlayDebugForge debugOverlay;
 
     public SAOIngameGUI(Minecraft mc) {
         super(mc);
+        this.debugOverlay = new GuiOverlayDebugForge(mc);
     }
 
     private static long bytesToMb(long bytes) {
@@ -497,12 +504,87 @@ public class SAOIngameGUI extends GuiIngameForge {
         post(HEALTHMOUNT);
     }
 
-    // c/p from GuiIngameForge
+    // c/p from GuiIngameForge ==========================================================================
     private boolean pre(ElementType type) {
         return MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Pre(eventParent, type));
     }
 
     private void post(ElementType type) {
         MinecraftForge.EVENT_BUS.post(new RenderGameOverlayEvent.Post(eventParent, type));
+    }
+
+    @Override // To move it -.-
+    protected void renderHUDText(int width, int height) {
+        mc.mcProfiler.startSection("forgeHudText");
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        ArrayList<String> listL = new ArrayList<>();
+        ArrayList<String> listR = new ArrayList<>();
+
+        if (mc.isDemo()) {
+            long time = mc.theWorld.getTotalWorldTime();
+            if (time >= 120500L) listR.add(I18n.format("demo.demoExpired"));
+            else listR.add(I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int) (120500L - time))));
+        }
+
+        if (this.mc.gameSettings.showDebugInfo && !pre(DEBUG)) {
+            listL.addAll(debugOverlay.getLeft());
+            listR.addAll(debugOverlay.getRight());
+            post(DEBUG);
+        }
+
+        RenderGameOverlayEvent.Text event = new RenderGameOverlayEvent.Text(eventParent, listL, listR);
+        if (!MinecraftForge.EVENT_BUS.post(event)) {
+            int top = 20;
+            for (String msg : listL) {
+                if (msg == null) continue;
+                drawRect(1, top - 1, 2 + fontRenderer.getStringWidth(msg) + 1, top + fontRenderer.FONT_HEIGHT - 1, -1873784752);
+                fontRenderer.drawString(msg, 2, top, 14737632);
+                top += fontRenderer.FONT_HEIGHT;
+            }
+
+            top = 2;
+            for (String msg : listR) {
+                if (msg == null) continue;
+                int w = fontRenderer.getStringWidth(msg);
+
+                final int slotsY = (height - 9 * 22) / 2;
+//                        (res.getScaledHeight() - (slotCount * 22)) / 2;
+
+                /*for (int i = 0; i < slotCount; i++) {
+                    SAOGL.glColorRGBA(i == inv.currentItem ? 0xFFBA66AA : 0xCDCDCDAA);
+                    SAOGL.glTexturedRect(res.getScaledWidth() - 24, slotsY + (22 * i), zLevel, 0, 25, 20, 20);
+                }*/
+
+                int left = width - (SAOOption.ALT_HOTBAR.getValue() || top < slotsY - fontRenderer.FONT_HEIGHT - 2 ? 2 : 26) - w;
+                drawRect(left - 1, top - 1, left + w + 1, top + fontRenderer.FONT_HEIGHT - 1, -1873784752);
+                fontRenderer.drawString(msg, left, top, 14737632);
+                top += fontRenderer.FONT_HEIGHT;
+            }
+        }
+
+        mc.mcProfiler.endSection();
+        post(TEXT);
+    }
+
+    private class GuiOverlayDebugForge extends GuiOverlayDebug {
+        private GuiOverlayDebugForge(Minecraft mc) {
+            super(mc);
+        }
+
+        @Override
+        protected void renderDebugInfoLeft() {
+        }
+
+        @Override
+        protected void renderDebugInfoRight(ScaledResolution res) {
+        }
+
+        private List<String> getLeft() {
+            return this.call();
+        }
+
+        private List<String> getRight() {
+            return this.getDebugInfoRight();
+        }
     }
 }
