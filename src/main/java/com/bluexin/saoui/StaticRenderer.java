@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,37 +30,27 @@ class StaticRenderer {
     public static void render(RenderManager renderManager, Entity entity, double x, double y, double z) {
         final Minecraft mc = Minecraft.getMinecraft();
 
-        boolean dead = false, deadStart = false, deadExactly = false;
+        boolean dead = false;
 
         if (entity instanceof EntityLivingBase) {
             final EntityLivingBase living = (EntityLivingBase) entity;
 
             dead = StaticPlayerHelper.getHealth(mc, living, SAOMod.UNKNOWN_TIME_DELAY) <= 0;
-            deadStart = (living.deathTime == 1);
-            deadExactly = (living.deathTime >= 18);
 
-            if (deadStart) {
-                living.deathTime++;
-            }
-        } else if (entity instanceof EntityItem) {
-            final EntityItem item = (EntityItem) entity;
-
-            deadStart = (item.getAge() + 16 >= item.lifespan);
-            deadExactly = (item.getAge() >= item.lifespan);
+            if (living.deathTime == 1) living.deathTime++;
         }
 
         if (!SAOCharacterViewGUI.IS_VIEWING && entity instanceof EntityLivingBase && !dead && !entity.isInvisibleToPlayer(mc.thePlayer)) {
-            if (SAOOption.COLOR_CURSOR.getValue()) {
+            if (SAOOption.COLOR_CURSOR.getValue())
                 if (!(SAOOption.DEBUG_MODE.getValue() && SAOColorState.checkValidState((EntityLivingBase) entity))) {
                     doRenderColorCursor(renderManager, mc, (EntityLivingBase) entity, x, y, z, 64);
                 } else if (SAOOption.DEBUG_MODE.getValue())
                     doRenderColorCursor(renderManager, mc, (EntityLivingBase) entity, x, y, z, 64);
-            }
 
             if ((SAOOption.HEALTH_BARS.getValue()) && (!entity.equals(mc.thePlayer))) {
-                if (!(SAOOption.DEBUG_MODE.getValue() && SAOColorState.checkValidState((EntityLivingBase) entity))) {
+                if (!(SAOOption.DEBUG_MODE.getValue() && SAOColorState.checkValidState((EntityLivingBase) entity)))
                     doRenderHealthBar(renderManager, mc, (EntityLivingBase) entity, x, y, z);
-                } else if (SAOOption.DEBUG_MODE.getValue())
+                else if (SAOOption.DEBUG_MODE.getValue())
                     doRenderHealthBar(renderManager, mc, (EntityLivingBase) entity, x, y, z);
             }
         }
@@ -89,9 +78,9 @@ class StaticRenderer {
 
             SAOGL.glDepthTest(true);
 
+            SAOGL.glAlpha(true);
             SAOGL.glBlend(true);
             SAOGL.tryBlendFuncSeparate(770, 771, 1, 0);
-
 
             SAOGL.glBindTexture(SAOOption.ORIGINAL_UI.getValue() ? SAOResources.entities : SAOResources.entitiesCustom);
 
@@ -105,7 +94,7 @@ class StaticRenderer {
                 double cos = Math.cos(a);//Math.PI / 3 * 2);
                 double sin = Math.sin(a);//Math.PI / 3 * 2);
 
-                if (a > Math.PI / 2 && a <= Math.PI * 3 / 2 ) {
+                if (a > Math.PI / 2 && a <= Math.PI * 3 / 2) {
                     tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, -1, 9.0D * sin, 0.125F, 0.25F);
                     tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, 17, 9.0D * sin, 0.125F, 0.375F);
                     tessellator.getWorldRenderer().addVertexWithUV(-9.0D * cos, 17, -9.0D * sin, 0F, 0.375F);
@@ -116,9 +105,6 @@ class StaticRenderer {
                     tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, 17, 9.0D * sin, 0.125F, 0.375F);
                     tessellator.getWorldRenderer().addVertexWithUV(9.0D * cos, -1, 9.0D * sin, 0.125F, 0.25F);
                 }
-
-                tessellator.draw();
-                tessellator.getWorldRenderer().startDrawingQuads();
 
                 if (a < Math.PI) {
                     tessellator.getWorldRenderer().addVertexWithUV(-9.0D * sin, -1, 9.0D * cos, 0.125F, 0.25F);
