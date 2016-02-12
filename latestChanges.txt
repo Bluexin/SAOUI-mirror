@@ -1,1 +1,1 @@
-Rewrote the way we render stuff 
+Infinite scrolling :D 

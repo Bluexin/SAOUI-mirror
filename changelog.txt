@@ -53,3 +53,4 @@ Release 1.4
 One can no longer intrude in a party 
 Added VersionChecker support 
 Rewrote the way we render stuff 
+Infinite scrolling :D 

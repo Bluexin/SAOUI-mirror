@@ -4,12 +4,15 @@ import com.bluexin.saoui.util.SAOGL;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.profiler.Profiler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 /**
  * This code was original created by <Vazkii> and has been modified to our needs
  * All credit goes to him
  */
+@SideOnly(Side.CLIENT)
 public final class SAORenderDispatcher {
 
     public static int particleFxCount = 0;
